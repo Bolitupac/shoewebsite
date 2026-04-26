@@ -1,0 +1,359 @@
+/* ==========================================================
+   home.css — Welcome page specific styles
+   ========================================================== */
+
+/* ---------- Hero ---------- */
+.hero {
+    position: relative;
+    min-height: 540px;
+    overflow: hidden;
+    background: var(--hero);
+}
+
+.hero img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(4, 10, 18, 0.54);
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+    margin-left: 56px;
+    padding: 108px 0 84px;
+    color: #fff;
+}
+
+.hero h1 {
+    font-size: clamp(3.2rem, 8vw, 5.8rem);
+    max-width: 560px;
+}
+
+.hero p,
+.custom-copy p {
+    max-width: 560px;
+    margin-top: 18px;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.7;
+    font-size: 0.9rem;
+}
+
+.hero-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+/* ---------- Categories ---------- */
+.categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: var(--soft);
+}
+
+.category-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 420px;
+}
+
+.category-pill {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ---------- Drop Belt (horizontal scroll) ---------- */
+.drop-belt {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 24px 16px;
+    scrollbar-width: none;
+}
+
+.drop-belt::-webkit-scrollbar {
+    display: none;
+}
+
+.drop-belt .card {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+}
+
+/* ---------- Section Arrows ---------- */
+.section-arrows {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.section-arrows span {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    font-size: 1rem;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* ---------- One-of-One Section ---------- */
+.one-of-one {
+    margin-top: 34px;
+}
+
+.one-of-one-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 24px 18px;
+}
+
+.one-of-one-eyebrow {
+    display: inline-block;
+    margin-bottom: 8px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.one-of-one-head h2 {
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    line-height: 0.96;
+}
+
+.one-of-one-link {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 2px;
+    transition: color 200ms ease;
+}
+
+.one-of-one-link:hover {
+    color: var(--ink);
+}
+
+/* ---------- Feature Banner ---------- */
+.feature-banner {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 24px;
+    align-items: center;
+    padding: 34px 24px;
+    background: var(--soft);
+    margin-top: 34px;
+}
+
+.feature-copy {
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    text-align: center;
+}
+
+.feature-copy h2 {
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 0.96;
+    font-size: clamp(2rem, 5vw, 3rem);
+    max-width: 520px;
+}
+
+.feature-copy p {
+    color: var(--muted);
+    max-width: 420px;
+    margin-top: 0;
+    font-size: 0.9rem;
+}
+
+.custom-visual {
+    min-height: 240px;
+    overflow: hidden;
+}
+
+/* ---------- Movement Grid ---------- */
+.movement-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.movement-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    background: #faf8f5;
+    min-height: 370px;
+}
+
+.movement-meta {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.look-link {
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(17, 17, 17, 0.16);
+    font-size: 0.66rem;
+    font-weight: 700;
+    padding: 8px 10px;
+}
+
+/* ---------- Newsletter ---------- */
+.newsletter {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr;
+    gap: 24px;
+    align-items: center;
+    padding: 34px 24px;
+    background: var(--soft);
+    margin-top: 34px;
+}
+
+.newsletter-copy {
+    display: grid;
+    gap: 12px;
+    justify-items: center;
+    text-align: center;
+}
+
+.newsletter-copy h2 {
+    margin: 0;
+    font-family: 'Oswald', sans-serif;
+    letter-spacing: -0.02em;
+    line-height: 0.96;
+    font-size: clamp(2rem, 5vw, 3rem);
+    max-width: 520px;
+}
+
+.newsletter-copy p {
+    color: var(--muted);
+    max-width: 420px;
+    margin-top: 0;
+    font-size: 0.9rem;
+}
+
+.newsletter-form {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    justify-content: center;
+}
+
+.newsletter-form input {
+    width: min(320px, 100%);
+    min-height: 44px;
+    padding: 0 14px;
+    border: none;
+    border-bottom: 1px solid var(--ink);
+    background: transparent;
+    font: inherit;
+}
+
+.newsletter-form button {
+    min-height: 44px;
+    padding: 0 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+/* ---------- Benefits ---------- */
+.benefits {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: space-between;
+    padding: 24px 24px 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+}
+
+.benefit {
+    display: grid;
+    justify-items: center;
+    gap: 8px;
+    text-align: center;
+    flex: 1 1 0;
+}
+
+.benefit strong {
+    color: var(--ink);
+    font-size: 0.84rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+    .movement-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .feature-banner,
+    .newsletter {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .site-wrap { width: 100%; margin: 0; }
+
+    .promo-bar,
+    .top-header,
+    .section,
+    .feature-banner,
+    .newsletter,
+    .benefits {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .hero-copy {
+        margin-left: 18px;
+        padding: 72px 0 42px;
+    }
+
+    .categories,
+    .movement-grid,
+    .feature-banner,
+    .newsletter {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits {
+        flex-direction: column;
+    }
+}

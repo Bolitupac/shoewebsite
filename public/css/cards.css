@@ -1,0 +1,207 @@
+/* ==========================================================
+   cards.css — Standard card, premium card, action links
+   ========================================================== */
+
+/* ---------- Standard Card ---------- */
+.card {
+    border: 1px solid var(--line);
+    background: #fff;
+    overflow: hidden;
+}
+
+/* Card top image area (welcome page) */
+.card-top {
+    position: relative;
+    background: #f6f4f1;
+    height: 300px;
+    overflow: hidden;
+}
+
+.card-flag,
+.card-like {
+    position: absolute;
+    top: 12px;
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.card-flag { left: 12px; }
+.card-like { right: 12px; }
+
+/* Card copy area (shared) */
+.card-copy {
+    padding: 14px 14px 16px;
+}
+
+.card-copy h3 {
+    margin: 10px 0 8px;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+/* Collection page uses h2 inside card-copy */
+.card-copy h2 {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.card-copy p {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+}
+
+/* Card bottom row (welcome page) */
+.card-bottom {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.82rem;
+}
+
+/* Card price/action row (collection page) */
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+}
+
+.row a {
+    font-weight: 700;
+}
+
+/* Action + look links */
+.card-action,
+.look-link {
+    color: var(--muted);
+    transition: color 220ms ease;
+}
+
+.card-action:hover,
+.look-link:hover {
+    color: var(--ink);
+}
+
+/* Card image area (collection page) */
+.card-media {
+    height: 320px;
+    background: #f6f4f1;
+}
+
+/* Hidden cards (see-more toggle) */
+.card-hidden {
+    display: none;
+}
+
+/* ---------- Premium Card ---------- */
+.grid-premium,
+.grid-premium-home {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+}
+
+.card-premium,
+.card-p {
+    position: relative;
+    overflow: hidden;
+    background: #0d0d0d;
+}
+
+.card-premium-media,
+.card-p-media {
+    height: 520px;
+    overflow: hidden;
+}
+
+.card-premium-media img,
+.card-p-media img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transition: transform 1400ms ease;
+    will-change: transform;
+    filter: brightness(0.88);
+}
+
+.card-premium-badge,
+.card-p-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+}
+
+.card-premium-copy,
+.card-p-copy {
+    padding: 22px 24px 26px;
+    background: #111;
+    color: #fff;
+}
+
+.card-premium-copy h2,
+.card-p-copy h3 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 600;
+}
+
+.card-premium-copy p,
+.card-p-copy p {
+    margin: 0 0 16px;
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.6;
+}
+
+.card-premium-row,
+.card-p-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.card-premium-price,
+.card-p-price {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+}
+
+/* Responsive */
+@media (max-width: 760px) {
+    .grid-premium-home {
+        grid-template-columns: 1fr;
+    }
+
+    .card-p-media {
+        height: 380px;
+    }
+}
+
+@media (max-width: 700px) {
+    .grid-premium {
+        grid-template-columns: 1fr;
+    }
+
+    .card-premium-media {
+        height: 380px;
+    }
+}

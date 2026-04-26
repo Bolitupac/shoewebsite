@@ -1,0 +1,96 @@
+/* ==========================================================
+   header.css — Promo bar, top header, nav, brand, icons
+   ========================================================== */
+
+.promo-bar {
+    min-height: 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 0 24px;
+    background: #000;
+    color: #fff;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.top-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    min-height: 56px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--line);
+}
+
+.brand {
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+    font-size: 0.76rem;
+    min-width: 0;
+}
+
+.header-nav a {
+    color: var(--muted);
+    transition: color 220ms ease;
+}
+
+.header-nav a:hover {
+    color: var(--ink);
+}
+
+.header-icons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    justify-self: end;
+}
+
+/* Responsive */
+@media (max-width: 700px) {
+    .promo-bar {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .promo-bar .content-width {
+        grid-template-columns: 1fr;
+        justify-items: start;
+    }
+
+    .top-header {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        gap: 12px;
+    }
+
+    .header-nav {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 14px;
+        overflow-x: auto;
+        white-space: nowrap;
+        width: 100%;
+    }
+
+    .header-icons {
+        justify-self: start;
+    }
+}
