@@ -430,7 +430,7 @@
         }
 
         .movement-grid {
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 18px;
         }
 
@@ -683,11 +683,16 @@
             font-size: 0.8rem;
         }
 
+        .footer-columns > div {
+            padding: 0 24px;
+        }
+
         .footer-bottom {
             background: #000;
             color: rgba(255, 255, 255, 0.78);
             font-size: 0.66rem;
             padding: 10px 24px;
+            text-align: center;
         }
 
         @media (max-width: 1100px) {
@@ -736,6 +741,18 @@
                 gap: 12px;
             }
 
+            .top-header {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                transition: transform 0.3s ease-in-out;
+                background: #fff;
+            }
+
+            .nav-hidden {
+                transform: translateY(-100%);
+            }
+
             .header-nav {
                 justify-content: flex-start;
                 overflow-x: auto;
@@ -779,10 +796,9 @@
                 <nav class="header-nav">
                     <a href="#mens">Men</a>
                     <a href="#womens">Women</a>
-                    <a href="#new-arrivals">New Arrivals</a>
                     <a href="{{ route('collection') }}">Collection</a>
-                    <a href="#sale">Sale</a>
-                    <a href="#about">About</a>
+                    <a href="{{ route('academy') }}">Academy</a>
+                    <a href="{{ route('about') }}">About</a>
                     <a href="#support">Support</a>
                 </nav>
                 <div class="header-icons">
@@ -804,7 +820,6 @@
                 </p>
                 <div class="hero-actions">
                     <a class="btn" href="{{ route('collection') }}">Shop Now</a>
-                    <a class="btn-link" href="#new-arrivals">Learn more</a>
                 </div>
             </div>
         </section>
@@ -999,7 +1014,7 @@
                             <img src="{{ asset('images/bridegroom-s-shoes-with-other-wedding-details.jpg') }}"
                                 alt="Ivory Ceremony">
                         </div>
-                        <span class="card-p-badge">Limited &mdash; 1 of 1</span>
+                        <span class="card-p-badge">Limited &mdash; 1 of 3</span>
                         <div class="card-p-copy">
                             <h3>Ivory Ceremony</h3>
                             <p>Clean white statement pair for weddings, receptions, and private entries.</p>
@@ -1119,8 +1134,7 @@
                         <div class="footer-list">
                             <a href="#mens">Men</a>
                             <a href="#womens">Women</a>
-                            <a href="#new-arrivals">New Arrivals</a>
-                            <a href="#sale">Sale</a>
+                            <a href="{{ route('collection') }}">Collection</a>
                         </div>
                     </div>
                     <div id="support">
@@ -1168,7 +1182,28 @@
         </div>
     </div>
     <script>
-        /* scroll belt — no JS needed */
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.top-header');
+            let lastScroll = 0;
+
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    header.classList.remove('nav-hidden');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && !header.classList.contains('nav-hidden')) {
+                    // Scroll Down
+                    header.classList.add('nav-hidden');
+                } else if (currentScroll < lastScroll && header.classList.contains('nav-hidden')) {
+                    // Scroll Up
+                    header.classList.remove('nav-hidden');
+                }
+                lastScroll = currentScroll;
+            });
+        });
     </script>
 </body>
 

@@ -9,3 +9,11 @@ Route::get('/', function () {
 Route::get('/collection', function () {
     return view('collection');
 })->name('collection');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
+
+Route::get('/academy', function () {
+    return view('academy');
+})->name('academy');

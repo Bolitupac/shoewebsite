@@ -78,6 +78,15 @@
             min-height: 56px;
             padding: 0 24px;
             border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease-in-out;
+            background: #fff;
+        }
+
+        .nav-hidden {
+            transform: translateY(-100%);
         }
 
         .brand,
@@ -277,7 +286,7 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 18px;
         }
 
@@ -293,6 +302,8 @@
             overflow: hidden;
             background: #0d0d0d;
             contain: layout;
+            margin: 24px;
+            border-radius: 8px;
         }
 
         .card-premium-media {
@@ -447,6 +458,10 @@
             font-size: 0.92rem;
         }
 
+        .footer-columns > div {
+            padding: 0 24px;
+        }
+
         .footer-list {
             display: grid;
             gap: 10px;
@@ -467,6 +482,7 @@
             color: rgba(255, 255, 255, 0.78);
             font-size: 0.66rem;
             padding: 10px 24px;
+            text-align: center;
         }
 
         @media (max-width: 1100px) {
@@ -577,10 +593,9 @@
                 <nav class="header-nav">
                     <a href="{{ route('home') }}#mens">Men</a>
                     <a href="{{ route('home') }}#womens">Women</a>
-                    <a href="{{ route('home') }}#new-arrivals">New Arrivals</a>
                     <a href="{{ route('collection') }}">Collection</a>
-                    <a href="{{ route('home') }}#sale">Sale</a>
-                    <a href="{{ route('home') }}#about">About</a>
+                    <a href="{{ route('academy') }}">Academy</a>
+                    <a href="{{ route('about') }}">About</a>
                     <a href="{{ route('home') }}#support">Support</a>
                 </nav>
                 <div class="header-icons">
@@ -639,7 +654,7 @@
                         <img src="{{ asset('images/bridegroom-s-shoes-with-other-wedding-details.jpg') }}"
                             alt="Ivory Ceremony">
                     </div>
-                    <span class="card-premium-badge">Limited — 1 of 1</span>
+                    <span class="card-premium-badge">Limited — 1 of 3</span>
                     <div class="card-premium-copy">
                         <h2>Ivory Ceremony</h2>
                         <p>Clean white statement pair for weddings, receptions, and private entries.</p>
@@ -798,10 +813,10 @@
                 <div>
                     <h4>Shop</h4>
                     <div class="footer-list">
-                        <a href="{{ route('home') }}#mens">Men</a>
-                        <a href="{{ route('home') }}#womens">Women</a>
-                        <a href="{{ route('home') }}#new-arrivals">New Arrivals</a>
-                        <a href="{{ route('home') }}#sale">Sale</a>
+                            <a href="{{ route('home') }}#mens">Men</a>
+                            <a href="{{ route('home') }}#womens">Women</a>
+                            <a href="{{ route('collection') }}">Collection</a>
+                            <a href="{{ route('academy') }}">Academy</a>
                     </div>
                 </div>
                 <div>
@@ -848,18 +863,40 @@
         </footer>
     </div>
     <script>
-        document.querySelectorAll('[data-see-more]').forEach((button) => {
-            button.addEventListener('click', () => {
-                const section = button.closest('.catalog-section');
-                const hiddenCards = section.querySelectorAll('.card-hidden');
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.top-header');
+            let lastScroll = 0;
 
-                hiddenCards.forEach((card) => {
-                    card.style.display = isExpanded ? 'none' : 'block';
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
+                
+                if (currentScroll <= 0) {
+                    header.classList.remove('nav-hidden');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && !header.classList.contains('nav-hidden')) {
+                    header.classList.add('nav-hidden');
+                } else if (currentScroll < lastScroll && header.classList.contains('nav-hidden')) {
+                    header.classList.remove('nav-hidden');
+                }
+                lastScroll = currentScroll;
+            });
+
+            const seeMoreBtns = document.querySelectorAll('[data-see-more]');
+            seeMoreBtns.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const section = button.closest('.catalog-section');
+                    const hiddenCards = section.querySelectorAll('.card-hidden');
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                    hiddenCards.forEach((card) => {
+                        card.style.display = isExpanded ? 'none' : 'block';
+                    });
+
+                    button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+                    button.textContent = isExpanded ? 'See more' : 'See less';
                 });
-
-                button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
-                button.textContent = isExpanded ? 'See more' : 'See less';
             });
         });
     </script>
