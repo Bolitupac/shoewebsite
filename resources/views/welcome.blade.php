@@ -18,6 +18,9 @@
             --line: #ded8cf;
             --accent: #b08a61;
             --hero: #071421;
+            --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+            --dur-fast: 120ms;
+            --dur-slow: 520ms;
         }
 
         * {
@@ -33,6 +36,7 @@
             font-family: 'Manrope', sans-serif;
             background: var(--bg);
             color: var(--ink);
+            animation: pageFadeIn 560ms var(--ease-luxury);
         }
 
         a {
@@ -109,7 +113,7 @@
         .card-action,
         .look-link {
             color: var(--muted);
-            transition: color 220ms ease;
+            transition: color var(--dur-fast) var(--ease-luxury);
         }
 
         .header-nav a:hover,
@@ -214,6 +218,44 @@
         .btn {
             background: #fff;
             color: #111;
+        }
+
+        .btn,
+        .btn-light,
+        .card,
+        .category-card,
+        .movement-card {
+            transition: transform var(--dur-fast) var(--ease-luxury), box-shadow var(--dur-fast) var(--ease-luxury),
+                border-color var(--dur-fast) var(--ease-luxury);
+        }
+
+        .btn:hover,
+        .btn-light:hover {
+            transform: translateY(-1px);
+        }
+
+        .card:hover,
+        .movement-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(17, 17, 17, 0.1);
+        }
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition-duration: 1ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         .btn-light {
@@ -1208,6 +1250,7 @@
                 }
                 lastScroll = currentScroll;
             });
+
         });
     </script>
 </body>

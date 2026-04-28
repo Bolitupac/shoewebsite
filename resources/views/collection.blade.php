@@ -18,6 +18,9 @@
             --line: #ded8cf;
             --accent: #b08a61;
             --hero: #071421;
+            --ease-luxury: cubic-bezier(0.22, 1, 0.36, 1);
+            --dur-fast: 120ms;
+            --dur-slow: 520ms;
         }
 
         * {
@@ -34,6 +37,7 @@
             font-family: 'Manrope', sans-serif;
             background: var(--bg);
             color: var(--ink);
+            animation: pageFadeIn 560ms var(--ease-luxury);
         }
 
         a {
@@ -131,7 +135,7 @@
 
         .header-nav a {
             color: var(--muted);
-            transition: color 220ms ease;
+            transition: color var(--dur-fast) var(--ease-luxury);
         }
 
         .header-nav a:hover {
@@ -167,6 +171,26 @@
             border: 1px solid rgba(17, 17, 17, 0.14);
             background: transparent;
             color: #111;
+        }
+
+        .btn,
+        .btn-outline,
+        .btn-premium,
+        .card,
+        .card-premium {
+            transition: transform var(--dur-fast) var(--ease-luxury), box-shadow var(--dur-fast) var(--ease-luxury),
+                border-color var(--dur-fast) var(--ease-luxury), background-color var(--dur-fast) var(--ease-luxury);
+        }
+
+        .btn:hover,
+        .btn-outline:hover {
+            transform: translateY(-1px);
+        }
+
+        .card:hover,
+        .card-premium:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 28px rgba(17, 17, 17, 0.1);
         }
 
         .hero {
@@ -498,18 +522,26 @@
         .product-modal {
             position: fixed;
             inset: 0;
-            display: none;
+            display: grid;
             z-index: 1200;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 220ms var(--ease-luxury), visibility 220ms var(--ease-luxury);
         }
 
         .product-modal.is-open {
-            display: grid;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
         .product-modal-backdrop {
             position: absolute;
             inset: 0;
             background: rgba(7, 11, 14, 0.68);
+            opacity: 0;
+            transition: opacity 240ms var(--ease-luxury);
         }
 
         .product-modal-panel {
@@ -523,6 +555,18 @@
             grid-template-columns: 1fr 1fr;
             max-height: calc(100vh - 28px);
             overflow: hidden;
+            opacity: 0;
+            transform: translateY(14px) scale(0.99);
+            transition: opacity 260ms var(--ease-luxury), transform 260ms var(--ease-luxury);
+        }
+
+        .product-modal.is-open .product-modal-backdrop {
+            opacity: 1;
+        }
+
+        .product-modal.is-open .product-modal-panel {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         .product-modal-media {
@@ -584,6 +628,8 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            justify-content: flex-end;
+            width: 100%;
         }
 
         .product-modal-close {
@@ -670,6 +716,24 @@
             font-size: 0.84rem;
             color: var(--muted);
             line-height: 1.55;
+        }
+
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation: none !important;
+                transition-duration: 1ms !important;
+                scroll-behavior: auto !important;
+            }
         }
 
         .recommended-block {
@@ -1210,15 +1274,6 @@
                 <div class="detail-block">
                     <h3>Product Description</h3>
                     <p data-modal-description></p>
-                    <ul class="detail-list" data-modal-features>
-                        <li>Designed and made in Northampton, England</li>
-                        <li>Premium craftsmanship since 1880</li>
-                        <li>Full leather insole and lining</li>
-                        <li>Calf leather with natural finish</li>
-                        <li>Hand-stitched detailing</li>
-                        <li>Single leather sole</li>
-                        <li>Free UK shipping</li>
-                    </ul>
                 </div>
                 <div class="detail-block">
                     <h3>Last Guide</h3>
@@ -1296,7 +1351,6 @@
             const modalOrder = productModal.querySelector('[data-modal-order]');
             const modalSize = productModal.querySelector('[data-modal-size]');
             const sizeGuideLink = productModal.querySelector('[data-size-guide]');
-            const modalFeatures = productModal.querySelector('[data-modal-features]');
             const modalInfo = productModal.querySelector('[data-modal-info]');
             const recommendedGrid = productModal.querySelector('[data-recommended-grid]');
             const closeButtons = productModal.querySelectorAll('[data-close-modal]');
@@ -1384,15 +1438,6 @@
                 modalRegularPrice.innerHTML = regularPriceNumber ? `<s>${formatNaira(regularPriceNumber)}</s>` : '';
                 modalColour.textContent = colourFallback;
                 modalSize.value = '6';
-                modalFeatures.innerHTML = `
-                    <li>Designed and made in Northampton, England</li>
-                    <li>Premium craftsmanship since 1880</li>
-                    <li>Full leather insole and lining</li>
-                    <li>Calf leather with natural finish</li>
-                    <li>Hand-stitched detailing</li>
-                    <li>Single leather sole</li>
-                    <li>Free UK shipping</li>
-                `;
                 modalInfo.innerHTML = `
                     <li>Construction Type: Lockstitch</li>
                     <li>Fitting Type: G</li>
@@ -1448,6 +1493,7 @@
                     closeProductModal();
                 }
             });
+
         });
     </script>
 </body>
