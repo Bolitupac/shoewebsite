@@ -119,6 +119,11 @@
             color: var(--ink);
         }
 
+        .header-nav a.is-active {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
         .hero {
             position: relative;
             min-height: 540px;
@@ -796,9 +801,9 @@
                 <nav class="header-nav">
                     <a href="#mens">Men</a>
                     <a href="#womens">Women</a>
-                    <a href="{{ route('collection') }}">Collection</a>
-                    <a href="{{ route('academy') }}">Academy</a>
-                    <a href="{{ route('about') }}">About</a>
+                    <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
+                    <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
+                    <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
                     <a href="#support">Support</a>
                 </nav>
                 <div class="header-icons">

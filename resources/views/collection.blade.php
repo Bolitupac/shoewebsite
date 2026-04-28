@@ -22,6 +22,7 @@
 
         * {
             box-sizing: border-box;
+            border-radius: 0 !important;
         }
 
         html {
@@ -135,6 +136,11 @@
 
         .header-nav a:hover {
             color: var(--ink);
+        }
+
+        .header-nav a.is-active {
+            color: var(--accent);
+            font-weight: 700;
         }
 
         .btn {
@@ -294,16 +300,17 @@
         .grid-premium {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 2px;
+            gap: 18px;
         }
 
         .card-premium {
             position: relative;
             overflow: hidden;
-            background: #0d0d0d;
+            background: linear-gradient(180deg, #161616 0%, #0f0f0f 100%);
             contain: layout;
-            margin: 24px;
-            border-radius: 8px;
+            margin: 8px 0 24px;
+            border: 1px solid rgba(176, 138, 97, 0.35);
+            box-shadow: 0 18px 34px rgba(0, 0, 0, 0.22);
         }
 
         .card-premium-media {
@@ -327,15 +334,18 @@
 
         .card-premium-badge {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: var(--accent);
-            color: #fff;
-            font-size: 0.6rem;
+            top: 14px;
+            left: 14px;
+            background: rgba(17, 17, 17, 0.82);
+            border: 1px solid rgba(176, 138, 97, 0.6);
+            color: #f1d4b4;
+            font-size: 0.62rem;
             font-weight: 800;
             letter-spacing: 0.14em;
             text-transform: uppercase;
-            padding: 5px 10px;
+            padding: 7px 11px;
+            backdrop-filter: blur(3px);
+            z-index: 2;
         }
 
         .card-premium-copy {
@@ -485,6 +495,231 @@
             text-align: center;
         }
 
+        .product-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 1200;
+        }
+
+        .product-modal.is-open {
+            display: grid;
+        }
+
+        .product-modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(7, 11, 14, 0.68);
+        }
+
+        .product-modal-panel {
+            position: relative;
+            z-index: 1;
+            width: min(1260px, calc(100% - 28px));
+            margin: 14px auto;
+            background: #fff;
+            border: 1px solid var(--line);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            max-height: calc(100vh - 28px);
+            overflow: hidden;
+        }
+
+        .product-modal-media {
+            background: #f6f4f1;
+            min-height: 420px;
+        }
+
+        .product-modal-media img {
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-modal-copy {
+            padding: 26px 24px 20px;
+            overflow-y: auto;
+        }
+
+        .product-modal-copy h2 {
+            margin: 0 0 8px;
+            font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+            line-height: 0.95;
+        }
+
+        .product-modal-notice {
+            margin: 0 0 16px;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .product-modal-price {
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.36rem;
+            color: var(--accent);
+            letter-spacing: 0.02em;
+            margin-bottom: 14px;
+        }
+
+        .product-modal-price-regular {
+            font-size: 0.84rem;
+            color: var(--muted);
+            margin: -8px 0 16px;
+            line-height: 1.5;
+        }
+
+        .product-modal-price-regular s {
+            text-decoration-thickness: 1.8px;
+        }
+
+        .product-modal-copy p {
+            margin: 0 0 22px;
+            max-width: 40ch;
+        }
+
+        .product-modal-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .product-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            min-width: 34px;
+            min-height: 34px;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: var(--ink);
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .product-meta {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .meta-label {
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .meta-value {
+            font-size: 0.92rem;
+            color: var(--ink);
+            margin: 0;
+        }
+
+        .size-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .size-row select {
+            min-height: 38px;
+            border: 1px solid var(--line);
+            padding: 0 10px;
+            background: #fff;
+            font-size: 0.9rem;
+            color: var(--ink);
+            min-width: 84px;
+        }
+
+        .size-guide-link {
+            font-size: 0.78rem;
+            text-decoration: underline;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .detail-block {
+            margin-top: 10px;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+
+        .detail-block h3 {
+            margin: 0 0 8px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+        }
+
+        .detail-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 6px;
+        }
+
+        .detail-list li {
+            font-size: 0.84rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .recommended-block {
+            margin-top: 20px;
+            border-top: 1px solid var(--line);
+            padding-top: 16px;
+        }
+
+        .recommended-block h3 {
+            margin: 0 0 12px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+        }
+
+        .recommended-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .recommended-item {
+            border: 1px solid var(--line);
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .recommended-item img {
+            height: 120px;
+            object-fit: cover;
+        }
+
+        .recommended-item-copy {
+            padding: 8px;
+        }
+
+        .recommended-item-copy h4 {
+            margin: 0 0 4px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1rem;
+            line-height: 1;
+            color: var(--ink);
+        }
+
+        .recommended-item-copy span {
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
         @media (max-width: 1100px) {
             .footer-columns {
                 grid-template-columns: 1fr 1fr;
@@ -574,6 +809,20 @@
             .footer-columns {
                 grid-template-columns: 1fr;
             }
+
+            .product-modal-panel {
+                grid-template-columns: 1fr;
+                max-height: calc(100vh - 16px);
+                margin: 8px auto;
+            }
+
+            .product-modal-media {
+                min-height: 260px;
+            }
+
+            .recommended-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -593,9 +842,9 @@
                 <nav class="header-nav">
                     <a href="{{ route('home') }}#mens">Men</a>
                     <a href="{{ route('home') }}#womens">Women</a>
-                    <a href="{{ route('collection') }}">Collection</a>
-                    <a href="{{ route('academy') }}">Academy</a>
-                    <a href="{{ route('about') }}">About</a>
+                    <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
+                    <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
+                    <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
                     <a href="{{ route('home') }}#support">Support</a>
                 </nav>
                 <div class="header-icons">
@@ -637,7 +886,7 @@
                     <div class="card-premium-media">
                         <img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Midnight Patent">
                     </div>
-                    <span class="card-premium-badge">Limited — 1 of 1</span>
+                    <span class="card-premium-badge">One of One • 1 of 1</span>
                     <div class="card-premium-copy">
                         <h2>Midnight Patent</h2>
                         <p>High-shine black finish crafted for formal statements. One pair only.</p>
@@ -654,7 +903,7 @@
                         <img src="{{ asset('images/bridegroom-s-shoes-with-other-wedding-details.jpg') }}"
                             alt="Ivory Ceremony">
                     </div>
-                    <span class="card-premium-badge">Limited — 1 of 3</span>
+                    <span class="card-premium-badge">Limited Edition • 1 of 3</span>
                     <div class="card-premium-copy">
                         <h2>Ivory Ceremony</h2>
                         <p>Clean white statement pair for weddings, receptions, and private entries.</p>
@@ -733,6 +982,38 @@
                                 target="_blank" rel="noreferrer">Order</a></div>
                     </div>
                 </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Noir Muse"></div>
+                    <div class="card-copy">
+                        <h2>Noir Muse</h2>
+                        <p>Sleek dark pair with a polished finish for bold evening styling.</p>
+                        <div class="row"><span>N2,230,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Noir%20Muse."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Rose Street">
+                    </div>
+                    <div class="card-copy">
+                        <h2>Rose Street</h2>
+                        <p>Modern low-cut profile built for clean casual and smart event looks.</p>
+                        <div class="row"><span>N1,890,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Rose%20Street."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/abbeylein-shoes-wooden_crocs_1920.jpg') }}"
+                            alt="Velvet Sand"></div>
+                    <div class="card-copy">
+                        <h2>Velvet Sand</h2>
+                        <p>Light neutral tone with soft leather detail for elegant daily dressing.</p>
+                        <div class="row"><span>N2,160,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Velvet%20Sand."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
             </div>
             <div class="see-more-wrap">
                 <button class="btn-outline see-more" type="button" data-see-more aria-expanded="false">See more</button>
@@ -802,6 +1083,39 @@
                                 target="_blank" rel="noreferrer">Order</a></div>
                     </div>
                 </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/bridegroom-s-shoes-with-other-wedding-details.jpg') }}"
+                            alt="Ivory Sprint"></div>
+                    <div class="card-copy">
+                        <h2>Ivory Sprint</h2>
+                        <p>Bright ceremonial tone adapted into a newer, lightweight daily shape.</p>
+                        <div class="row"><span>N2,300,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Ivory%20Sprint."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/abbeylein-shoes-wooden_crocs_1920.jpg') }}"
+                            alt="Caramel Fold"></div>
+                    <div class="card-copy">
+                        <h2>Caramel Fold</h2>
+                        <p>Fresh caramel tone with softened texture and clean structured seams.</p>
+                        <div class="row"><span>N2,120,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Caramel%20Fold."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
+                <article class="card card-hidden">
+                    <div class="card-media"><img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}"
+                            alt="Derby Prime"></div>
+                    <div class="card-copy">
+                        <h2>Derby Prime</h2>
+                        <p>Latest derby refinement with stronger structure and balanced formal edge.</p>
+                        <div class="row"><span>N1,980,000</span><a
+                                href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20Derby%20Prime."
+                                target="_blank" rel="noreferrer">Order</a></div>
+                    </div>
+                </article>
             </div>
             <div class="see-more-wrap">
                 <button class="btn-outline see-more" type="button" data-see-more aria-expanded="false">See more</button>
@@ -862,6 +1176,79 @@
             </div>
         </footer>
     </div>
+    <div class="product-modal" data-product-modal aria-hidden="true">
+        <button class="product-modal-backdrop" type="button" data-close-modal aria-label="Close product details"></button>
+        <div class="product-modal-panel" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+            <button class="product-modal-close" type="button" data-close-modal aria-label="Close product details">✕</button>
+            <div class="product-modal-media">
+                <img src="" alt="" data-modal-image>
+            </div>
+            <div class="product-modal-copy">
+                <p class="product-modal-notice">Typically takes two weeks to make</p>
+                <h2 id="product-modal-title" data-modal-title></h2>
+                <div class="product-modal-price" data-modal-price></div>
+                <div class="product-modal-price-regular" data-modal-regular-price></div>
+                <div class="product-meta">
+                    <p class="meta-label">Colour</p>
+                    <p class="meta-value" data-modal-colour>Brown Burnished Calf</p>
+                </div>
+                <div class="product-meta">
+                    <p class="meta-label">Shoe Size (UK)</p>
+                    <div class="size-row">
+                        <select aria-label="Shoe Size UK" data-modal-size>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                        <a class="size-guide-link" href="#" data-size-guide>Size Guide</a>
+                    </div>
+                </div>
+                <div class="detail-block">
+                    <h3>Product Description</h3>
+                    <p data-modal-description></p>
+                    <ul class="detail-list" data-modal-features>
+                        <li>Designed and made in Northampton, England</li>
+                        <li>Premium craftsmanship since 1880</li>
+                        <li>Full leather insole and lining</li>
+                        <li>Calf leather with natural finish</li>
+                        <li>Hand-stitched detailing</li>
+                        <li>Single leather sole</li>
+                        <li>Free UK shipping</li>
+                    </ul>
+                </div>
+                <div class="detail-block">
+                    <h3>Last Guide</h3>
+                    <ul class="detail-list">
+                        <li>Fitting Type: G</li>
+                        <li>Last Shape: 436</li>
+                    </ul>
+                </div>
+                <div class="detail-block">
+                    <h3>Detailed Information</h3>
+                    <ul class="detail-list" data-modal-info>
+                        <li>Construction Type: Lockstitch</li>
+                        <li>Fitting Type: G</li>
+                        <li>Last Shape: 436</li>
+                        <li>Material / Finish: Calf</li>
+                        <li>Shoe Type: Loafer</li>
+                        <li>Sole Type: Leather</li>
+                        <li>Collections: Men's Loafers, Men's Shoes, Moccasin Collection</li>
+                    </ul>
+                </div>
+                <div class="product-modal-actions">
+                    <a class="btn-outline" style="border:1px solid var(--accent); color:var(--accent); font-weight:800; letter-spacing:0.04em; text-transform:uppercase;" href="#" target="_blank" rel="noreferrer" data-modal-order-base="" data-modal-order>Order via WhatsApp</a>
+                </div>
+                <div class="recommended-block">
+                    <h3>Recommended Items</h3>
+                    <div class="recommended-grid" data-recommended-grid></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.top-header');
@@ -897,6 +1284,169 @@
                     button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
                     button.textContent = isExpanded ? 'See more' : 'See less';
                 });
+            });
+
+            const productModal = document.querySelector('[data-product-modal]');
+            const modalImage = productModal.querySelector('[data-modal-image]');
+            const modalTitle = productModal.querySelector('[data-modal-title]');
+            const modalPrice = productModal.querySelector('[data-modal-price]');
+            const modalRegularPrice = productModal.querySelector('[data-modal-regular-price]');
+            const modalDescription = productModal.querySelector('[data-modal-description]');
+            const modalColour = productModal.querySelector('[data-modal-colour]');
+            const modalOrder = productModal.querySelector('[data-modal-order]');
+            const modalSize = productModal.querySelector('[data-modal-size]');
+            const sizeGuideLink = productModal.querySelector('[data-size-guide]');
+            const modalFeatures = productModal.querySelector('[data-modal-features]');
+            const modalInfo = productModal.querySelector('[data-modal-info]');
+            const recommendedGrid = productModal.querySelector('[data-recommended-grid]');
+            const closeButtons = productModal.querySelectorAll('[data-close-modal]');
+            const clickableCards = document.querySelectorAll('.card, .card-premium');
+
+            const toNumber = (value) => {
+                if (!value) {
+                    return null;
+                }
+                const digits = String(value).replace(/[^\d.]/g, '');
+                return digits ? Number(digits) : null;
+            };
+
+            const formatNaira = (value) => {
+                if (!Number.isFinite(value)) {
+                    return '';
+                }
+                return new Intl.NumberFormat('en-NG', {
+                    style: 'currency',
+                    currency: 'NGN',
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }).format(value);
+            };
+
+            const renderRecommendations = (activeCard) => {
+                const fallbackCards = Array.from(clickableCards).filter((item) => item !== activeCard).slice(0, 4);
+                recommendedGrid.innerHTML = fallbackCards.map((item) => {
+                    const itemImg = item.querySelector('img');
+                    const itemTitle = item.querySelector('h2');
+                    const itemPrice = item.querySelector('.row span, .card-premium-price');
+                    if (!itemImg || !itemTitle || !itemPrice) {
+                        return '';
+                    }
+
+                    return `
+                        <article class="recommended-item" tabindex="0">
+                            <img src="${itemImg.src}" alt="${itemImg.alt}">
+                            <div class="recommended-item-copy">
+                                <h4>${itemTitle.textContent.trim()}</h4>
+                                <span>${itemPrice.textContent.trim()}</span>
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+                Array.from(recommendedGrid.querySelectorAll('.recommended-item')).forEach((item, index) => {
+                    const linkedCard = fallbackCards[index];
+                    if (!linkedCard) {
+                        return;
+                    }
+                    item.addEventListener('click', () => openProductModal(linkedCard));
+                    item.addEventListener('keydown', (event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            openProductModal(linkedCard);
+                        }
+                    });
+                });
+            };
+
+            const openProductModal = (card) => {
+                const image = card.querySelector('img');
+                const title = card.querySelector('h2');
+                const description = card.querySelector('p');
+                const priceNode = card.querySelector('.row span, .card-premium-price');
+                const orderLink = card.querySelector('a[href*="wa.me"]');
+                const rawName = title ? title.textContent.trim() : '';
+                const mainPriceNumber = toNumber(priceNode ? priceNode.textContent : '');
+                const regularPriceNumber = mainPriceNumber ? Math.round(mainPriceNumber * 1.33) : null;
+                const colourFallback = rawName.toLowerCase().includes('black') ? 'Black Polished Calf' : 'Brown Burnished Calf';
+                const dynamicDescription = rawName
+                    ? `${rawName} is a classic plain fronted moccasin with a single leather sole. Perfect for casual or formal wear, ${rawName} is a firm favourite within the Moccasin Collection.`
+                    : '';
+
+                if (!image || !title || !orderLink) {
+                    return;
+                }
+
+                modalImage.src = image.src;
+                modalImage.alt = image.alt;
+                modalTitle.textContent = `${rawName} - ${colourFallback}`;
+                modalDescription.textContent = dynamicDescription || (description ? description.textContent.trim() : '');
+                modalPrice.textContent = formatNaira(mainPriceNumber) || (priceNode ? priceNode.textContent.trim() : '');
+                modalRegularPrice.innerHTML = regularPriceNumber ? `<s>${formatNaira(regularPriceNumber)}</s>` : '';
+                modalColour.textContent = colourFallback;
+                modalSize.value = '6';
+                modalFeatures.innerHTML = `
+                    <li>Designed and made in Northampton, England</li>
+                    <li>Premium craftsmanship since 1880</li>
+                    <li>Full leather insole and lining</li>
+                    <li>Calf leather with natural finish</li>
+                    <li>Hand-stitched detailing</li>
+                    <li>Single leather sole</li>
+                    <li>Free UK shipping</li>
+                `;
+                modalInfo.innerHTML = `
+                    <li>Construction Type: Lockstitch</li>
+                    <li>Fitting Type: G</li>
+                    <li>Last Shape: 436</li>
+                    <li>Material / Finish: Calf</li>
+                    <li>Shoe Type: Loafer</li>
+                    <li>Sole Type: Leather</li>
+                    <li>Collections: Father's Day, Men's Loafers, Men's Shoes, Mens Valentine special, Moccasin Collection</li>
+                `;
+                modalOrder.href = orderLink.href;
+                modalOrder.dataset.modalOrderBase = orderLink.href;
+                sizeGuideLink.href = `https://wa.me/2340000000000?text=${encodeURIComponent(`Hello, I need the size guide for ${rawName}.`)}`;
+                renderRecommendations(card);
+
+                productModal.classList.add('is-open');
+                productModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeProductModal = () => {
+                productModal.classList.remove('is-open');
+                productModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            };
+
+            clickableCards.forEach((card) => {
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', (event) => {
+                    if (event.target.closest('a')) {
+                        return;
+                    }
+                    openProductModal(card);
+                });
+            });
+
+            closeButtons.forEach((button) => {
+                button.addEventListener('click', closeProductModal);
+            });
+
+            modalSize.addEventListener('change', () => {
+                const selectedSize = modalSize.value;
+                const baseHref = modalOrder.dataset.modalOrderBase || modalOrder.href;
+                const [path, query = ''] = baseHref.split('?');
+                const params = new URLSearchParams(query);
+                const currentText = params.get('text') || 'Hello, I want this shoe.';
+                const cleanText = currentText.replace(/\s*\(UK size:.*?\)\s*$/i, '').trim();
+                params.set('text', `${cleanText} (UK size: ${selectedSize})`);
+                modalOrder.href = `${path}?${params.toString()}`;
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape' && productModal.classList.contains('is-open')) {
+                    closeProductModal();
+                }
             });
         });
     </script>

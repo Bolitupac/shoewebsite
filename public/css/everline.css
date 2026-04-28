@@ -19,6 +19,7 @@
 /* ---------- Reset & Base ---------- */
 * {
     box-sizing: border-box;
+    border-radius: 0 !important;
 }
 
 html {
@@ -116,6 +117,11 @@ p {
 
 .header-nav a:hover {
     color: var(--ink);
+}
+
+.header-nav a.is-active {
+    color: var(--accent);
+    font-weight: 700;
 }
 
 .header-icons {
@@ -399,7 +405,6 @@ h1 {
     background: #0d0d0d;
     contain: layout;
     margin: 24px;
-    border-radius: 8px;
 }
 
 .card-premium-media,

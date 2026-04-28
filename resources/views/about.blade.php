@@ -25,9 +25,9 @@
                 <nav class="header-nav">
                     <a href="{{ route('home') }}#mens">Men</a>
                     <a href="{{ route('home') }}#womens">Women</a>
-                    <a href="{{ route('collection') }}">Collection</a>
-                    <a href="{{ route('academy') }}">Academy</a>
-                    <a href="{{ route('about') }}">About</a>
+                    <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
+                    <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
+                    <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
                     <a href="{{ route('home') }}#support">Support</a>
                 </nav>
                 <div class="header-icons">
