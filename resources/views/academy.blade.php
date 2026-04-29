@@ -31,7 +31,7 @@
                 <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
                 <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
                 <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
-                <a href="{{ route('home') }}#support">Support</a>
+                <a class="{{ request()->routeIs('support') ? 'is-active' : '' }}" href="{{ route('support') }}">Support</a>
             </nav>
         </header>
 
@@ -89,7 +89,7 @@
                         <h2 id="academy-form-title" class="section-title">Request a seat.</h2>
                     </div>
                 </div>
-                <form class="academy-form" data-academy-form>
+                <form class="academy-form" data-whatsapp-form data-whatsapp-intro="Hello, I want to enroll in the Nelson Shoes Academy.">
                     <div class="form-grid">
                         <label>
                             <span>Full name</span>
@@ -147,8 +147,8 @@
                 </div>
                 <div>
                     <h4>Support</h4>
-                    <a href="#">Shipping</a>
-                    <a href="#">Returns</a>
+                    <a href="{{ route('support') }}">Shipping</a>
+                    <a href="{{ route('support') }}">Returns</a>
                     <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
             </div>
@@ -156,71 +156,7 @@
         </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.top-header');
-            let idleTimer = null;
-
-            const showHeader = () => header.classList.remove('nav-idle-hidden');
-            const hideHeaderIfNotTop = () => {
-                if (window.scrollY > 0) {
-                    header.classList.add('nav-idle-hidden');
-                }
-            };
-
-            const scheduleIdleHide = () => {
-                if (idleTimer) {
-                    window.clearTimeout(idleTimer);
-                }
-                idleTimer = window.setTimeout(hideHeaderIfNotTop, 900);
-            };
-
-            window.addEventListener('scroll', () => {
-                showHeader();
-                scheduleIdleHide();
-            }, { passive: true });
-
-            window.addEventListener('mousemove', (e) => {
-                if (e.clientY <= 72) {
-                    showHeader();
-                    scheduleIdleHide();
-                }
-            });
-
-            scheduleIdleHide();
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('[data-academy-form]');
-            if (!form) return;
-
-            form.addEventListener('submit', (event) => {
-                event.preventDefault();
-
-                const data = new FormData(form);
-                const name = String(data.get('name') || '').trim();
-                const phone = String(data.get('phone') || '').trim();
-                const email = String(data.get('email') || '').trim();
-                const program = String(data.get('program') || '').trim();
-                const message = String(data.get('message') || '').trim();
-
-                const lines = [
-                    'Hello, I want to enroll in the Nelson Shoes Academy.',
-                    name ? `Name: ${name}` : '',
-                    phone ? `Phone: ${phone}` : '',
-                    email ? `Email: ${email}` : '',
-                    program ? `Program: ${program}` : '',
-                    message ? `Message: ${message}` : '',
-                ].filter(Boolean);
-
-                const text = lines.join('\n');
-                const href = `https://wa.me/2340000000000?text=${encodeURIComponent(text)}`;
-                window.open(href, '_blank', 'noreferrer');
-            });
-        });
-    </script>
+    <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
 </body>
 
 </html>

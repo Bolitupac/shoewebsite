@@ -31,7 +31,7 @@
                 <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
                 <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
                 <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
-                <a href="{{ route('home') }}#support">Support</a>
+                <a class="{{ request()->routeIs('support') ? 'is-active' : '' }}" href="{{ route('support') }}">Support</a>
             </nav>
         </header>
 
@@ -88,17 +88,17 @@
             </section>
 
             <section id="founder" class="section founder-section">
-                <div class="section-head">
-                    <div>
-                        <span class="section-label">Meet the founder</span>
-                        <h2 class="section-title">Nelson Lafog</h2>
-                    </div>
-                </div>
-                <div class="founder-card">
-                    <div class="founder-avatar" aria-hidden="true">
-                        <img src="{{ asset('images/shoemaker academy.avif') }}" alt="Founder portrait">
+                <div class="founder-editorial">
+                    <div class="founder-portrait">
+                        <img src="{{ asset('images/shoemaker academy.avif') }}" alt="Founder portrait" loading="eager" decoding="async">
+                        <div class="founder-seal">
+                            <span>Founder</span>
+                            <strong>Nelson</strong>
+                        </div>
                     </div>
                     <div class="founder-copy">
+                        <span class="section-label">Meet the founder</span>
+                        <h2 class="section-title">Nelson Lafog</h2>
                         <p>
                             Nelson Lafog started with a single table, borrowed tools, and a stubborn obsession with how a shoe should feel after the first hour, not the first photo.
                             In his early days in Lagos, he took every repair job he could get, learning the real anatomy of leather under pressure: where it stretches, where it cracks, and
@@ -115,6 +115,11 @@
                             Today, Nelson leads both the workshop and the Academy, training the next generation to respect the slow parts: the cut, the stitch, the balance, and the final
                             polish. His story is not a shortcut story. It is the long one, and that is the point.
                         </p>
+                        <div class="founder-points">
+                            <span>Lagos workshop</span>
+                            <span>Hand-patina craft</span>
+                            <span>Academy mentor</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -144,8 +149,8 @@
                 </div>
                 <div>
                     <h4>Support</h4>
-                    <a href="#">Shipping</a>
-                    <a href="#">Returns</a>
+                    <a href="{{ route('support') }}">Shipping</a>
+                    <a href="{{ route('support') }}">Returns</a>
                     <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
             </div>
@@ -153,40 +158,7 @@
         </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.top-header');
-            let idleTimer = null;
-
-            const showHeader = () => header.classList.remove('nav-idle-hidden');
-            const hideHeaderIfNotTop = () => {
-                if (window.scrollY > 0) {
-                    header.classList.add('nav-idle-hidden');
-                }
-            };
-
-            const scheduleIdleHide = () => {
-                if (idleTimer) {
-                    window.clearTimeout(idleTimer);
-                }
-                idleTimer = window.setTimeout(hideHeaderIfNotTop, 900);
-            };
-
-            window.addEventListener('scroll', () => {
-                showHeader();
-                scheduleIdleHide();
-            }, { passive: true });
-
-            window.addEventListener('mousemove', (e) => {
-                if (e.clientY <= 72) {
-                    showHeader();
-                    scheduleIdleHide();
-                }
-            });
-
-            scheduleIdleHide();
-        });
-    </script>
+    <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
 </body>
 
 </html>

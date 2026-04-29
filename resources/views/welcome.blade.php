@@ -31,22 +31,48 @@
                 <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
                 <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
                 <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
-                <a href="#support">Support</a>
+                <a class="{{ request()->routeIs('support') ? 'is-active' : '' }}" href="{{ route('support') }}">Support</a>
             </nav>
         </header>
 
         <main>
-            <section class="hero home-hero">
-                <img src="{{ asset('images/vintage-paper-table-shoe-polishing-tools-jobs-career-concept.jpg') }}" alt="Nelson Shoes workshop tools and leather">
-                <div class="hero-copy">
-                    <span class="eyebrow">Bespoke footwear from Lagos</span>
-                    <h1>Nelson Shoes</h1>
-                    <p>Hand-finished leather shoes shaped around ceremony, movement, and the discipline of slow craft.</p>
-                    <div class="hero-actions">
-                        <a class="btn btn-dark" href="{{ route('collection') }}">Shop Collection</a>
-                        <a class="btn btn-light" href="{{ route('about') }}">The 86-Hour Philosophy</a>
+            <section class="hero home-hero hero-rotator" data-hero-rotator>
+                <article class="hero-slide is-active" data-hero-slide>
+                    <img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Midnight Patent one-of-one shoe" fetchpriority="high">
+                    <div class="hero-copy">
+                        <span class="eyebrow">One-of-one formalwear</span>
+                        <h1>Midnight Patent</h1>
+                        <p>A high-shine black statement pair built for private ceremonies, sharp suits, and rooms that notice detail.</p>
+                        <div class="hero-actions">
+                            <a class="btn btn-dark" href="{{ route('collection') }}#one-of-one">View rare pairs</a>
+                            <a class="btn btn-light" href="{{ route('about') }}">The 86-Hour Philosophy</a>
+                        </div>
                     </div>
-                </div>
+                </article>
+                <article class="hero-slide" data-hero-slide>
+                    <img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford leather shoe">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Hand-patina craft</span>
+                        <h1>Odogwu Oxford</h1>
+                        <p>Structured leather, warm patina, and a disciplined silhouette for everyday power dressing.</p>
+                        <div class="hero-actions">
+                            <a class="btn btn-dark" href="{{ route('collection') }}#men">Shop Oxfords</a>
+                            <a class="btn btn-light" href="{{ route('academy') }}">Learn the craft</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="hero-slide" data-hero-slide>
+                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Brown suede loafer">
+                    <div class="hero-copy">
+                        <span class="eyebrow">Soft luxury</span>
+                        <h1>Ikoyi Loafer</h1>
+                        <p>A quieter profile in rich suede, made for clean weekends, gallery evenings, and Lagos movement.</p>
+                        <div class="hero-actions">
+                            <a class="btn btn-dark" href="{{ route('collection') }}#men">Shop loafers</a>
+                            <a class="btn btn-light" href="{{ route('collection') }}#accessories">View accessories</a>
+                        </div>
+                    </div>
+                </article>
             </section>
 
             <section class="categories">
@@ -70,7 +96,7 @@
                 </div>
                 <div class="drop-belt">
                     <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Midnight Patent"></div>
+                        <div class="card-media"><img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Midnight Patent" loading="eager" decoding="async"></div>
                         <div class="card-copy">
                             <span class="card-flag">New</span>
                             <h3>Midnight Patent</h3>
@@ -79,7 +105,7 @@
                         </div>
                     </article>
                     <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford"></div>
+                        <div class="card-media"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford" loading="eager" decoding="async"></div>
                         <div class="card-copy">
                             <span class="card-flag">New</span>
                             <h3>Odogwu Oxford</h3>
@@ -192,8 +218,8 @@
                 </div>
                 <div>
                     <h4>Support</h4>
-                    <a href="#">Shipping</a>
-                    <a href="#">Returns</a>
+                    <a href="{{ route('support') }}">Shipping</a>
+                    <a href="{{ route('support') }}">Returns</a>
                     <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
             </div>
@@ -201,40 +227,7 @@
         </footer>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const header = document.querySelector('.top-header');
-            let idleTimer = null;
-
-            const showHeader = () => header.classList.remove('nav-idle-hidden');
-            const hideHeaderIfNotTop = () => {
-                if (window.scrollY > 0) {
-                    header.classList.add('nav-idle-hidden');
-                }
-            };
-
-            const scheduleIdleHide = () => {
-                if (idleTimer) {
-                    window.clearTimeout(idleTimer);
-                }
-                idleTimer = window.setTimeout(hideHeaderIfNotTop, 900);
-            };
-
-            window.addEventListener('scroll', () => {
-                showHeader();
-                scheduleIdleHide();
-            }, { passive: true });
-
-            window.addEventListener('mousemove', (e) => {
-                if (e.clientY <= 72) {
-                    showHeader();
-                    scheduleIdleHide();
-                }
-            });
-
-            scheduleIdleHide();
-        });
-    </script>
+    <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
 </body>
 
 </html>

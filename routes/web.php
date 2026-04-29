@@ -17,3 +17,7 @@ Route::get('/about', function () {
 Route::get('/academy', function () {
     return view('academy');
 })->name('academy');
+
+Route::get('/support', function () {
+    return view('support');
+})->name('support');
