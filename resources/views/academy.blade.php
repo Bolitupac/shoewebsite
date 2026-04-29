@@ -4,179 +4,223 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Everline Shoes | Academy</title>
+    <title>Nelson Shoes | Academy</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=oswald:400,500,600,700|manrope:400,500,600,700" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-n.svg') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('css/everline.css') }}">
 </head>
 
 <body>
     <div class="site-wrap">
         <div class="promo-bar">
-            <div class="content-width" style="display:grid;grid-template-columns:1fr auto;align-items:center;gap:14px;">
-                <span>Nationwide delivery across Nigeria on selected orders</span>
-                <span>Lagos, NG</span>
-            </div>
+            <span>Masterclass enrollment via WhatsApp</span>
+            <span>Lagos, NG</span>
         </div>
 
-        <div class="content-width">
-            <header class="top-header">
-                <a class="brand" href="{{ route('home') }}">Everline Shoes</a>
-                <nav class="header-nav">
-                    <a href="{{ route('home') }}#mens">Men</a>
-                    <a href="{{ route('home') }}#womens">Women</a>
-                    <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
-                    <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
-                    <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
-                    <a href="{{ route('home') }}#support">Support</a>
-                </nav>
-                <div class="header-icons">
-                    <span>♡</span>
-                    <span>👜</span>
-                    <span>◌</span>
+        <header class="top-header">
+            <nav class="header-nav header-nav-left" aria-label="Primary left">
+                <a class="{{ request()->routeIs('home') ? 'is-active' : '' }}" href="{{ route('home') }}">Home</a>
+                <a href="{{ route('home') }}#mens">Men</a>
+                <a href="{{ route('home') }}#womens">Women</a>
+                <a href="{{ route('collection') }}#accessories">Accessories</a>
+            </nav>
+            <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
+            <nav class="header-nav header-nav-right" aria-label="Primary right">
+                <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
+                <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
+                <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
+                <a href="{{ route('home') }}#support">Support</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="academy-hero">
+                <img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" alt="Nelson Shoes Academy workshop">
+                <div class="academy-hero-copy">
+                    <span class="eyebrow">Nelson Shoes Academy</span>
+                    <h1>Masterclass in bespoke shoemaking.</h1>
+                    <p>Train under a workshop philosophy built on leather anatomy, structural integrity, and the art of patina.</p>
+                    <a class="btn btn-dark" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Enroll Now</a>
                 </div>
-            </header>
-        </div>
+            </section>
 
-        <section class="hero academy-hero" style="position: relative; min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; color: #fff; padding-top: 56px;">
-            <div style="position: absolute; inset: 0; overflow: hidden; background: #000;">
-                <img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" style="width: 100%; height: 100%; object-fit: cover; filter: blur(8px) brightness(0.3); transform: scale(1.1);" alt="Academy Hero">
-            </div>
-            <div style="position: relative; z-index: 1; padding: 0 24px;">
-                <span style="display: block; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 20px;">The Nelson Shoes Academy</span>
-                <h1 style="font-size: clamp(3rem, 7vw, 5.5rem); font-family: 'Oswald', sans-serif; margin: 0 0 24px; line-height: 1;">The Pedestal of Knowledge</h1>
-                <p style="font-size: 1.15rem; max-width: 650px; margin: 0 auto 36px; color: rgba(255,255,255,0.85); line-height: 1.8;">Preserving the secrets of traditional shoemaking and training the next generation of African artisans to maintain world-class luxury.</p>
-                <a class="btn" href="#programs" style="background: var(--accent); color: #fff; border: none; padding: 0 36px; min-height: 48px; font-size: 0.85rem; letter-spacing: 0.05em;">Enroll Now</a>
-            </div>
-        </section>
-
-        <section id="programs" style="background: var(--bg); color: var(--ink); padding: 100px 24px;">
-            <div class="content-width" style="max-width: 1100px;">
-                <div style="text-align: center; margin-bottom: 80px;">
-                    <span style="color: var(--muted); font-size: 0.8rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;">Our Curriculum</span>
-                    <h2 style="font-family: 'Oswald', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem); margin: 16px 0 0; line-height: 1; color: var(--ink);">Mastering the Craft</h2>
-                </div>
-
-                <div style="display: grid; gap: 80px;">
-                    <!-- Row 1 -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center;">
-                        <div>
-                            <img src="{{ asset('images/shoemaker academy.avif') }}" alt="Leather Anatomy" style="border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%;">
-                        </div>
-                        <div style="padding: 0 20px;">
-                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--ink); margin: 0 0 16px; line-height: 1.1;">01. Leather Anatomy</h3>
-                            <p style="font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin: 0;">Learn to identify, source, and prepare the finest full-grain leathers, understanding how different hides react to molding and patina.</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Row 2 -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center; direction: rtl;">
-                        <div>
-                            <img src="{{ asset('images/side-view-image-young-concentrated-shoemaker. shoe academyjpg') }}" alt="Structural Integrity" style="border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%;">
-                        </div>
-                        <div style="padding: 0 20px; direction: ltr;">
-                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--ink); margin: 0 0 16px; line-height: 1.1;">02. Structural Integrity</h3>
-                            <p style="font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin: 0;">The core of bespoke shoemaking. Students learn hand-lasting techniques that ensure the shoe maintains its shape and provides unmatched comfort.</p>
-                        </div>
-                    </div>
-
-                    <!-- Row 3 -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 48px; align-items: center;">
-                        <div>
-                            <img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="The Art of Patina" style="border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%;">
-                        </div>
-                        <div style="padding: 0 20px;">
-                            <h3 style="font-family: 'Oswald', sans-serif; font-size: 2.2rem; color: var(--ink); margin: 0 0 16px; line-height: 1.1;">03. The Art of Patina</h3>
-                            <p style="font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin: 0;">Master the "Fire and Paint" process, learning to dye and polish leather to a mirror shine, creating unique color gradients.</p>
-                        </div>
+            <section id="programs" class="section">
+                <div class="section-head">
+                    <div>
+                        <span class="section-label">Curriculum</span>
+                        <h2 class="section-title">Mastering the craft.</h2>
                     </div>
                 </div>
-            </div>
-        </section>
+                <div class="academy-program-grid">
+                    <article>
+                        <img src="{{ asset('images/shoemaker academy.avif') }}" alt="Leather anatomy class">
+                        <span>01</span>
+                        <h3>Leather Anatomy</h3>
+                        <p>Understand hides, grain, tension, preparation, and how material decisions affect fit.</p>
+                    </article>
+                    <article>
+                        <img src="{{ asset('images/side-view-image-young-concentrated-shoemaker. shoe academyjpg') }}" alt="Shoemaking structure class">
+                        <span>02</span>
+                        <h3>Structural Integrity</h3>
+                        <p>Learn hand-lasting, sole shaping, balance, and the mechanics behind durable comfort.</p>
+                    </article>
+                    <article>
+                        <img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Patina shoe class">
+                        <span>03</span>
+                        <h3>The Art of Patina</h3>
+                        <p>Develop color, polish, and finishing techniques that make each pair visually singular.</p>
+                    </article>
+                </div>
+            </section>
 
-        <section style="background: var(--soft); color: var(--ink); padding: 100px 24px; text-align: center;">
-            <div class="content-width">
-                <h2 style="font-family: 'Oswald', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); margin: 0 0 24px; line-height: 1; color: var(--ink);">Begin Your Journey</h2>
-                <p style="font-size: 1.2rem; max-width: 650px; margin: 0 auto 40px; color: var(--muted); line-height: 1.6;">Support a master who is defining the industry, or start your own path in luxury craftsmanship.</p>
-                <a class="btn" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Academy." target="_blank" rel="noreferrer" style="background: var(--ink); color: #fff; border: none; padding: 0 44px; min-height: 52px; font-size: 0.9rem; letter-spacing: 0.05em;">Enroll Now</a>
-            </div>
-        </section>
+            <section class="enrollment-band">
+                <span class="section-label">Enrollment</span>
+                <h2>Begin your workshop journey.</h2>
+                <p>Ask about schedules, class size, materials, and entry requirements directly with the academy.</p>
+                <a class="btn btn-dark" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20enroll%20in%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Speak to the academy</a>
+            </section>
+
+            <section class="section academy-form-section" aria-labelledby="academy-form-title">
+                <div class="section-head">
+                    <div>
+                        <span class="section-label">Application</span>
+                        <h2 id="academy-form-title" class="section-title">Request a seat.</h2>
+                    </div>
+                </div>
+                <form class="academy-form" data-academy-form>
+                    <div class="form-grid">
+                        <label>
+                            <span>Full name</span>
+                            <input type="text" name="name" autocomplete="name" required>
+                        </label>
+                        <label>
+                            <span>Phone</span>
+                            <input type="tel" name="phone" autocomplete="tel" required>
+                        </label>
+                        <label>
+                            <span>Email</span>
+                            <input type="email" name="email" autocomplete="email">
+                        </label>
+                        <label>
+                            <span>Program</span>
+                            <select name="program" required>
+                                <option value="Bespoke Shoemaking Masterclass">Bespoke Shoemaking Masterclass</option>
+                                <option value="Patina & Finishing Intensive">Patina & Finishing Intensive</option>
+                                <option value="Leather Anatomy Foundations">Leather Anatomy Foundations</option>
+                            </select>
+                        </label>
+                        <label class="form-span-2">
+                            <span>Message</span>
+                            <textarea name="message" rows="4" placeholder="Tell us your experience level, goals, and preferred start date."></textarea>
+                        </label>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-dark" type="submit">Send via WhatsApp</button>
+                        <p class="form-hint">This form opens WhatsApp with your details.</p>
+                    </div>
+                </form>
+            </section>
+        </main>
 
         <footer class="footer">
-            <div class="footer-columns">
+            <div class="footer-columns heritage-footer">
                 <div>
                     <h4>Shop</h4>
-                    <div class="footer-list">
-                        <a href="{{ route('home') }}#mens">Men</a>
-                        <a href="{{ route('home') }}#womens">Women</a>
-                        <a href="{{ route('collection') }}">Collection</a>
-                        <a href="{{ route('academy') }}">Academy</a>
-                    </div>
+                    <a href="{{ route('collection') }}">Collection</a>
+                    <a href="{{ route('collection') }}#one-of-one">One-of-One</a>
+                    <a href="{{ route('collection') }}#custom-order">Custom Order</a>
+                    <a href="{{ route('collection') }}#accessories">Accessories</a>
                 </div>
                 <div>
-                    <h4>Support</h4>
-                    <div class="footer-list">
-                        <a href="#">FAQ</a>
-                        <a href="#">Contact</a>
-                        <a href="#">Shipping</a>
-                        <a href="#">Returns</a>
-                    </div>
-                </div>
-                <div>
-                    <h4>Shopping Online</h4>
-                    <div class="footer-list">
-                        <a href="#">Shipping &amp; Delivery</a>
-                        <a href="#">Returns &amp; Exchanges</a>
-                        <a href="#">Gift Cards</a>
-                        <a href="#">Size Guide</a>
-                    </div>
+                    <h4>Academy</h4>
+                    <a href="{{ route('academy') }}">Masterclass</a>
+                    <a href="#programs">Curriculum</a>
+                    <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Academy." target="_blank" rel="noreferrer">Enroll</a>
                 </div>
                 <div>
                     <h4>About</h4>
-                    <div class="footer-list">
-                        <a href="{{ route('about') }}">Brand Story</a>
-                        <a href="#">Sustainability</a>
-                        <a href="#">Careers</a>
-                    </div>
+                    <a href="{{ route('about') }}">86-Hour Philosophy</a>
+                    <a href="{{ route('about') }}#process">Process</a>
+                    <a href="{{ route('about') }}#heritage">Heritage</a>
                 </div>
                 <div>
-                    <h4>Social</h4>
-                    <div class="footer-list">
-                        <a href="#">Facebook</a>
-                        <a href="#">X</a>
-                        <a href="#">Instagram</a>
-                        <a href="https://wa.me/2340000000000" target="_blank" rel="noreferrer">WhatsApp</a>
-                    </div>
+                    <h4>Support</h4>
+                    <a href="#">Shipping</a>
+                    <a href="#">Returns</a>
+                    <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
             </div>
-            <div class="footer-bottom">
-                Certain activities undertaken by EVERLINE SHOES may be licensed under applicable laws and international
-                trademark. Copyright 2026 EVERLINE SHOES. All Rights Reserved.
-            </div>
+            <div class="footer-bottom">Copyright 2026 Nelson Shoes. All Rights Reserved.</div>
         </footer>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const header = document.querySelector('.top-header');
-            let lastScroll = 0;
+            let idleTimer = null;
+
+            const showHeader = () => header.classList.remove('nav-idle-hidden');
+            const hideHeaderIfNotTop = () => {
+                if (window.scrollY > 0) {
+                    header.classList.add('nav-idle-hidden');
+                }
+            };
+
+            const scheduleIdleHide = () => {
+                if (idleTimer) {
+                    window.clearTimeout(idleTimer);
+                }
+                idleTimer = window.setTimeout(hideHeaderIfNotTop, 900);
+            };
 
             window.addEventListener('scroll', () => {
-                const currentScroll = window.pageYOffset;
-                
-                if (currentScroll <= 0) {
-                    header.classList.remove('nav-hidden');
-                    return;
+                showHeader();
+                scheduleIdleHide();
+            }, { passive: true });
+
+            window.addEventListener('mousemove', (e) => {
+                if (e.clientY <= 72) {
+                    showHeader();
+                    scheduleIdleHide();
                 }
-                
-                if (currentScroll > lastScroll && !header.classList.contains('nav-hidden')) {
-                    header.classList.add('nav-hidden');
-                } else if (currentScroll < lastScroll && header.classList.contains('nav-hidden')) {
-                    header.classList.remove('nav-hidden');
-                }
-                lastScroll = currentScroll;
             });
 
+            scheduleIdleHide();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('[data-academy-form]');
+            if (!form) return;
+
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const data = new FormData(form);
+                const name = String(data.get('name') || '').trim();
+                const phone = String(data.get('phone') || '').trim();
+                const email = String(data.get('email') || '').trim();
+                const program = String(data.get('program') || '').trim();
+                const message = String(data.get('message') || '').trim();
+
+                const lines = [
+                    'Hello, I want to enroll in the Nelson Shoes Academy.',
+                    name ? `Name: ${name}` : '',
+                    phone ? `Phone: ${phone}` : '',
+                    email ? `Email: ${email}` : '',
+                    program ? `Program: ${program}` : '',
+                    message ? `Message: ${message}` : '',
+                ].filter(Boolean);
+
+                const text = lines.join('\n');
+                const href = `https://wa.me/2340000000000?text=${encodeURIComponent(text)}`;
+                window.open(href, '_blank', 'noreferrer');
+            });
         });
     </script>
 </body>
+
 </html>
