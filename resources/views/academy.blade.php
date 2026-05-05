@@ -61,7 +61,7 @@
                         <p>Understand hides, grain, tension, preparation, and how material decisions affect fit.</p>
                     </article>
                     <article>
-                        <img src="{{ asset('images/side-view-image-young-concentrated-shoemaker. shoe academyjpg') }}" alt="Shoemaking structure class">
+                        <img src="{{ asset('images/side-view-image-young-concentrated-shoemaker. shoe academy.jpg') }}" alt="Shoemaking structure class">
                         <span>02</span>
                         <h3>Structural Integrity</h3>
                         <p>Learn hand-lasting, sole shaping, balance, and the mechanics behind durable comfort.</p>

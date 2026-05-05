@@ -1,37 +1,6 @@
 (function () {
     const whatsappNumber = '2340000000000';
 
-    const initIdleHeader = () => {
-        const header = document.querySelector('.top-header');
-        if (!header) return;
-
-        let idleTimer = null;
-        const showHeader = () => header.classList.remove('nav-idle-hidden');
-        const hideHeaderIfNotTop = () => {
-            if (window.scrollY > 0) {
-                header.classList.add('nav-idle-hidden');
-            }
-        };
-        const scheduleIdleHide = () => {
-            window.clearTimeout(idleTimer);
-            idleTimer = window.setTimeout(hideHeaderIfNotTop, 1100);
-        };
-
-        window.addEventListener('scroll', () => {
-            showHeader();
-            scheduleIdleHide();
-        }, { passive: true });
-
-        window.addEventListener('mousemove', (event) => {
-            if (event.clientY <= 84) {
-                showHeader();
-                scheduleIdleHide();
-            }
-        });
-
-        scheduleIdleHide();
-    };
-
     const initHeroRotator = () => {
         const hero = document.querySelector('[data-hero-rotator]');
         if (!hero) return;
@@ -216,7 +185,6 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-        initIdleHeader();
         initHeroRotator();
         initFilterPanel();
         initSeeMore();
