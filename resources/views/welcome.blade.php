@@ -15,8 +15,9 @@
 <body>
     <div class="site-wrap">
         <div class="promo-bar">
-            <span>Nationwide delivery across Nigeria on selected orders</span>
-            <span>Lagos, NG</span>
+            <span class="promo-desktop-only">Nationwide delivery across Nigeria on selected orders</span>
+            <span class="promo-desktop-only">Lagos, NG</span>
+            <span class="promo-mobile-only">Nelson Shoes 🇳🇬</span>
         </div>
 
         <header class="top-header">

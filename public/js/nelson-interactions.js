@@ -19,12 +19,32 @@
     const initFilterPanel = () => {
         const filterPanel = document.querySelector('[data-filter-panel]');
         const filterToggle = document.querySelector('[data-filter-toggle]');
+        const closeButtons = document.querySelectorAll('[data-filter-close]');
         if (!filterPanel || !filterToggle) return;
 
+        const openFilter = () => {
+            filterPanel.classList.add('is-open');
+            filterToggle.setAttribute('aria-expanded', 'true');
+            if (window.innerWidth <= 991) {
+                document.body.style.overflow = 'hidden';
+            }
+        };
+
+        const closeFilter = () => {
+            filterPanel.classList.remove('is-open');
+            filterToggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        };
+
         filterToggle.addEventListener('click', () => {
-            const isOpen = filterPanel.classList.toggle('is-open');
-            filterToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (filterPanel.classList.contains('is-open')) {
+                closeFilter();
+            } else {
+                openFilter();
+            }
         });
+
+        closeButtons.forEach(btn => btn.addEventListener('click', closeFilter));
     };
 
     const initSeeMore = () => {

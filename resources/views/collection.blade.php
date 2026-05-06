@@ -19,8 +19,9 @@
 
     <div class="site-wrap">
         <div class="promo-bar">
-            <span>Bespoke orders open for Lagos fittings</span>
-            <span>Nelson Shoes</span>
+            <span class="promo-desktop-only">Bespoke orders open for Lagos fittings</span>
+            <span class="promo-desktop-only">Nelson Shoes</span>
+            <span class="promo-mobile-only">Nelson Shoes 🇳🇬</span>
         </div>
 
         <header class="top-header">
@@ -74,62 +75,73 @@
 
             <section class="collection-shell">
                 <aside class="filter-sidebar" aria-label="Sort and filter">
+                    <button class="filter-toggle" type="button" data-filter-toggle aria-expanded="false">Sort &amp; Filter</button>
                     <div class="filter-panel" data-filter-panel>
-                        <button class="filter-toggle" type="button" data-filter-toggle aria-expanded="false">Sort &amp; Filter</button>
-                        <span class="section-label">Sort &amp; Filter</span>
-                        <div class="filter-group">
-                            <h4>Product</h4>
-                            <label><input type="checkbox" data-filter-product value="Shoes"> Shoes</label>
-                            <label><input type="checkbox" data-filter-product value="Wallets"> Wallets</label>
-                            <label><input type="checkbox" data-filter-product value="Belts"> Belts</label>
+                        <div class="filter-header">
+                            <h2>Filters</h2>
+                            <button class="icon-btn" type="button" data-filter-close aria-label="Close filters">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
                         </div>
-                        <div class="filter-group">
-                            <h4>Shoe Type</h4>
-                            <label><input type="checkbox" data-filter-shoe-type value="Loafer"> Loafer</label>
-                            <label><input type="checkbox" data-filter-shoe-type value="Penny Loafer"> Penny Loafer</label>
-                            <label><input type="checkbox" data-filter-shoe-type value="Oxford"> Oxford</label>
-                            <label><input type="checkbox" data-filter-shoe-type value="Derby"> Derby</label>
-                            <label><input type="checkbox" data-filter-shoe-type value="One-of-One"> One-of-One</label>
+                        <div class="filter-body">
+                            <span class="section-label">Sort &amp; Filter</span>
+                            <div class="filter-group">
+                                <h4>Product</h4>
+                                <label><input type="checkbox" data-filter-product value="Shoes"> Shoes</label>
+                                <label><input type="checkbox" data-filter-product value="Wallets"> Wallets</label>
+                                <label><input type="checkbox" data-filter-product value="Belts"> Belts</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Shoe Type</h4>
+                                <label><input type="checkbox" data-filter-shoe-type value="Loafer"> Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Penny Loafer"> Penny Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Oxford"> Oxford</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Derby"> Derby</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="One-of-One"> One-of-One</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Colour</h4>
+                                <label><input type="checkbox" data-filter-colour value="Beige"> Beige</label>
+                                <label><input type="checkbox" data-filter-colour value="Black"> Black</label>
+                                <label><input type="checkbox" data-filter-colour value="Brown"> Brown</label>
+                                <label><input type="checkbox" data-filter-colour value="Burgundy"> Burgundy</label>
+                                <label><input type="checkbox" data-filter-colour value="Cedar"> Cedar</label>
+                                <label><input type="checkbox" data-filter-colour value="Navy / Blue"> Navy / Blue</label>
+                                <label><input type="checkbox" data-filter-colour value="Rosewood"> Rosewood</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Construction Type</h4>
+                                <label><input type="checkbox" data-filter-construction value="Bologna"> Bologna</label>
+                                <label><input type="checkbox" data-filter-construction value="Cemented"> Cemented</label>
+                                <label><input type="checkbox" data-filter-construction value="Lockstitch"> Lockstitch</label>
+                                <label><input type="checkbox" data-filter-construction value="Moccasin"> Moccasin</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Fitting Type</h4>
+                                <label><input type="checkbox" data-filter-fitting value="G"> G</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Gender</h4>
+                                <label><input type="checkbox" data-filter-gender value="Men"> Men</label>
+                                <label><input type="checkbox" data-filter-gender value="Women"> Women</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Last Shape</h4>
+                                <label><input type="checkbox" data-filter-last value="436"> 436</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Material / Finish</h4>
+                                <label><input type="checkbox" data-filter-material value="Calf"> Calf</label>
+                                <label><input type="checkbox" data-filter-material value="Suede"> Suede</label>
+                                <label><input type="checkbox" data-filter-material value="Patina"> Patina</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Sole Type</h4>
+                                <label><input type="checkbox" data-filter-sole value="Leather"> Leather</label>
+                            </div>
                         </div>
-                        <div class="filter-group">
-                            <h4>Colour</h4>
-                            <label><input type="checkbox" data-filter-colour value="Beige"> Beige</label>
-                            <label><input type="checkbox" data-filter-colour value="Black"> Black</label>
-                            <label><input type="checkbox" data-filter-colour value="Brown"> Brown</label>
-                            <label><input type="checkbox" data-filter-colour value="Burgundy"> Burgundy</label>
-                            <label><input type="checkbox" data-filter-colour value="Cedar"> Cedar</label>
-                            <label><input type="checkbox" data-filter-colour value="Navy / Blue"> Navy / Blue</label>
-                            <label><input type="checkbox" data-filter-colour value="Rosewood"> Rosewood</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Construction Type</h4>
-                            <label><input type="checkbox" data-filter-construction value="Bologna"> Bologna</label>
-                            <label><input type="checkbox" data-filter-construction value="Cemented"> Cemented</label>
-                            <label><input type="checkbox" data-filter-construction value="Lockstitch"> Lockstitch</label>
-                            <label><input type="checkbox" data-filter-construction value="Moccasin"> Moccasin</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Fitting Type</h4>
-                            <label><input type="checkbox" data-filter-fitting value="G"> G</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Gender</h4>
-                            <label><input type="checkbox" data-filter-gender value="Men"> Men</label>
-                            <label><input type="checkbox" data-filter-gender value="Women"> Women</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Last Shape</h4>
-                            <label><input type="checkbox" data-filter-last value="436"> 436</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Material / Finish</h4>
-                            <label><input type="checkbox" data-filter-material value="Calf"> Calf</label>
-                            <label><input type="checkbox" data-filter-material value="Suede"> Suede</label>
-                            <label><input type="checkbox" data-filter-material value="Patina"> Patina</label>
-                        </div>
-                        <div class="filter-group">
-                            <h4>Sole Type</h4>
-                            <label><input type="checkbox" data-filter-sole value="Leather"> Leather</label>
+                        <div class="filter-footer">
+                            <button class="btn btn-dark w-100" style="width: 100%" type="button" data-filter-close>Apply Filters</button>
                         </div>
                     </div>
                 </aside>
