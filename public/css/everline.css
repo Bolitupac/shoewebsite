@@ -157,6 +157,29 @@ textarea {
     padding-bottom: 3px;
 }
 
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: 16px;
+}
+
+.icon-btn {
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.icon-btn:hover {
+    color: var(--accent);
+}
+
 .eyebrow,
 .section-label,
 .card-flag {
