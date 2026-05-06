@@ -502,6 +502,37 @@ textarea {
     border-color: var(--accent);
 }
 
+.feature-one-of-one {
+    background: #111;
+    color: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(176, 138, 97, 0.2);
+}
+
+.feature-one-of-one .split-copy {
+    border-right: 1px solid rgba(176, 138, 97, 0.2);
+}
+
+.feature-one-of-one .section-label {
+    color: var(--accent);
+    border-bottom: 1px solid rgba(176, 138, 97, 0.2);
+}
+
+.feature-one-of-one h2 {
+    color: #fff;
+}
+
+.feature-one-of-one .btn-dark {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(176, 138, 97, 0.4);
+}
+
+.feature-one-of-one .btn-dark:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
 .split-feature,
 .about-split {
     display: grid;

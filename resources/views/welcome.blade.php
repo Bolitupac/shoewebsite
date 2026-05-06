@@ -133,7 +133,7 @@
                 </div>
             </section>
 
-            <section class="split-feature">
+            <section class="split-feature feature-one-of-one">
                 <div class="split-copy">
                     <span class="section-label">One of One</span>
                     <h2>Rare pairs, never repeated.</h2>
