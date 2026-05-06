@@ -15,131 +15,6 @@
 <body>
     @php
         $whatsappNumber = '2340000000000';
-        $products = [
-            [
-                'id' => 'midnight-patent',
-                'name' => 'Midnight Patent',
-                'price' => 'N19,999,999',
-                'category' => 'one-of-one',
-                'section' => 'one-of-one',
-                'image' => 'images/black-shiny-shoe.jpg',
-                'description' => 'High-shine black patent leather built for formal entrances and private ceremonies.',
-                'colour' => 'Black Polished Calf',
-                'badge' => 'One of One',
-            ],
-            [
-                'id' => 'ivory-ceremony',
-                'name' => 'Ivory Ceremony',
-                'price' => 'N25,100,000',
-                'category' => 'one-of-one',
-                'section' => 'one-of-one',
-                'image' => 'images/bridegroom-s-shoes-with-other-wedding-details.jpg',
-                'description' => 'A bright ceremonial pair shaped for weddings, receptions, and clean evening dress.',
-                'colour' => 'Ivory Calf',
-                'badge' => 'Limited 1 of 3',
-            ],
-            [
-                'id' => 'odogwu-oxford',
-                'name' => 'Odogwu Oxford',
-                'price' => 'N1,850,000',
-                'category' => 'oxford',
-                'section' => 'men',
-                'image' => 'images/oxfor-leather-shoe.jpg',
-                'description' => 'Structured oxford with a hand-patina finish and disciplined formal silhouette.',
-                'colour' => 'Cognac Patina',
-                'badge' => 'Oxford',
-            ],
-            [
-                'id' => 'lekki-derby',
-                'name' => 'Lekki Derby',
-                'price' => 'N1,650,000',
-                'category' => 'derby',
-                'section' => 'men',
-                'image' => 'images/brown-man-s-leather-derby-shoes.jpg',
-                'description' => 'A grounded brown derby shaped for business movement and weekend polish.',
-                'colour' => 'Brown Burnished Calf',
-                'badge' => 'Derby',
-            ],
-            [
-                'id' => 'ikoyi-loafer',
-                'name' => 'Ikoyi Loafer',
-                'price' => 'N1,999,999',
-                'category' => 'loafer',
-                'section' => 'men',
-                'image' => 'images/brown_suede_lohfers.jpg',
-                'description' => 'Soft suede loafer with a composed profile for daily luxury.',
-                'colour' => 'Brown Suede',
-                'badge' => 'Loafer',
-            ],
-            [
-                'id' => 'soft-loafer',
-                'name' => 'Soft Loafer',
-                'price' => 'N1,999,999',
-                'category' => 'loafer',
-                'section' => 'women',
-                'image' => 'images/abbeylein-shoes-wooden_crocs_1920.jpg',
-                'description' => 'Neutral loafer with a quiet luxury finish and easy day-to-night styling.',
-                'colour' => 'Sand Suede',
-                'badge' => 'Loafer',
-            ],
-            [
-                'id' => 'formal-white',
-                'name' => 'Formal White',
-                'price' => 'N2,100,000',
-                'category' => 'oxford',
-                'section' => 'women',
-                'image' => 'images/bridegroom-s-shoes-with-other-wedding-details.jpg',
-                'description' => 'Minimal white formal pair for ceremonies and sharp event dressing.',
-                'colour' => 'White Calf',
-                'badge' => 'Oxford',
-            ],
-            [
-                'id' => 'derby-prime',
-                'name' => 'Derby Prime',
-                'price' => 'N1,980,000',
-                'category' => 'derby',
-                'section' => 'newly-made',
-                'image' => 'images/brown-man-s-leather-derby-shoes.jpg',
-                'description' => 'Latest derby refinement with stronger structure and balanced formal edge.',
-                'colour' => 'Dark Tan Calf',
-                'badge' => 'Fresh Drop',
-                'hidden' => true,
-            ],
-            [
-                'id' => 'jet-black-build',
-                'name' => 'Jet Black Build',
-                'price' => 'N2,080,000',
-                'category' => 'oxford',
-                'section' => 'newly-made',
-                'image' => 'images/black-shiny-shoe.jpg',
-                'description' => 'New-season black finish with sharper detailing and formal energy.',
-                'colour' => 'Jet Black Calf',
-                'badge' => 'Fresh Drop',
-                'hidden' => true,
-            ],
-            [
-                'id' => 'heritage-belt',
-                'name' => 'Heritage Belt',
-                'price' => 'N180,000',
-                'category' => 'belt',
-                'section' => 'accessories',
-                'image' => 'images/brown-man-s-leather-derby-shoes.jpg',
-                'description' => 'Full-grain leather belt with a clean buckle finish built for formal wear.',
-                'colour' => 'Brown',
-                'badge' => 'Belt',
-            ],
-            [
-                'id' => 'calf-wallet',
-                'name' => 'Calf Wallet',
-                'price' => 'N140,000',
-                'category' => 'wallet',
-                'section' => 'accessories',
-                'image' => 'images/black-shiny-shoe.jpg',
-                'description' => 'Slim calf leather wallet with disciplined stitching and quiet structure.',
-                'colour' => 'Black',
-                'badge' => 'Wallet',
-            ],
-        ];
     @endphp
 
     <div class="site-wrap">
@@ -261,7 +136,7 @@
                                     @php
                                         $orderText = rawurlencode('Hello, I am interested in the ' . $product['name'] . ' in size 6.');
                                     @endphp
-                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }}"
+                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ $product['category'] === 'one-of-one' ? 'card-one-of-one' : '' }}"
                                         data-product-card
                                         data-id="{{ $product['id'] }}"
                                         data-name="{{ $product['name'] }}"

@@ -423,6 +423,43 @@ textarea {
     font-weight: 800;
 }
 
+.card-one-of-one {
+    background: var(--smoke);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.card-one-of-one .card-media {
+    background: #000;
+}
+
+.card-one-of-one .card-copy p,
+.card-one-of-one .card-copy h2,
+.card-one-of-one .card-copy h3,
+.card-one-of-one .row {
+    color: #fff;
+}
+
+.card-one-of-one .card-flag {
+    color: var(--accent);
+}
+
+.card-one-of-one .card-action {
+    color: #fff;
+    border-color: rgba(176, 138, 97, 0.4);
+}
+
+.card-one-of-one:hover {
+    border-color: var(--accent);
+    box-shadow: 0 14px 28px rgba(176, 138, 97, 0.15);
+}
+
+.card-one-of-one .card-action:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
 .split-feature,
 .about-split {
     display: grid;

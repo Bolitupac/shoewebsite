@@ -95,42 +95,17 @@
                     <a class="text-link" href="{{ route('collection') }}">View all</a>
                 </div>
                 <div class="drop-belt">
-                    <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="Midnight Patent" loading="eager" decoding="async"></div>
-                        <div class="card-copy">
-                            <span class="card-flag">New</span>
-                            <h3>Midnight Patent</h3>
-                            <p>N19,999,999</p>
-                            <a class="card-action" href="{{ route('collection') }}#one-of-one">View pair</a>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford" loading="eager" decoding="async"></div>
-                        <div class="card-copy">
-                            <span class="card-flag">New</span>
-                            <h3>Odogwu Oxford</h3>
-                            <p>N1,850,000</p>
-                            <a class="card-action" href="{{ route('collection') }}#men">View pair</a>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/bridegroom-s-shoes-with-other-wedding-details.jpg') }}" alt="Ivory Ceremony"></div>
-                        <div class="card-copy">
-                            <span class="card-flag">Limited</span>
-                            <h3>Ivory Ceremony</h3>
-                            <p>N25,100,000</p>
-                            <a class="card-action" href="{{ route('collection') }}#one-of-one">View pair</a>
-                        </div>
-                    </article>
-                    <article class="card">
-                        <div class="card-media"><img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Ikoyi Loafer"></div>
-                        <div class="card-copy">
-                            <span class="card-flag">New</span>
-                            <h3>Ikoyi Loafer</h3>
-                            <p>N1,999,999</p>
-                            <a class="card-action" href="{{ route('collection') }}#men">View pair</a>
-                        </div>
-                    </article>
+                    @foreach ($latestProducts as $product)
+                        <article class="card {{ $product['category'] === 'one-of-one' ? 'card-one-of-one' : '' }}">
+                            <div class="card-media"><img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async"></div>
+                            <div class="card-copy">
+                                <span class="card-flag">{{ $product['badge'] ?? 'New' }}</span>
+                                <h3>{{ $product['name'] }}</h3>
+                                <p>{{ $product['price'] }}</p>
+                                <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>
+                            </div>
+                        </article>
+                    @endforeach
                 </div>
             </section>
 
