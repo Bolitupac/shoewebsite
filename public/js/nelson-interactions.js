@@ -184,7 +184,19 @@
         });
     };
 
+    const initMobileMenu = () => {
+        const toggleBtn = document.querySelector('.mobile-menu-toggle');
+        const header = document.querySelector('.top-header');
+        if (!toggleBtn || !header) return;
+
+        toggleBtn.addEventListener('click', () => {
+            const isOpen = header.classList.toggle('is-menu-open');
+            toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
+        initMobileMenu();
         initHeroRotator();
         initFilterPanel();
         initSeeMore();

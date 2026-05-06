@@ -115,6 +115,21 @@ textarea {
     box-shadow: 0 10px 26px rgba(17, 17, 17, 0);
 }
 
+.mobile-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-menu-toggle .icon-close {
+    display: none;
+}
+
 
 
 .brand {
@@ -1484,6 +1499,65 @@ textarea {
 
     .academy-form .form-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+.mobile-icons { display: none; }
+
+@media (max-width: 991px) {
+    .top-header {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 16px 24px;
+        min-height: auto;
+    }
+    
+    .mobile-menu-toggle {
+        display: flex;
+        order: 1;
+        flex: 1;
+        justify-content: flex-start;
+    }
+    
+    .brand.brand-centered {
+        order: 2;
+        margin: 0;
+    }
+    
+    .mobile-icons {
+        display: flex;
+        gap: 16px;
+        order: 3;
+        flex: 1;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    .header-nav {
+        display: none !important;
+        width: 100%;
+        order: 4;
+        flex-direction: column;
+        align-items: center;
+        padding: 24px 0 0;
+        gap: 20px;
+    }
+    
+    .top-header.is-menu-open .header-nav {
+        display: flex !important;
+    }
+
+    .top-header.is-menu-open .mobile-menu-toggle .icon-menu {
+        display: none;
+    }
+    
+    .top-header.is-menu-open .mobile-menu-toggle .icon-close {
+        display: block;
+    }
+
+    .header-icons {
+        display: none !important;
     }
 }
 
