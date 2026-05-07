@@ -20,11 +20,19 @@
         const filterPanel = document.querySelector('[data-filter-panel]');
         const filterToggle = document.querySelector('[data-filter-toggle]');
         const closeButtons = document.querySelectorAll('[data-filter-close]');
+        const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
         if (!filterPanel || !filterToggle) return;
+
+        const setHeaderOverlayHidden = (isHidden) => {
+            header?.classList.toggle('is-temporarily-hidden', isHidden);
+            promoBar?.classList.toggle('is-temporarily-hidden', isHidden);
+        };
 
         const openFilter = () => {
             filterPanel.classList.add('is-open');
             filterToggle.setAttribute('aria-expanded', 'true');
+            setHeaderOverlayHidden(true);
             if (window.innerWidth <= 991) {
                 document.body.style.overflow = 'hidden';
             }
@@ -33,6 +41,7 @@
         const closeFilter = () => {
             filterPanel.classList.remove('is-open');
             filterToggle.setAttribute('aria-expanded', 'false');
+            setHeaderOverlayHidden(false);
             document.body.style.overflow = '';
         };
 
@@ -49,11 +58,14 @@
 
     const initSeeMore = () => {
         document.querySelectorAll('[data-see-more]').forEach((button) => {
+            if (button.dataset.seeMoreBound === 'true') return;
+            button.dataset.seeMoreBound = 'true';
+
             button.addEventListener('click', () => {
                 const section = button.closest('.catalog-section');
                 if (!section) return;
 
-                const hiddenCards = section.querySelectorAll('.card-hidden');
+                const hiddenCards = section.querySelectorAll('.card-hidden, .card-hidden-mobile');
                 const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
                 hiddenCards.forEach((card) => {
@@ -66,8 +78,82 @@
         });
     };
 
+    const initCollectionMobileCardLimit = () => {
+        const sections = Array.from(document.querySelectorAll('.catalog-section'));
+        if (!sections.length) return;
+
+        const isMobile = () => window.innerWidth <= 760;
+
+        const ensureSeeMore = (section) => {
+            let wrap = section.querySelector('.see-more-wrap');
+            let button = section.querySelector('[data-see-more]');
+
+            if (!wrap) {
+                wrap = document.createElement('div');
+                wrap.className = 'see-more-wrap';
+                section.appendChild(wrap);
+            }
+
+            if (!button) {
+                button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'btn btn-outline see-more';
+                button.setAttribute('data-see-more', '');
+                button.setAttribute('aria-expanded', 'false');
+                button.textContent = 'See more';
+                wrap.appendChild(button);
+            }
+
+            return { wrap, button };
+        };
+
+        const applyState = () => {
+            const mobile = isMobile();
+
+            sections.forEach((section) => {
+                const cards = Array.from(section.querySelectorAll('[data-product-card]'));
+                if (!cards.length) return;
+
+                cards.forEach((card, index) => {
+                    card.classList.toggle('card-hidden-mobile', mobile && index >= 4);
+                    if (!mobile) {
+                        card.style.display = '';
+                    }
+                });
+
+                const hasExtraCards = cards.length > 4;
+                const hasServerHiddenCards = section.querySelectorAll('.card-hidden').length > 0;
+                const shouldHaveButton = hasExtraCards || hasServerHiddenCards;
+
+                if (!shouldHaveButton) return;
+
+                const { wrap, button } = ensureSeeMore(section);
+
+                if (mobile) {
+                    wrap.style.display = '';
+                    button.setAttribute('aria-expanded', 'false');
+                    button.textContent = 'See more';
+                } else {
+                    wrap.style.display = '';
+                    section.querySelectorAll('.card-hidden').forEach((card) => {
+                        card.style.display = 'none';
+                    });
+                    button.setAttribute('aria-expanded', 'false');
+                    button.textContent = 'See more';
+                }
+            });
+
+            initSeeMore();
+        };
+
+        applyState();
+        window.addEventListener('resize', applyState);
+    };
+
     const initProductModal = () => {
         const productModal = document.querySelector('[data-product-modal]');
+        const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
         if (!productModal) return;
 
         const modalImage = productModal.querySelector('[data-modal-image]');
@@ -83,6 +169,11 @@
         const closeButtons = productModal.querySelectorAll('[data-close-modal]');
         const productCards = Array.from(document.querySelectorAll('[data-product-card]'));
         let activeProduct = null;
+
+        const setHeaderOverlayHidden = (isHidden) => {
+            header?.classList.toggle('is-temporarily-hidden', isHidden);
+            promoBar?.classList.toggle('is-temporarily-hidden', isHidden);
+        };
 
         const buildWhatsAppLink = (product, size) => {
             const text = `Hello, I am interested in the ${product.name} in size ${size}.`;
@@ -150,12 +241,14 @@
             renderRecommendations(card);
             productModal.classList.add('is-open');
             productModal.setAttribute('aria-hidden', 'false');
+            setHeaderOverlayHidden(true);
             document.body.style.overflow = 'hidden';
         };
 
         const closeProductModal = () => {
             productModal.classList.remove('is-open');
             productModal.setAttribute('aria-hidden', 'true');
+            setHeaderOverlayHidden(false);
             document.body.style.overflow = '';
         };
 
@@ -207,17 +300,130 @@
     const initMobileMenu = () => {
         const toggleBtn = document.querySelector('.mobile-menu-toggle');
         const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
         if (!toggleBtn || !header) return;
 
         toggleBtn.addEventListener('click', () => {
             const isOpen = header.classList.toggle('is-menu-open');
             toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            if (isOpen) {
+                header.classList.remove('is-transparent');
+                promoBar?.classList.remove('is-hidden-on-scroll');
+            }
         });
+    };
+
+    const initMobileArrivalsControls = () => {
+        const belt = document.querySelector('[data-arrivals-belt]');
+        const prevButton = document.querySelector('[data-arrivals-prev]');
+        const nextButton = document.querySelector('[data-arrivals-next]');
+        const dotsWrap = document.querySelector('[data-arrivals-dots]');
+        if (!belt || !prevButton || !nextButton) return;
+
+        const cards = Array.from(belt.querySelectorAll('.card'));
+        const dots = [];
+
+        const getStep = () => {
+            const card = belt.querySelector('.card');
+            return card ? card.getBoundingClientRect().width + 18 : 328;
+        };
+
+        const getActiveIndex = () => {
+            if (!cards.length) return 0;
+            const maxIndex = cards.length - 1;
+            const index = Math.round(belt.scrollLeft / getStep());
+            return Math.min(Math.max(index, 0), maxIndex);
+        };
+
+        const setActiveDot = () => {
+            if (!dots.length) return;
+            const activeIndex = getActiveIndex();
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('is-active', index === activeIndex);
+                dot.setAttribute('aria-current', index === activeIndex ? 'true' : 'false');
+            });
+        };
+
+        const scrollBelt = (direction) => {
+            belt.scrollBy({
+                left: getStep() * direction,
+                behavior: 'smooth'
+            });
+        };
+
+        if (dotsWrap && cards.length) {
+            dotsWrap.innerHTML = cards.map((_, index) => `
+                <button type="button" class="arrivals-dot${index === 0 ? ' is-active' : ''}" aria-label="Go to arrivals slide ${index + 1}" aria-current="${index === 0 ? 'true' : 'false'}"></button>
+            `).join('');
+
+            dotsWrap.querySelectorAll('.arrivals-dot').forEach((dot, index) => {
+                dots.push(dot);
+                dot.addEventListener('click', () => {
+                    belt.scrollTo({
+                        left: getStep() * index,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        }
+
+        prevButton.addEventListener('click', () => scrollBelt(-1));
+        nextButton.addEventListener('click', () => scrollBelt(1));
+        belt.addEventListener('scroll', setActiveDot, { passive: true });
+        window.addEventListener('resize', setActiveDot);
+        setActiveDot();
+    };
+
+    const initHeaderScrollBehavior = () => {
+        const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
+        if (!header) return;
+
+        let lastY = window.scrollY;
+        const threshold = 8;
+
+        const makeSolid = () => {
+            header.classList.remove('is-transparent');
+            promoBar?.classList.remove('is-hidden-on-scroll');
+            header.classList.remove('is-promo-hidden');
+        };
+
+        const makeTransparent = () => {
+            header.classList.add('is-transparent');
+            promoBar?.classList.add('is-hidden-on-scroll');
+            header.classList.add('is-promo-hidden');
+        };
+
+        const onScroll = () => {
+            const currentY = window.scrollY;
+            const delta = currentY - lastY;
+
+            if (header.classList.contains('is-menu-open')) {
+                makeSolid();
+                lastY = currentY;
+                return;
+            }
+
+            if (delta > threshold && currentY > 40) {
+                makeTransparent();
+            } else if (delta < -threshold) {
+                makeSolid();
+            }
+
+            lastY = currentY;
+        };
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        header.addEventListener('click', makeSolid);
+        onScroll();
     };
 
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
+        initHeaderScrollBehavior();
         initHeroRotator();
+        initMobileArrivalsControls();
+        initCollectionMobileCardLimit();
         initFilterPanel();
         initSeeMore();
         initProductModal();

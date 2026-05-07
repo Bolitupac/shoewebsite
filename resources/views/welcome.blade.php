@@ -118,18 +118,25 @@
                     </div>
                     <a class="text-link" href="{{ route('collection') }}">View all</a>
                 </div>
-                <div class="drop-belt">
-                    @foreach ($latestProducts as $product)
-                        <article class="card {{ $product['category'] === 'one-of-one' ? 'card-one-of-one' : '' }}">
-                            <div class="card-media"><img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async"></div>
-                            <div class="card-copy">
-                                <span class="card-flag">{{ $product['badge'] ?? 'New' }}</span>
-                                <h3>{{ $product['name'] }}</h3>
-                                <p>{{ $product['price'] }}</p>
-                                <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>
-                            </div>
-                        </article>
-                    @endforeach
+                <div class="arrivals-belt-wrap">
+                    <div class="arrivals-nav mobile-only-arrivals-nav">
+                        <button type="button" class="arrivals-nav-btn arrivals-nav-btn-prev" data-arrivals-prev aria-label="Scroll arrivals left">&lt;</button>
+                        <button type="button" class="arrivals-nav-btn arrivals-nav-btn-next" data-arrivals-next aria-label="Scroll arrivals right">&gt;</button>
+                    </div>
+                    <div class="drop-belt" data-arrivals-belt>
+                        @foreach ($latestProducts as $product)
+                            <article class="card {{ $product['category'] === 'one-of-one' ? 'card-one-of-one' : '' }}">
+                                <div class="card-media"><img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async"></div>
+                                <div class="card-copy">
+                                    <span class="card-flag">{{ $product['badge'] ?? 'New' }}</span>
+                                    <h3>{{ $product['name'] }}</h3>
+                                    <p>{{ $product['price'] }}</p>
+                                    <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>
+                                </div>
+                            </article>
+                        @endforeach
+                    </div>
+                    <div class="arrivals-dots mobile-only-arrivals-dots" data-arrivals-dots aria-label="Arrivals slide indicators"></div>
                 </div>
             </section>
 
