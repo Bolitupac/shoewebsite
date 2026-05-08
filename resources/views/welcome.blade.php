@@ -235,6 +235,23 @@
                     <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
                 </div>
             </div>
+            <div class="footer-social">
+                <a class="footer-social-link" href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                </a>
+                <a class="footer-social-link" href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4L20 20M20 4L4 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </a>
+                <a class="footer-social-link" href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4" ry="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+                </a>
+                <a class="footer-social-link" href="https://tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v8.5a3.5 3.5 0 1 1-3-3.46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 4c.7 1.6 1.9 2.8 3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </a>
+                <a class="footer-social-link" href="https://wa.me/2340000000000" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.7 7l-4.3 1 1.1-4.1A8 8 0 1 1 20 12Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 10.5c.4 1.8 2 3.2 3.8 3.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                </a>
+            </div>
             <div class="footer-bottom">Copyright 2026 Nelson Shoes. All Rights Reserved.</div>
         </footer>
     </div>

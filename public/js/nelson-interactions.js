@@ -448,6 +448,8 @@
 
         const makeTransparent = () => {
             header.classList.add('is-transparent');
+            promoBar?.classList.add('is-hidden-on-scroll');
+            header.classList.add('is-promo-hidden');
         };
 
         const onScroll = () => {
@@ -479,18 +481,24 @@
     const initSizeGuideModal = () => {
         const modal = document.querySelector('[data-size-guide-modal]');
         if (!modal) return;
+        const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
         const triggers = document.querySelectorAll('[data-open-size-guide], [data-size-guide]');
         const closeButtons = modal.querySelectorAll('[data-close-size-guide]');
 
         const open = () => {
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden', 'false');
+            header?.classList.add('is-temporarily-hidden');
+            promoBar?.classList.add('is-temporarily-hidden');
             document.body.style.overflow = 'hidden';
         };
 
         const close = () => {
             modal.classList.remove('is-open');
             modal.setAttribute('aria-hidden', 'true');
+            header?.classList.remove('is-temporarily-hidden');
+            promoBar?.classList.remove('is-temporarily-hidden');
             document.body.style.overflow = '';
         };
 
