@@ -14,50 +14,7 @@
 
 <body>
     <div class="site-wrap">
-        <div class="promo-bar">
-            <span class="promo-desktop-only">Nationwide delivery across Nigeria on selected orders</span>
-            <span class="promo-desktop-only">Lagos, NG</span>
-            <span class="promo-mobile-only">Nelson Shoes 🇳🇬</span>
-        </div>
-
-        <header class="top-header">
-            <button type="button" class="mobile-menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-            <div class="mobile-icons">
-                <button type="button" aria-label="Search" class="icon-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                </button>
-                <button type="button" aria-label="Cart" class="icon-btn">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                </button>
-            </div>
-            <nav class="header-nav header-nav-left" aria-label="Primary left">
-                <a class="{{ request()->routeIs('home') ? 'is-active' : '' }}" href="{{ route('home') }}">Home</a>
-                <a href="{{ route('home') }}#mens">Men</a>
-                <a href="{{ route('home') }}#womens">Women</a>
-                <a href="{{ route('collection') }}#accessories">Accessories</a>
-            </nav>
-            <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
-            <nav class="header-nav header-nav-right" aria-label="Primary right">
-                <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
-                <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
-                <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
-                <a class="{{ request()->routeIs('support') ? 'is-active' : '' }}" href="{{ route('support') }}">Support</a>
-                <div class="header-icons">
-                    <button type="button" aria-label="Search" class="icon-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                    </button>
-                    <button type="button" aria-label="Profile" class="icon-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    </button>
-                    <button type="button" aria-label="Cart" class="icon-btn">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                    </button>
-                </div>
-            </nav>
-        </header>
+        @include('partials.header')
 
         <main>
             <section class="about-split">
@@ -148,56 +105,10 @@
                 </div>
             </section>
         </main>
-
-        <footer class="footer">
-            <div class="footer-columns heritage-footer">
-                <div>
-                    <h4>Shop</h4>
-                    <a href="{{ route('collection') }}">Collection</a>
-                    <a href="{{ route('collection') }}#one-of-one">One-of-One</a>
-                    <a href="{{ route('collection') }}#custom-order">Custom Order</a>
-                    <a href="{{ route('collection') }}#accessories">Accessories</a>
-                </div>
-                <div>
-                    <h4>Academy</h4>
-                    <a href="{{ route('academy') }}">Masterclass</a>
-                    <a href="{{ route('academy') }}#programs">Curriculum</a>
-                    <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Academy." target="_blank" rel="noreferrer">Enroll</a>
-                </div>
-                <div>
-                    <h4>About</h4>
-                    <a href="{{ route('about') }}">86-Hour Philosophy</a>
-                    <a href="#process">Process</a>
-                    <a href="#heritage">Heritage</a>
-                    <a href="#founder">Founder</a>
-                </div>
-                <div>
-                    <h4>Support</h4>
-                    <a href="{{ route('support') }}">Shipping</a>
-                    <a href="{{ route('support') }}">Returns</a>
-                    <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a>
-                </div>
-            </div>
-            <div class="footer-social">
-                <a class="footer-social-link" href="https://instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
-                </a>
-                <a class="footer-social-link" href="https://x.com" target="_blank" rel="noreferrer" aria-label="X">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 2H22l-6.77 7.74L23 22h-6.4l-5.01-6.57L5.84 22H2.73l7.24-8.27L1 2h6.56l4.52 5.97L18.9 2Zm-1.12 18.08h1.72L6.62 3.82H4.77l13.01 16.26Z" fill="currentColor"/></svg>
-                </a>
-                <a class="footer-social-link" href="https://youtube.com" target="_blank" rel="noreferrer" aria-label="YouTube">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="4" ry="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
-                </a>
-                <a class="footer-social-link" href="https://tiktok.com" target="_blank" rel="noreferrer" aria-label="TikTok">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v8.5a3.5 3.5 0 1 1-3-3.46" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 4c.7 1.6 1.9 2.8 3.5 3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </a>
-                <a class="footer-social-link" href="https://wa.me/2340000000000" target="_blank" rel="noreferrer" aria-label="WhatsApp">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 0 1-11.7 7l-4.3 1 1.1-4.1A8 8 0 1 1 20 12Z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M9 10.5c.4 1.8 2 3.2 3.8 3.7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                </a>
-            </div>
-            <div class="footer-bottom">Copyright 2026 Nelson Shoes. All Rights Reserved.</div>
-        </footer>
+        @include('partials.footer')
     </div>
+
+    @include('partials.cart')
 
     <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
 </body>

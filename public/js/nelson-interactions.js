@@ -514,6 +514,40 @@
         });
     };
 
+    const initCartDrawer = () => {
+        const drawer = document.querySelector('[data-cart-drawer]');
+        if (!drawer) return;
+
+        const openButtons = document.querySelectorAll('[data-open-cart]');
+        const closeButtons = drawer.querySelectorAll('[data-close-cart]');
+        const header = document.querySelector('.top-header');
+        const promoBar = document.querySelector('.promo-bar');
+
+        const open = () => {
+            drawer.classList.add('is-open');
+            drawer.setAttribute('aria-hidden', 'false');
+            if (window.innerWidth <= 991) {
+                header?.classList.add('is-temporarily-hidden');
+                promoBar?.classList.add('is-temporarily-hidden');
+            }
+            document.body.style.overflow = 'hidden';
+        };
+
+        const close = () => {
+            drawer.classList.remove('is-open');
+            drawer.setAttribute('aria-hidden', 'true');
+            header?.classList.remove('is-temporarily-hidden');
+            promoBar?.classList.remove('is-temporarily-hidden');
+            document.body.style.overflow = '';
+        };
+
+        openButtons.forEach((button) => button.addEventListener('click', open));
+        closeButtons.forEach((button) => button.addEventListener('click', close));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && drawer.classList.contains('is-open')) close();
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initHeaderScrollBehavior();
@@ -526,5 +560,6 @@
         initWhatsAppForms();
         initCustomOrderDismiss();
         initSizeGuideModal();
+        initCartDrawer();
     });
 })();
