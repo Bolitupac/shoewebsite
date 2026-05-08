@@ -21,7 +21,7 @@
         <div class="promo-bar">
             <span class="promo-desktop-only">Bespoke orders open for Lagos fittings</span>
             <span class="promo-desktop-only">Nelson Shoes</span>
-            <span class="promo-mobile-only">Nelson Shoes 🇳🇬</span>
+            <span class="promo-mobile-only">Bespoke orders open for Lagos fittings</span>
         </div>
 
         <header class="top-header">
@@ -42,6 +42,7 @@
                 <a href="{{ route('home') }}#mens">Men</a>
                 <a href="{{ route('home') }}#womens">Women</a>
                 <a href="{{ route('collection') }}#accessories">Accessories</a>
+                <a href="#" data-open-size-guide>Size Guide</a>
             </nav>
             <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
             <nav class="header-nav header-nav-right" aria-label="Primary right">
@@ -68,9 +69,7 @@
                 <div>
                     <span class="eyebrow">The workshop selection</span>
                     <h1>Collection</h1>
-                    <p>Sharp formal pairs, quiet loafers, and one-of-one patina work made for clients who notice the hours.</p>
                 </div>
-                <a class="btn btn-dark" href="#custom-order">Start custom order</a>
             </section>
 
             <section class="collection-shell">
@@ -148,17 +147,17 @@
 
                 <div class="collection-content">
                     <section id="custom-order" class="custom-order">
+                        <button class="custom-order-close" type="button" data-custom-order-close aria-label="Close custom order">X</button>
                         <span class="eyebrow">Custom Order</span>
                         <h2>Build a pair around your event, stance, and size.</h2>
                         <p>Send your preferred leather, color direction, occasion, and sizing notes. The workshop will guide the next step on WhatsApp.</p>
                         <div class="section-actions">
                             <a class="btn btn-dark" href="https://wa.me/{{ $whatsappNumber }}?text=Hello%2C%20I%20want%20to%20place%20a%20custom%20Nelson%20Shoes%20order." target="_blank" rel="noreferrer">Start Custom Order</a>
-                            <a class="btn btn-outline" href="https://wa.me/{{ $whatsappNumber }}?text=Hello%2C%20I%20want%20to%20ask%20about%20custom%20shoe%20designs." target="_blank" rel="noreferrer">Ask a Question</a>
                         </div>
                     </section>
 
                     @foreach (['one-of-one' => 'Rare Pairs.', 'men' => 'Men.', 'women' => 'Women.', 'newly-made' => 'Fresh Drop.', 'accessories' => 'Wallets & Belts.'] as $section => $title)
-                        <section id="{{ $section }}" class="catalog-section">
+                        <section id="{{ $section }}" class="catalog-section" data-initial-visible="{{ $section === 'one-of-one' ? 2 : 4 }}">
                             <div class="section-intro">
                                 <div>
                                     <span class="section-label">{{ str_replace('-', ' ', $section) }}</span>
@@ -262,13 +261,17 @@
                         <p class="meta-label">Shoe Size (UK)</p>
                         <div class="size-row">
                             <select aria-label="Shoe Size UK" data-modal-size>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                                <option value="11">11</option>
-                                <option value="12">12</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>
                             </select>
                             <a class="size-guide-link" href="#" data-size-guide>Size Guide</a>
                         </div>
@@ -290,6 +293,36 @@
                     <div class="recommended-grid" data-recommended-grid></div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="size-guide-modal" data-size-guide-modal aria-hidden="true">
+        <button class="size-guide-backdrop" type="button" data-close-size-guide aria-label="Close size guide"></button>
+        <div class="size-guide-panel" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
+            <button class="size-guide-close" type="button" data-close-size-guide aria-label="Close size guide">X</button>
+            <h2 id="size-guide-title">Size Guide</h2>
+            <p>Nigerian made Men’s shoes (and boots) are generally made in fittings E, F, G and H and these can be classified simplistically as follows:</p>
+            <p>E = NARROW F = REGULAR G = WIDE H = EXTRA WIDE</p>
+            <p>The bulk of our styles are made in F fitting, as statistics show that worldwide this is the most appropriate fitting for a majority of males, but we also offer a good selection of G fitting shoes.</p>
+            <table class="size-guide-table">
+                <thead><tr><th>UK</th><th>EU</th><th>US</th><th>CM</th><th>INCH</th></tr></thead>
+                <tbody>
+                    <tr><td>6</td><td>40</td><td>7</td><td>25.4</td><td>10</td></tr>
+                    <tr><td>6.5</td><td>41</td><td>7.5</td><td>25.8</td><td>10 1/8</td></tr>
+                    <tr><td>7</td><td>41 - 42</td><td>8</td><td>26</td><td>10 1/4</td></tr>
+                    <tr><td>7.5</td><td>42</td><td>8.5</td><td>26.7</td><td>10 1/2</td></tr>
+                    <tr><td>8</td><td>43</td><td>9</td><td>27.3</td><td>10 3/4</td></tr>
+                    <tr><td>8.5</td><td>43-44</td><td>9.5</td><td>27.7</td><td>10 7/8</td></tr>
+                    <tr><td>9</td><td>44</td><td>10</td><td>27.9</td><td>11</td></tr>
+                    <tr><td>9.5</td><td>44-45</td><td>10.5</td><td>28.6</td><td>11 1/4</td></tr>
+                    <tr><td>10</td><td>45</td><td>11</td><td>29.2</td><td>11 1/2</td></tr>
+                    <tr><td>10.5</td><td>45-46</td><td>11.5</td><td>29.5</td><td>11 5/8</td></tr>
+                    <tr><td>11</td><td>46</td><td>12</td><td>29.8</td><td>11 3/4</td></tr>
+                    <tr><td>12</td><td>48</td><td>13</td><td>30.5</td><td>12</td></tr>
+                    <tr><td>13</td><td>49</td><td>14</td><td>31.1</td><td>12 1/4</td></tr>
+                    <tr><td>14</td><td>50</td><td>15</td><td>31.7</td><td>12 1/2</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 

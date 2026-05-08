@@ -6,14 +6,57 @@
         if (!hero) return;
 
         const slides = Array.from(hero.querySelectorAll('[data-hero-slide]'));
-        if (slides.length < 2) return;
+        if (!slides.length) return;
 
-        let activeIndex = 0;
-        window.setInterval(() => {
-            slides[activeIndex].classList.remove('is-active');
-            activeIndex = (activeIndex + 1) % slides.length;
-            slides[activeIndex].classList.add('is-active');
-        }, 5200);
+        const prevBtn = hero.querySelector('[data-hero-prev]');
+        const nextBtn = hero.querySelector('[data-hero-next]');
+        const dotsWrap = hero.querySelector('[data-hero-dots]');
+        const dots = [];
+        let activeIndex = slides.findIndex((slide) => slide.classList.contains('is-active'));
+        let intervalId = null;
+
+        if (activeIndex < 0) activeIndex = 0;
+
+        const setActive = (index) => {
+            activeIndex = (index + slides.length) % slides.length;
+            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeIndex));
+            dots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIndex));
+        };
+
+        const startAutoplay = () => {
+            if (slides.length < 2) return;
+            if (intervalId) window.clearInterval(intervalId);
+            intervalId = window.setInterval(() => setActive(activeIndex + 1), 5200);
+        };
+
+        if (dotsWrap && slides.length > 1) {
+            dotsWrap.innerHTML = '';
+            slides.forEach((_, index) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = 'hero-rotator-dot';
+                dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+                dot.addEventListener('click', () => {
+                    setActive(index);
+                    startAutoplay();
+                });
+                dotsWrap.appendChild(dot);
+                dots.push(dot);
+            });
+        }
+
+        prevBtn?.addEventListener('click', () => {
+            setActive(activeIndex - 1);
+            startAutoplay();
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            setActive(activeIndex + 1);
+            startAutoplay();
+        });
+
+        setActive(activeIndex);
+        startAutoplay();
     };
 
     const initFilterPanel = () => {
@@ -113,15 +156,16 @@
             sections.forEach((section) => {
                 const cards = Array.from(section.querySelectorAll('[data-product-card]'));
                 if (!cards.length) return;
+                const initialVisible = Number(section.dataset.initialVisible || 4);
 
                 cards.forEach((card, index) => {
-                    card.classList.toggle('card-hidden-mobile', mobile && index >= 4);
+                    card.classList.toggle('card-hidden-mobile', mobile && index >= initialVisible);
                     if (!mobile) {
                         card.style.display = '';
                     }
                 });
 
-                const hasExtraCards = cards.length > 4;
+                const hasExtraCards = cards.length > initialVisible;
                 const hasServerHiddenCards = section.querySelectorAll('.card-hidden').length > 0;
                 const shouldHaveButton = hasExtraCards || hasServerHiddenCards;
 
@@ -227,9 +271,8 @@
             modalPrice.textContent = activeProduct.price;
             modalDescription.textContent = activeProduct.description;
             modalColour.textContent = activeProduct.colour;
-            modalSize.value = '6';
+            modalSize.value = '40';
             modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
-            sizeGuideLink.href = `https://wa.me/${activeProduct.whatsappNumber}?text=${encodeURIComponent(`Hello, I need the size guide for ${activeProduct.name}.`)}`;
             modalInfo.innerHTML = `
                 <li>Construction Type: Lockstitch</li>
                 <li>Fitting Type: G</li>
@@ -261,6 +304,10 @@
         });
 
         closeButtons.forEach((button) => button.addEventListener('click', closeProductModal));
+        sizeGuideLink?.addEventListener('click', (event) => {
+            event.preventDefault();
+            document.querySelector('[data-open-size-guide]')?.click();
+        });
 
         modalSize.addEventListener('change', () => {
             if (activeProduct) {
@@ -310,6 +357,17 @@
                 header.classList.remove('is-transparent');
                 promoBar?.classList.remove('is-hidden-on-scroll');
             }
+        });
+    };
+
+    const initCustomOrderDismiss = () => {
+        const closeButton = document.querySelector('[data-custom-order-close]');
+        if (!closeButton) return;
+
+        closeButton.addEventListener('click', () => {
+            const card = closeButton.closest('.custom-order');
+            if (!card) return;
+            card.style.display = 'none';
         });
     };
 
@@ -404,7 +462,9 @@
                 return;
             }
 
-            if (delta > threshold && currentY > 40) {
+            if (currentY <= 40) {
+                makeSolid();
+            } else if (delta > threshold && currentY > 40) {
                 makeTransparent();
             } else if (delta < -threshold) {
                 makeSolid();
@@ -418,6 +478,36 @@
         onScroll();
     };
 
+    const initSizeGuideModal = () => {
+        const modal = document.querySelector('[data-size-guide-modal]');
+        if (!modal) return;
+        const triggers = document.querySelectorAll('[data-open-size-guide], [data-size-guide]');
+        const closeButtons = modal.querySelectorAll('[data-close-size-guide]');
+
+        const open = () => {
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const close = () => {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        };
+
+        triggers.forEach((trigger) => {
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                open();
+            });
+        });
+        closeButtons.forEach((button) => button.addEventListener('click', close));
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && modal.classList.contains('is-open')) close();
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initHeaderScrollBehavior();
@@ -428,5 +518,7 @@
         initSeeMore();
         initProductModal();
         initWhatsAppForms();
+        initCustomOrderDismiss();
+        initSizeGuideModal();
     });
 })();

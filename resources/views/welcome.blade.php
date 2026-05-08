@@ -16,8 +16,8 @@
     <div class="site-wrap">
         <div class="promo-bar">
             <span class="promo-desktop-only">Nationwide delivery across Nigeria on selected orders</span>
-            <span class="promo-desktop-only">Lagos, NG</span>
-            <span class="promo-mobile-only">Nelson Shoes 🇳🇬</span>
+            <span class="promo-desktop-only">Nelson Shoes</span>
+            <span class="promo-mobile-only">Nationwide delivery across Nigeria on selected orders</span>
         </div>
 
         <header class="top-header">
@@ -38,6 +38,7 @@
                 <a href="{{ route('home') }}#mens">Men</a>
                 <a href="{{ route('home') }}#womens">Women</a>
                 <a href="{{ route('collection') }}#accessories">Accessories</a>
+                <a href="#" data-open-size-guide>Size Guide</a>
             </nav>
             <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
             <nav class="header-nav header-nav-right" aria-label="Primary right">
@@ -97,6 +98,11 @@
                         </div>
                     </div>
                 </article>
+                <div class="hero-rotator-controls">
+                    <button type="button" class="hero-rotator-btn hero-rotator-btn-prev" data-hero-prev aria-label="Previous slide">&lt;</button>
+                    <button type="button" class="hero-rotator-btn hero-rotator-btn-next" data-hero-next aria-label="Next slide">&gt;</button>
+                </div>
+                <div class="hero-rotator-dots" data-hero-dots aria-label="Hero slide indicators"></div>
             </section>
 
             <section class="categories">
@@ -231,6 +237,36 @@
             </div>
             <div class="footer-bottom">Copyright 2026 Nelson Shoes. All Rights Reserved.</div>
         </footer>
+    </div>
+
+    <div class="size-guide-modal" data-size-guide-modal aria-hidden="true">
+        <button class="size-guide-backdrop" type="button" data-close-size-guide aria-label="Close size guide"></button>
+        <div class="size-guide-panel" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
+            <button class="size-guide-close" type="button" data-close-size-guide aria-label="Close size guide">X</button>
+            <h2 id="size-guide-title">Size Guide</h2>
+            <p>Nigerian made Men’s shoes (and boots) are generally made in fittings E, F, G and H and these can be classified simplistically as follows:</p>
+            <p>E = NARROW F = REGULAR G = WIDE H = EXTRA WIDE</p>
+            <p>The bulk of our styles are made in F fitting, as statistics show that worldwide this is the most appropriate fitting for a majority of males, but we also offer a good selection of G fitting shoes.</p>
+            <table class="size-guide-table">
+                <thead><tr><th>UK</th><th>EU</th><th>US</th><th>CM</th><th>INCH</th></tr></thead>
+                <tbody>
+                    <tr><td>6</td><td>40</td><td>7</td><td>25.4</td><td>10</td></tr>
+                    <tr><td>6.5</td><td>41</td><td>7.5</td><td>25.8</td><td>10 1/8</td></tr>
+                    <tr><td>7</td><td>41 - 42</td><td>8</td><td>26</td><td>10 1/4</td></tr>
+                    <tr><td>7.5</td><td>42</td><td>8.5</td><td>26.7</td><td>10 1/2</td></tr>
+                    <tr><td>8</td><td>43</td><td>9</td><td>27.3</td><td>10 3/4</td></tr>
+                    <tr><td>8.5</td><td>43-44</td><td>9.5</td><td>27.7</td><td>10 7/8</td></tr>
+                    <tr><td>9</td><td>44</td><td>10</td><td>27.9</td><td>11</td></tr>
+                    <tr><td>9.5</td><td>44-45</td><td>10.5</td><td>28.6</td><td>11 1/4</td></tr>
+                    <tr><td>10</td><td>45</td><td>11</td><td>29.2</td><td>11 1/2</td></tr>
+                    <tr><td>10.5</td><td>45-46</td><td>11.5</td><td>29.5</td><td>11 5/8</td></tr>
+                    <tr><td>11</td><td>46</td><td>12</td><td>29.8</td><td>11 3/4</td></tr>
+                    <tr><td>12</td><td>48</td><td>13</td><td>30.5</td><td>12</td></tr>
+                    <tr><td>13</td><td>49</td><td>14</td><td>31.1</td><td>12 1/4</td></tr>
+                    <tr><td>14</td><td>50</td><td>15</td><td>31.7</td><td>12 1/2</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
