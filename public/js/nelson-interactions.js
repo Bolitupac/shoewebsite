@@ -522,6 +522,8 @@
         const closeButtons = drawer.querySelectorAll('[data-close-cart]');
         const header = document.querySelector('.top-header');
         const promoBar = document.querySelector('.promo-bar');
+        const rowToggles = drawer.querySelectorAll('[data-cart-edit-toggle]');
+        const qtySteppers = drawer.querySelectorAll('[data-cart-qty-stepper]');
 
         const open = () => {
             drawer.classList.add('is-open');
@@ -536,10 +538,60 @@
         const close = () => {
             drawer.classList.remove('is-open');
             drawer.setAttribute('aria-hidden', 'true');
+            drawer.classList.remove('is-editing');
+            drawer.querySelectorAll('.cart-row.is-editing').forEach((row) => row.classList.remove('is-editing'));
+            drawer.querySelectorAll('[data-cart-row-details]').forEach((detailsRow) => {
+                detailsRow.classList.remove('is-open');
+                detailsRow.setAttribute('aria-hidden', 'true');
+            });
+            rowToggles.forEach((btn) => {
+                btn.textContent = 'Edit';
+                btn.setAttribute('aria-expanded', 'false');
+            });
             header?.classList.remove('is-temporarily-hidden');
             promoBar?.classList.remove('is-temporarily-hidden');
             document.body.style.overflow = '';
         };
+
+        rowToggles.forEach((button) => {
+            button.addEventListener('click', () => {
+                const row = button.closest('[data-cart-row]');
+                if (!row) return;
+
+                const isEditing = row.classList.toggle('is-editing');
+                const detailsRow = row.nextElementSibling;
+                if (detailsRow?.hasAttribute('data-cart-row-details')) {
+                    detailsRow.classList.toggle('is-open', isEditing);
+                    detailsRow.setAttribute('aria-hidden', isEditing ? 'false' : 'true');
+                }
+                const hasEditingRow = drawer.querySelector('.cart-row.is-editing');
+                drawer.classList.toggle('is-editing', Boolean(hasEditingRow));
+                button.textContent = isEditing ? 'Cancel' : 'Edit';
+                button.setAttribute('aria-expanded', isEditing ? 'true' : 'false');
+            });
+        });
+
+        qtySteppers.forEach((stepper) => {
+            const minusBtn = stepper.querySelector('[data-cart-qty-minus]');
+            const plusBtn = stepper.querySelector('[data-cart-qty-plus]');
+            const valueNode = stepper.querySelector('[data-cart-qty-value]');
+            if (!minusBtn || !plusBtn || !valueNode) return;
+
+            const updateValue = (nextQty) => {
+                valueNode.textContent = String(nextQty);
+            };
+
+            minusBtn.addEventListener('click', () => {
+                const current = Number(valueNode.textContent || '1');
+                const next = Math.max(1, current - 1);
+                updateValue(next);
+            });
+
+            plusBtn.addEventListener('click', () => {
+                const current = Number(valueNode.textContent || '1');
+                updateValue(current + 1);
+            });
+        });
 
         openButtons.forEach((button) => button.addEventListener('click', open));
         closeButtons.forEach((button) => button.addEventListener('click', close));
