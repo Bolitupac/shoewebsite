@@ -448,8 +448,6 @@
 
         const makeTransparent = () => {
             header.classList.add('is-transparent');
-            promoBar?.classList.add('is-hidden-on-scroll');
-            header.classList.add('is-promo-hidden');
         };
 
         const onScroll = () => {

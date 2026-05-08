@@ -244,9 +244,9 @@
         <div class="size-guide-panel" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
             <button class="size-guide-close" type="button" data-close-size-guide aria-label="Close size guide">X</button>
             <h2 id="size-guide-title">Size Guide</h2>
-            <p>Nigerian made Men’s shoes (and boots) are generally made in fittings E, F, G and H and these can be classified simplistically as follows:</p>
-            <p>E = NARROW F = REGULAR G = WIDE H = EXTRA WIDE</p>
-            <p>The bulk of our styles are made in F fitting, as statistics show that worldwide this is the most appropriate fitting for a majority of males, but we also offer a good selection of G fitting shoes.</p>
+            <p class="size-guide-copy">Nigerian made Men’s shoes (and boots) are generally made in fittings E, F, G and H and these can be classified simplistically as follows:</p>
+            <p class="size-guide-fit-codes">E = NARROW &nbsp; F = REGULAR &nbsp; G = WIDE &nbsp; H = EXTRA WIDE</p>
+            <p class="size-guide-copy">The bulk of our styles are made in F fitting, as statistics show that worldwide this is the most appropriate fitting for a majority of males, but we also offer a good selection of G fitting shoes.</p>
             <table class="size-guide-table">
                 <thead><tr><th>UK</th><th>EU</th><th>US</th><th>CM</th><th>INCH</th></tr></thead>
                 <tbody>
