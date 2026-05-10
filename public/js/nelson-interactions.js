@@ -18,8 +18,16 @@
         if (activeIndex < 0) activeIndex = 0;
 
         const setActive = (index) => {
+            const oldIndex = activeIndex;
             activeIndex = (index + slides.length) % slides.length;
-            slides.forEach((slide, i) => slide.classList.toggle('is-active', i === activeIndex));
+            slides.forEach((slide, i) => {
+                slide.classList.remove('is-active', 'is-exiting');
+                if (i === activeIndex) {
+                    slide.classList.add('is-active');
+                } else if (i === oldIndex && i !== activeIndex) {
+                    slide.classList.add('is-exiting');
+                }
+            });
             dots.forEach((dot, i) => dot.classList.toggle('is-active', i === activeIndex));
         };
 
