@@ -281,11 +281,15 @@ textarea {
     padding: 28px;
     overflow-y: auto;
     transform: translateX(100%);
-    transition: transform 0.28s ease;
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .cart-drawer.is-open .cart-drawer-panel {
     transform: translateX(0);
+}
+
+.cart-drawer.is-closing .cart-drawer-panel {
+    transform: translateX(100%);
 }
 
 .cart-drawer-close {
@@ -591,6 +595,15 @@ textarea {
     visibility: visible;
 }
 
+.hero-slide.is-active img {
+    animation: hero-slow-zoom 6s ease-out forwards;
+}
+
+@keyframes hero-slow-zoom {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
 .hero-rotator-controls {
     position: absolute;
     left: 16px;
@@ -730,7 +743,11 @@ textarea {
     height: 100%;
     object-fit: cover;
     filter: none;
-    transition: none;
+    transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.card:hover .card-media img {
+    transform: scale(1.05);
 }
 
 /* Images in min-height containers need absolute positioning to fill properly */
@@ -1171,10 +1188,18 @@ textarea {
     background: #fff;
     box-shadow: 0 26px 70px rgba(17, 17, 17, 0.28);
     opacity: 0;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.35s ease-out;
 }
 
 .product-modal.is-open .product-modal-panel {
     opacity: 1;
+    transform: translateX(0);
+}
+
+.product-modal.is-closing .product-modal-panel {
+    transform: translateX(100%);
+    opacity: 0;
 }
 
 .product-modal-media {
@@ -1187,6 +1212,11 @@ textarea {
     height: 100%;
     object-fit: cover;
     filter: none;
+    transition: transform 1.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.product-modal-media:hover img {
+    transform: scale(1.05);
 }
 
 .product-modal-media-badge {
@@ -1326,6 +1356,16 @@ textarea {
     padding: 22px;
     max-height: calc(100vh - 32px);
     overflow: auto;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.size-guide-modal.is-open .size-guide-panel {
+    transform: translateX(0);
+}
+
+.size-guide-modal.is-closing .size-guide-panel {
+    transform: translateX(100%);
 }
 
 .size-guide-copy {

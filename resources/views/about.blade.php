@@ -71,7 +71,7 @@
             <section id="founder" class="section founder-section">
                 <div class="founder-editorial">
                     <div class="founder-portrait">
-                        <img src="{{ asset('images/shoemaker academy.avif') }}" alt="Founder portrait" loading="eager" decoding="async">
+                        <img src="{{ asset('images/founder.png') }}" alt="Founder portrait" loading="eager" decoding="async">
                         <div class="founder-seal">
                             <span>Founder</span>
                             <strong>Nelson</strong>

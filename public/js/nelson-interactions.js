@@ -289,10 +289,13 @@
         };
 
         const closeProductModal = () => {
-            productModal.classList.remove('is-open');
-            productModal.setAttribute('aria-hidden', 'true');
-            setHeaderOverlayHidden(false);
-            document.body.style.overflow = '';
+            productModal.classList.add('is-closing');
+            setTimeout(() => {
+                productModal.classList.remove('is-open', 'is-closing');
+                productModal.setAttribute('aria-hidden', 'true');
+                setHeaderOverlayHidden(false);
+                document.body.style.overflow = '';
+            }, 350);
         };
 
         productCards.forEach((card) => {
@@ -495,11 +498,14 @@
         };
 
         const close = () => {
-            modal.classList.remove('is-open');
-            modal.setAttribute('aria-hidden', 'true');
-            header?.classList.remove('is-temporarily-hidden');
-            promoBar?.classList.remove('is-temporarily-hidden');
-            document.body.style.overflow = '';
+            modal.classList.add('is-closing');
+            setTimeout(() => {
+                modal.classList.remove('is-open', 'is-closing');
+                modal.setAttribute('aria-hidden', 'true');
+                header?.classList.remove('is-temporarily-hidden');
+                promoBar?.classList.remove('is-temporarily-hidden');
+                document.body.style.overflow = '';
+            }, 350);
         };
 
         triggers.forEach((trigger) => {
@@ -536,21 +542,24 @@
         };
 
         const close = () => {
-            drawer.classList.remove('is-open');
-            drawer.setAttribute('aria-hidden', 'true');
-            drawer.classList.remove('is-editing');
-            drawer.querySelectorAll('.cart-row.is-editing').forEach((row) => row.classList.remove('is-editing'));
-            drawer.querySelectorAll('[data-cart-row-details]').forEach((detailsRow) => {
-                detailsRow.classList.remove('is-open');
-                detailsRow.setAttribute('aria-hidden', 'true');
-            });
-            rowToggles.forEach((btn) => {
-                btn.textContent = 'Edit';
-                btn.setAttribute('aria-expanded', 'false');
-            });
-            header?.classList.remove('is-temporarily-hidden');
-            promoBar?.classList.remove('is-temporarily-hidden');
-            document.body.style.overflow = '';
+            drawer.classList.add('is-closing');
+            setTimeout(() => {
+                drawer.classList.remove('is-open', 'is-closing');
+                drawer.setAttribute('aria-hidden', 'true');
+                drawer.classList.remove('is-editing');
+                drawer.querySelectorAll('.cart-row.is-editing').forEach((row) => row.classList.remove('is-editing'));
+                drawer.querySelectorAll('[data-cart-row-details]').forEach((detailsRow) => {
+                    detailsRow.classList.remove('is-open');
+                    detailsRow.setAttribute('aria-hidden', 'true');
+                });
+                rowToggles.forEach((btn) => {
+                    btn.textContent = 'Edit';
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+                header?.classList.remove('is-temporarily-hidden');
+                promoBar?.classList.remove('is-temporarily-hidden');
+                document.body.style.overflow = '';
+            }, 350);
         };
 
         rowToggles.forEach((button) => {
