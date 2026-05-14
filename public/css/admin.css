@@ -1,0 +1,284 @@
+/* =============================================
+   Nelson Shoes — Admin Panel CSS
+   Simple, functional, clean.
+   ============================================= */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Manrope', sans-serif;
+    background: #f5f5f4;
+    color: #111;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+/* Layout */
+.admin-layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Nav */
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    background: #fff;
+    border-bottom: 1px solid #e5e5e3;
+    padding: 0 2rem;
+    height: 52px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+.admin-nav-brand {
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    color: #444;
+    margin-right: auto;
+}
+.admin-nav-brand strong { color: #111; }
+.admin-nav-links {
+    display: flex;
+    gap: 0.25rem;
+}
+.nav-link {
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #555;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.12s, color 0.12s;
+}
+.nav-link:hover { background: #f0f0ee; color: #111; }
+.nav-link.active { background: #111; color: #fff; }
+.nav-logout {
+    padding: 0.3rem 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.82rem;
+    color: #555;
+    cursor: pointer;
+    transition: border-color 0.12s, color 0.12s;
+}
+.nav-logout:hover { border-color: #111; color: #111; }
+
+/* Main */
+.admin-main {
+    padding: 2rem;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Header */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+.admin-page-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+.count-badge {
+    display: inline-block;
+    background: #f0f0ee;
+    color: #555;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 20px;
+    vertical-align: middle;
+}
+.admin-btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #111;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.admin-btn:hover { background: #333; }
+
+/* Alert */
+.alert-success {
+    background: #e6f4ea;
+    color: #1a6632;
+    border: 1px solid #b7e1c4;
+    border-radius: 4px;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+/* Stat grid */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.stat-card {
+    background: #fff;
+    border: 1px solid #e5e5e3;
+    border-radius: 6px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111;
+    line-height: 1;
+}
+
+/* Admin sections */
+.admin-section {
+    margin-top: 2rem;
+}
+.admin-section-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e5e3;
+}
+
+/* Tables */
+.table-wrap {
+    overflow-x: auto;
+    border: 1px solid #e5e5e3;
+    border-radius: 6px;
+    background: #fff;
+}
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.83rem;
+}
+.admin-table th {
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    background: #fafaf9;
+    border-bottom: 1px solid #e5e5e3;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #666;
+    white-space: nowrap;
+}
+.admin-table td {
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid #f0f0ee;
+    vertical-align: top;
+    color: #222;
+}
+.admin-table tbody tr:last-child td { border-bottom: none; }
+.admin-table tbody tr:hover > td { background: #fafaf9; }
+
+/* Table action buttons */
+.tbl-btn {
+    display: inline-block;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background: transparent;
+    font-family: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+    transition: border-color 0.12s, color 0.12s;
+    margin-right: 0.25rem;
+}
+.tbl-btn:hover { border-color: #555; color: #111; }
+.edit-btn { color: #1a6632; border-color: #b7e1c4; }
+.edit-btn:hover { border-color: #1a6632; }
+.delete-btn { color: #b91c1c; border-color: #fca5a5; }
+.delete-btn:hover { border-color: #b91c1c; }
+.actions-cell { white-space: nowrap; }
+
+/* Inline edit / add form */
+.edit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+}
+.full-width { grid-column: 1 / -1; }
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+.field-group label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #666;
+}
+.field-group input,
+.field-group select,
+.field-group textarea {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: #111;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+}
+.field-group input:focus,
+.field-group select:focus,
+.field-group textarea:focus { border-color: #111; }
+.field-group textarea { resize: vertical; }
+.field-error {
+    font-size: 0.75rem;
+    color: #b91c1c;
+}
+.edit-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    margin-top: 0.75rem;
+}
+
+/* Add form */
+.add-form {
+    background: #fff;
+    border: 1px solid #e5e5e3;
+    border-radius: 6px;
+    padding: 1.25rem 1rem;
+}

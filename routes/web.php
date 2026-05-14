@@ -1,24 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Product;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
 
-function getProducts() {
-    $path = storage_path('app/products.json');
-    if (!file_exists($path)) {
-        return [];
-    }
-    return json_decode(file_get_contents($path), true) ?? [];
-}
-
+// ─── Public routes ───────────────────────────────────────────────
 Route::get('/', function () {
-    $products = getProducts();
-    // Get the latest 4 products that are newly added or have specific badges
-    $latestProducts = collect($products)->reverse()->take(4)->all();
+    $products = Product::all()->toArray();
+    $latestProducts = Product::orderByDesc('created_at')->take(4)->get()->toArray();
     return view('welcome', compact('products', 'latestProducts'));
 })->name('home');
 
 Route::get('/collection', function () {
-    $products = getProducts();
+    $products = Product::all()->toArray();
     return view('collection', compact('products'));
 })->name('collection');
 
@@ -34,3 +29,16 @@ Route::get('/support', function () {
     return view('support');
 })->name('support');
 
+// ─── Admin auth ──────────────────────────────────────────────────
+Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// ─── Admin protected routes ──────────────────────────────────────
+Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
+    Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::patch('/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+});
