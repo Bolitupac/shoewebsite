@@ -320,8 +320,7 @@
                     });
                 }
                 saveCart(cart);
-                closeProductModal();
-                if (window.openCartDrawer) window.openCartDrawer();
+                window.showToast('Added to cart'); if (window.updateCartBadge) window.updateCartBadge();
             });
         }
 
@@ -670,9 +669,7 @@
                 btn.addEventListener('click', (e) => {
                     const idx = e.target.getAttribute('data-remove-index');
                     const cart = getCart();
-                    cart.splice(idx, 1);
-                    saveCart(cart);
-                    renderCart();
+                    cart.splice(idx, 1); saveCart(cart); renderCart(); if (window.updateCartBadge) window.updateCartBadge(); window.showToast('Removed from cart');
                 });
             });
 
@@ -681,9 +678,7 @@
                     const idx = e.target.getAttribute('data-index');
                     const cart = getCart();
                     if(cart[idx].quantity > 1) {
-                        cart[idx].quantity--;
-                        saveCart(cart);
-                        renderCart();
+                        cart[idx].quantity--; saveCart(cart); renderCart(); if (window.updateCartBadge) window.updateCartBadge(); window.showToast('Cart updated');
                     }
                 });
             });
@@ -692,9 +687,7 @@
                 btn.addEventListener('click', (e) => {
                     const idx = e.target.getAttribute('data-index');
                     const cart = getCart();
-                    cart[idx].quantity++;
-                    saveCart(cart);
-                    renderCart();
+                    cart[idx].quantity++; saveCart(cart); renderCart(); if (window.updateCartBadge) window.updateCartBadge(); window.showToast('Cart updated');
                 });
             });
 
@@ -702,9 +695,7 @@
                 sel.addEventListener('change', (e) => {
                     const idx = e.target.getAttribute('data-update-size');
                     const cart = getCart();
-                    cart[idx].size = e.target.value;
-                    saveCart(cart);
-                    renderCart();
+                    cart[idx].size = e.target.value; saveCart(cart); renderCart(); window.showToast('Size updated');
                 });
             });
         };
@@ -760,6 +751,41 @@
     };
 
 
+    
+    window.showToast = (message) => {
+        let container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            container.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;';
+            document.body.appendChild(container);
+        }
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.cssText = 'background: #111; color: #fff; padding: 12px 24px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-size: 14px; opacity: 0; transform: translateY(20px); transition: all 0.3s ease; font-family: "Manrope", sans-serif;';
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+        }, 10);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(20px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    };
+
+    window.updateCartBadge = () => {
+        const cart = getCart();
+        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        document.querySelectorAll('[data-cart-badge]').forEach(badge => {
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'inline-flex' : 'none';
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initHeaderScrollBehavior();
@@ -773,5 +799,6 @@
         initCustomOrderDismiss();
         initSizeGuideModal();
         initCartDrawer();
+        if (window.updateCartBadge) window.updateCartBadge();
     });
 })();
