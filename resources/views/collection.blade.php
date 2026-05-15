@@ -126,12 +126,12 @@
                                     @php
                                         $orderText = rawurlencode('Hello, I am interested in the ' . $product['name'] . ' in size 6.');
                                     @endphp
-                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ $product['category'] === 'one-of-one' ? 'card-one-of-one' : '' }}"
+                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ in_array('one-of-one', (array)$product['category']) ? 'card-one-of-one' : '' }}"
                                         data-product-card
                                         data-id="{{ $product['id'] }}"
                                         data-name="{{ $product['name'] }}"
                                         data-price="{{ $product['price'] }}"
-                                        data-category="{{ $product['category'] }}"
+                                        data-category="{{ implode(', ', (array)$product['category']) }}"
                                         data-colour="{{ $product['colour'] }}"
                                         data-description="{{ $product['description'] }}"
                                         data-whatsapp-number="{{ $whatsappNumber }}">
@@ -139,13 +139,12 @@
                                             <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                         </div>
                                         <div class="card-copy">
-                                            @if ($product['category'] === 'one-of-one')
+                                            @if (in_array('one-of-one', (array)$product['category']))
                                                 <span class="card-flag">One of One</span>
                                             @endif
                                             <h2>{{ $product['name'] }}</h2>
                                             <div class="row">
                                                 <span>{{ $product['price'] }}</span>
-                                                <a class="card-action" href="https://wa.me/{{ $whatsappNumber }}?text={{ $orderText }}" target="_blank" rel="noreferrer">Buy Now</a>
                                             </div>
                                         </div>
                                     </article>
@@ -213,8 +212,9 @@
                     <h3>Detailed Information</h3>
                     <ul class="detail-list" data-modal-info></ul>
                 </div>
-                <div class="product-modal-actions">
-                    <a class="btn btn-dark" href="#" target="_blank" rel="noreferrer" data-modal-order>Order via WhatsApp</a>
+                <div class="product-modal-actions" style="display: flex; gap: 1rem;">
+                    <button class="btn btn-dark" type="button" data-modal-add-cart style="flex: 1;">Add to Cart</button>
+                    <a class="btn btn-outline" href="#" target="_blank" rel="noreferrer" data-modal-order style="flex: 1; text-align: center;">Order via WhatsApp</a>
                 </div>
                 <div class="recommended-block">
                     <h3>Recommended Items</h3>

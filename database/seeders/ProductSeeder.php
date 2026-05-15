@@ -19,7 +19,7 @@ class ProductSeeder extends Seeder
                 'id'          => $product['id'],
                 'name'        => $product['name'],
                 'price'       => $product['price'],
-                'category'    => $product['category'],
+                'category'    => (array) $product['category'],
                 'section'     => $product['section'],
                 'image'       => $product['image'],
                 'description' => $product['description'],

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('id')->primary();
             $table->string('name');
             $table->string('price');
-            $table->string('category');
+            $table->json('category');
             $table->string('section');
             $table->string('image');
             $table->text('description');

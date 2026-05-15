@@ -25,11 +25,20 @@
         <main class="admin-main">
             <div class="admin-header">
                 <h1 class="admin-page-title">Products <span class="count-badge">{{ $totalProducts }}</span></h1>
-                <button class="admin-btn" type="button" onclick="document.getElementById('add-form').scrollIntoView({behavior:'smooth'})">+ Add Product</button>
+                <button class="admin-btn" type="button" onclick="openAddModal()">+ Add Product</button>
             </div>
 
             @if (session('success'))
                 <div class="alert-success">{{ session('success') }}</div>
+            @endif
+            @if ($errors->any())
+                <div class="alert-error">
+                    <ul style="margin:0; padding-left:20px;">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             @endif
 
             {{-- Products Table --}}
@@ -37,9 +46,10 @@
                 <table class="admin-table products-table">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Name</th>
                             <th>Price</th>
-                            <th>Category</th>
+                            <th>Categories</th>
                             <th>Section</th>
                             <th>Colour</th>
                             <th>Badge</th>
@@ -49,81 +59,28 @@
                     </thead>
                     <tbody>
                         @foreach ($products as $product)
+                        @php
+                            // Decode categories since it is cast to array
+                            $catStr = is_array($product->category) ? implode(', ', array_map('ucfirst', $product->category)) : ucfirst($product->category);
+                        @endphp
                         <tr id="row-{{ $product->id }}">
-                            {{-- View row --}}
-                            <td class="view-mode">{{ $product->name }}</td>
-                            <td class="view-mode">{{ $product->price }}</td>
-                            <td class="view-mode">{{ $product->category }}</td>
-                            <td class="view-mode">{{ $product->section }}</td>
-                            <td class="view-mode">{{ $product->colour }}</td>
-                            <td class="view-mode">{{ $product->badge ?? '—' }}</td>
-                            <td class="view-mode">{{ $product->hidden ? 'Yes' : 'No' }}</td>
-                            <td class="view-mode actions-cell">
-                                <button class="tbl-btn edit-btn" type="button" onclick="openEdit('{{ $product->id }}')">Edit</button>
+                            <td>
+                                @if($product->image)
+                                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset($product->image) }}" alt="image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                @endif
+                            </td>
+                            <td>{{ $product->name }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td>{{ $catStr }}</td>
+                            <td>{{ $product->section }}</td>
+                            <td>{{ $product->colour }}</td>
+                            <td>{{ $product->badge ?? '—' }}</td>
+                            <td>{{ $product->hidden ? 'Yes' : 'No' }}</td>
+                            <td class="actions-cell">
+                                <button class="tbl-btn edit-btn" type="button" onclick="openEditModal({{ json_encode($product) }})">Edit</button>
                                 <form method="POST" action="{{ route('admin.products.destroy', $product->id) }}" style="display:inline" onsubmit="return confirm('Delete {{ addslashes($product->name) }}?')">
                                     @csrf @method('DELETE')
                                     <button class="tbl-btn delete-btn" type="submit">Delete</button>
-                                </form>
-                            </td>
-
-                            {{-- Edit row (hidden by default) --}}
-                            <td class="edit-mode" colspan="8" style="display:none; padding: 1rem;">
-                                <form method="POST" action="{{ route('admin.products.update', $product->id) }}" class="inline-edit-form" enctype="multipart/form-data">
-                                    @csrf @method('PATCH')
-                                    <div class="edit-grid">
-                                        <div class="field-group">
-                                            <label>Name</label>
-                                            <input type="text" name="name" value="{{ $product->name }}" required>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Price</label>
-                                            <input type="text" name="price" value="{{ $product->price }}" required>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Category</label>
-                                            <select name="category" required>
-                                                @foreach(['oxford','derby','loafer','one-of-one','belt','wallet'] as $cat)
-                                                    <option value="{{ $cat }}" {{ $product->category === $cat ? 'selected' : '' }}>{{ ucfirst($cat) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Section</label>
-                                            <select name="section" required>
-                                                @foreach(['men','women','newly-made','accessories','one-of-one'] as $sec)
-                                                    <option value="{{ $sec }}" {{ $product->section === $sec ? 'selected' : '' }}>{{ ucwords(str_replace('-',' ',$sec)) }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Image upload (leave empty to keep current)</label>
-                                            <input type="file" name="image" accept="image/*">
-                                            <small style="display:block;margin-top:0.25rem;color:#666">Current: {{ basename($product->image) }}</small>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Colour</label>
-                                            <input type="text" name="colour" value="{{ $product->colour }}" required>
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Badge</label>
-                                            <input type="text" name="badge" value="{{ $product->badge }}">
-                                        </div>
-                                        <div class="field-group">
-                                            <label>Hidden</label>
-                                            <select name="hidden">
-                                                <option value="0" {{ !$product->hidden ? 'selected' : '' }}>No</option>
-                                                <option value="1" {{ $product->hidden ? 'selected' : '' }}>Yes</option>
-                                            </select>
-                                        </div>
-                                        <div class="field-group full-width">
-                                            <label>Description</label>
-                                            <textarea name="description" rows="2" required>{{ $product->description }}</textarea>
-                                        </div>
-                                    </div>
-                                    <div class="edit-actions">
-                                        <button class="admin-btn" type="submit">Save</button>
-                                        <button class="tbl-btn" type="button" onclick="closeEdit('{{ $product->id }}')">Cancel</button>
-                                    </div>
                                 </form>
                             </td>
                         </tr>
@@ -131,84 +88,164 @@
                     </tbody>
                 </table>
             </div>
+        </main>
+    </div>
 
-            {{-- Add Product Form --}}
-            <div class="admin-section" id="add-form">
-                <h2 class="admin-section-title">Add Product</h2>
-                <form method="POST" action="{{ route('admin.products.store') }}" class="add-form" enctype="multipart/form-data">
+    {{-- Modal Overlay --}}
+    <div id="productModal" class="admin-modal-overlay" style="display:none;" aria-hidden="true">
+        <div class="admin-modal-content">
+            <button class="admin-modal-close" onclick="closeModal()">×</button>
+            <h2 class="admin-section-title" id="modalTitle">Add Product</h2>
+            
+            <div class="modal-flex-container">
+                <div class="modal-image-preview" id="modalImagePreview" style="display:none;">
+                    <img id="previewImg" src="" alt="Preview">
+                </div>
+
+                <form id="productForm" method="POST" action="{{ route('admin.products.store') }}" class="add-form" enctype="multipart/form-data" style="flex:1;">
                     @csrf
+                    <input type="hidden" name="_method" id="formMethod" value="POST">
+                    
                     <div class="edit-grid">
                         <div class="field-group">
-                            <label for="add-name">Name</label>
-                            <input type="text" id="add-name" name="name" value="{{ old('name') }}" required>
-                            @error('name') <span class="field-error">{{ $message }}</span> @enderror
+                            <label for="form-name">Name</label>
+                            <input type="text" id="form-name" name="name" required>
                         </div>
                         <div class="field-group">
-                            <label for="add-price">Price</label>
-                            <input type="text" id="add-price" name="price" value="{{ old('price') }}" placeholder="N1,000,000" required>
-                            @error('price') <span class="field-error">{{ $message }}</span> @enderror
+                            <label for="form-price">Price</label>
+                            <input type="text" id="form-price" name="price" placeholder="N1,000,000" required>
                         </div>
                         <div class="field-group">
-                            <label for="add-category">Category</label>
-                            <select id="add-category" name="category" required>
-                                @foreach(['oxford','derby','loafer','one-of-one','belt','wallet'] as $cat)
-                                    <option value="{{ $cat }}" {{ old('category') === $cat ? 'selected' : '' }}>{{ ucfirst($cat) }}</option>
+                            <label for="form-category">Category (Hold Ctrl/Cmd to select multiple)</label>
+                            <select id="form-category" name="category[]" multiple required style="height: 100px;">
+                                @foreach(['oxford','derby','loafer','one-of-one','belt','wallet', 'accessories'] as $cat)
+                                    <option value="{{ $cat }}">{{ ucfirst($cat) }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="add-section">Section</label>
-                            <select id="add-section" name="section" required>
+                            <label for="form-section">Section</label>
+                            <select id="form-section" name="section" required>
                                 @foreach(['men','women','newly-made','accessories','one-of-one'] as $sec)
-                                    <option value="{{ $sec }}" {{ old('section') === $sec ? 'selected' : '' }}>{{ ucwords(str_replace('-',' ',$sec)) }}</option>
+                                    <option value="{{ $sec }}">{{ ucwords(str_replace('-',' ',$sec)) }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="add-image">Product Image</label>
-                            <input type="file" id="add-image" name="image" accept="image/*" required>
-                            @error('image') <span class="field-error">{{ $message }}</span> @enderror
+                            <label for="form-image">Product Image <small id="imageHelp">(required for new)</small></label>
+                            <input type="file" id="form-image" name="image" accept="image/*">
                         </div>
                         <div class="field-group">
-                            <label for="add-colour">Colour</label>
-                            <input type="text" id="add-colour" name="colour" value="{{ old('colour') }}" required>
+                            <label for="form-colour">Colour</label>
+                            <input type="text" id="form-colour" name="colour" required>
                         </div>
                         <div class="field-group">
-                            <label for="add-badge">Badge</label>
-                            <input type="text" id="add-badge" name="badge" value="{{ old('badge') }}" placeholder="e.g. Fresh Drop">
+                            <label for="form-badge">Badge</label>
+                            <input type="text" id="form-badge" name="badge" placeholder="e.g. Fresh Drop">
                         </div>
                         <div class="field-group">
-                            <label for="add-hidden">Hidden</label>
-                            <select id="add-hidden" name="hidden">
+                            <label for="form-hidden">Hidden</label>
+                            <select id="form-hidden" name="hidden">
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
                         </div>
                         <div class="field-group full-width">
-                            <label for="add-description">Description</label>
-                            <textarea id="add-description" name="description" rows="2" required>{{ old('description') }}</textarea>
-                            @error('description') <span class="field-error">{{ $message }}</span> @enderror
+                            <label for="form-description">Description</label>
+                            <textarea id="form-description" name="description" rows="3" required></textarea>
                         </div>
                     </div>
-                    <div class="edit-actions" style="margin-top:1rem">
-                        <button class="admin-btn" type="submit">Add Product</button>
+                    <div class="edit-actions" style="margin-top:1rem; justify-content:flex-end;">
+                        <button class="tbl-btn" type="button" onclick="closeModal()">Cancel</button>
+                        <button class="admin-btn" type="submit" id="submitBtn">Save Product</button>
                     </div>
                 </form>
             </div>
-        </main>
+        </div>
     </div>
 
     <script>
-        function openEdit(id) {
-            const row = document.getElementById('row-' + id);
-            row.querySelectorAll('.view-mode').forEach(el => el.style.display = 'none');
-            row.querySelector('.edit-mode').style.display = '';
+        const modal = document.getElementById('productModal');
+        const form = document.getElementById('productForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const formMethod = document.getElementById('formMethod');
+        const imageHelp = document.getElementById('imageHelp');
+        const imageInput = document.getElementById('form-image');
+        const previewContainer = document.getElementById('modalImagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function openAddModal() {
+            modalTitle.textContent = 'Add Product';
+            form.action = "{{ route('admin.products.store') }}";
+            formMethod.value = "POST";
+            form.reset();
+            
+            // clear multi-select
+            Array.from(document.getElementById('form-category').options).forEach(opt => opt.selected = false);
+
+            imageHelp.textContent = '(required)';
+            imageInput.required = true;
+            previewContainer.style.display = 'none';
+            submitBtn.textContent = 'Add Product';
+            
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('is-visible'), 10);
+            document.body.style.overflow = 'hidden';
         }
-        function closeEdit(id) {
-            const row = document.getElementById('row-' + id);
-            row.querySelectorAll('.view-mode').forEach(el => el.style.display = '');
-            row.querySelector('.edit-mode').style.display = 'none';
+
+        function openEditModal(product) {
+            modalTitle.textContent = 'Edit Product';
+            form.action = `/admin/products/${product.id}`;
+            formMethod.value = "PATCH";
+            form.reset();
+
+            document.getElementById('form-name').value = product.name;
+            document.getElementById('form-price').value = product.price;
+            document.getElementById('form-section').value = product.section;
+            document.getElementById('form-colour').value = product.colour;
+            document.getElementById('form-badge').value = product.badge || '';
+            document.getElementById('form-hidden').value = product.hidden ? '1' : '0';
+            document.getElementById('form-description').value = product.description;
+
+            // set multi-select
+            const cats = Array.isArray(product.category) ? product.category : [product.category];
+            Array.from(document.getElementById('form-category').options).forEach(opt => {
+                opt.selected = cats.includes(opt.value);
+            });
+
+            imageHelp.textContent = '(optional, leave empty to keep current)';
+            imageInput.required = false;
+
+            if (product.image) {
+                const imgUrl = product.image.startsWith('http') ? product.image : `/${product.image}`;
+                previewImg.src = imgUrl;
+                previewContainer.style.display = 'flex';
+            } else {
+                previewContainer.style.display = 'none';
+            }
+
+            submitBtn.textContent = 'Save Changes';
+            
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('is-visible'), 10);
+            document.body.style.overflow = 'hidden';
         }
+
+        function closeModal() {
+            modal.classList.remove('is-visible');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Close when clicking outside modal content
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
     </script>
 </body>
 </html>

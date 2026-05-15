@@ -296,6 +296,35 @@
             document.body.style.overflow = 'hidden';
         };
 
+        
+        const addToCartBtn = productModal.querySelector('[data-modal-add-cart]');
+        if (addToCartBtn) {
+            // Remove existing listeners to avoid duplicates
+            const newBtn = addToCartBtn.cloneNode(true);
+            addToCartBtn.parentNode.replaceChild(newBtn, addToCartBtn);
+            newBtn.addEventListener('click', () => {
+                if (!activeProduct) return;
+                const cart = getCart();
+                const size = modalSize.value;
+                const existingIdx = cart.findIndex(i => i.id === activeProduct.id && i.size === size);
+                if (existingIdx > -1) {
+                    cart[existingIdx].quantity++;
+                } else {
+                    cart.push({
+                        id: activeProduct.id,
+                        name: activeProduct.name,
+                        price: activeProduct.price,
+                        image: activeProduct.imageSrc || modalImage.src,
+                        size: size,
+                        quantity: 1
+                    });
+                }
+                saveCart(cart);
+                closeProductModal();
+                if (window.openCartDrawer) window.openCartDrawer();
+            });
+        }
+
         const closeProductModal = () => {
             productModal.classList.add('is-closing');
             setTimeout(() => {
@@ -528,6 +557,13 @@
         });
     };
 
+    
+    const getCart = () => JSON.parse(localStorage.getItem('nelson_cart') || '[]');
+    const saveCart = (cart) => localStorage.setItem('nelson_cart', JSON.stringify(cart));
+
+    const parsePrice = (priceStr) => Number(priceStr.replace(/[^0-9.-]+/g, ''));
+    const formatPrice = (priceNum) => '₦' + priceNum.toLocaleString('en-NG', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
     const initCartDrawer = () => {
         const drawer = document.querySelector('[data-cart-drawer]');
         if (!drawer) return;
@@ -536,10 +572,145 @@
         const closeButtons = drawer.querySelectorAll('[data-close-cart]');
         const header = document.querySelector('.top-header');
         const promoBar = document.querySelector('.promo-bar');
-        const rowToggles = drawer.querySelectorAll('[data-cart-edit-toggle]');
-        const qtySteppers = drawer.querySelectorAll('[data-cart-qty-stepper]');
+        const itemsContainer = document.getElementById('cart-items-container');
+        const subtotalEl = document.getElementById('cart-subtotal');
+        const checkoutBtn = document.getElementById('checkout-btn');
+
+        const renderCart = () => {
+            const cart = getCart();
+            let subtotal = 0;
+            
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Your cart is empty.</td></tr>';
+                subtotalEl.textContent = '₦0.00';
+                return;
+            }
+
+            itemsContainer.innerHTML = cart.map((item, index) => {
+                const itemTotal = parsePrice(item.price) * item.quantity;
+                subtotal += itemTotal;
+                
+                return `
+                    <tr class="cart-row" data-cart-row>
+                        <td>
+                            <div class="cart-item-product">
+                                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                                <div>
+                                    <p class="cart-item-name">${item.name}</p>
+                                </div>
+                            </div>
+                            <p class="cart-item-sub">Shoe Size (UK): ${item.size}</p>
+                        </td>
+                        <td>
+                            <div class="cart-price-cell">
+                                <span class="cart-price-value">${item.price}</span>
+                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle aria-expanded="false">Edit</button>
+                            </div>
+                        </td>
+                        <td class="cart-col-qty">
+                            <div class="cart-qty">
+                                <span>Quantity</span>
+                                <strong>${item.quantity}</strong>
+                            </div>
+                        </td>
+                        <td class="cart-col-total">${formatPrice(itemTotal)}</td>
+                        <td class="cart-col-action">
+                            <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}">Remove</button>
+                        </td>
+                    </tr>
+                    <tr class="cart-row-mobile-details" data-cart-row-details aria-hidden="true">
+                        <td colspan="2">
+                            <div class="cart-row-mobile-details-inner">
+                                <div class="cart-row-mobile-stats">
+                                    <div class="cart-row-mobile-block">
+                                        <span>Quantity</span>
+                                        <div class="cart-mobile-qty-stepper" data-cart-qty-stepper>
+                                            <button type="button" class="cart-qty-btn" data-cart-qty-minus data-index="${index}" aria-label="Decrease quantity">-</button>
+                                            <strong data-cart-qty-value>${item.quantity}</strong>
+                                            <button type="button" class="cart-qty-btn" data-cart-qty-plus data-index="${index}" aria-label="Increase quantity">+</button>
+                                        </div>
+                                    </div>
+                                    <div class="cart-row-mobile-size">
+                                        <label for="cart-mobile-size-${index}">Shoe Size</label>
+                                        <select id="cart-mobile-size-${index}" data-update-size="${index}">
+                                            ${[40,41,42,43,44,45,46,47,48,49,50].map(s => `<option value="${s}" ${s == item.size ? 'selected' : ''}>${s}</option>`).join('')}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="cart-row-mobile-actions">
+                                    <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}">Remove</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+            
+            subtotalEl.textContent = formatPrice(subtotal);
+            bindCartEvents();
+        };
+
+        const bindCartEvents = () => {
+            drawer.querySelectorAll('[data-cart-edit-toggle]').forEach((button) => {
+                button.addEventListener('click', () => {
+                    const row = button.closest('[data-cart-row]');
+                    if (!row) return;
+                    const isEditing = row.classList.toggle('is-editing');
+                    const detailsRow = row.nextElementSibling;
+                    if (detailsRow?.hasAttribute('data-cart-row-details')) {
+                        detailsRow.classList.toggle('is-open', isEditing);
+                        detailsRow.setAttribute('aria-hidden', isEditing ? 'false' : 'true');
+                    }
+                    button.textContent = isEditing ? 'Cancel' : 'Edit';
+                    button.setAttribute('aria-expanded', isEditing ? 'true' : 'false');
+                });
+            });
+
+            drawer.querySelectorAll('[data-remove-index]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.target.getAttribute('data-remove-index');
+                    const cart = getCart();
+                    cart.splice(idx, 1);
+                    saveCart(cart);
+                    renderCart();
+                });
+            });
+
+            drawer.querySelectorAll('[data-cart-qty-minus]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    const cart = getCart();
+                    if(cart[idx].quantity > 1) {
+                        cart[idx].quantity--;
+                        saveCart(cart);
+                        renderCart();
+                    }
+                });
+            });
+
+            drawer.querySelectorAll('[data-cart-qty-plus]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const idx = e.target.getAttribute('data-index');
+                    const cart = getCart();
+                    cart[idx].quantity++;
+                    saveCart(cart);
+                    renderCart();
+                });
+            });
+
+            drawer.querySelectorAll('[data-update-size]').forEach(sel => {
+                sel.addEventListener('change', (e) => {
+                    const idx = e.target.getAttribute('data-update-size');
+                    const cart = getCart();
+                    cart[idx].size = e.target.value;
+                    saveCart(cart);
+                    renderCart();
+                });
+            });
+        };
 
         const open = () => {
+            renderCart();
             drawer.classList.add('is-open');
             drawer.setAttribute('aria-hidden', 'false');
             if (window.innerWidth <= 991) {
@@ -560,62 +731,34 @@
                     detailsRow.classList.remove('is-open');
                     detailsRow.setAttribute('aria-hidden', 'true');
                 });
-                rowToggles.forEach((btn) => {
-                    btn.textContent = 'Edit';
-                    btn.setAttribute('aria-expanded', 'false');
-                });
                 header?.classList.remove('is-temporarily-hidden');
                 promoBar?.classList.remove('is-temporarily-hidden');
                 document.body.style.overflow = '';
             }, 350);
         };
 
-        rowToggles.forEach((button) => {
-            button.addEventListener('click', () => {
-                const row = button.closest('[data-cart-row]');
-                if (!row) return;
-
-                const isEditing = row.classList.toggle('is-editing');
-                const detailsRow = row.nextElementSibling;
-                if (detailsRow?.hasAttribute('data-cart-row-details')) {
-                    detailsRow.classList.toggle('is-open', isEditing);
-                    detailsRow.setAttribute('aria-hidden', isEditing ? 'false' : 'true');
-                }
-                const hasEditingRow = drawer.querySelector('.cart-row.is-editing');
-                drawer.classList.toggle('is-editing', Boolean(hasEditingRow));
-                button.textContent = isEditing ? 'Cancel' : 'Edit';
-                button.setAttribute('aria-expanded', isEditing ? 'true' : 'false');
-            });
-        });
-
-        qtySteppers.forEach((stepper) => {
-            const minusBtn = stepper.querySelector('[data-cart-qty-minus]');
-            const plusBtn = stepper.querySelector('[data-cart-qty-plus]');
-            const valueNode = stepper.querySelector('[data-cart-qty-value]');
-            if (!minusBtn || !plusBtn || !valueNode) return;
-
-            const updateValue = (nextQty) => {
-                valueNode.textContent = String(nextQty);
-            };
-
-            minusBtn.addEventListener('click', () => {
-                const current = Number(valueNode.textContent || '1');
-                const next = Math.max(1, current - 1);
-                updateValue(next);
-            });
-
-            plusBtn.addEventListener('click', () => {
-                const current = Number(valueNode.textContent || '1');
-                updateValue(current + 1);
-            });
-        });
-
-        openButtons.forEach((button) => button.addEventListener('click', open));
+        openButtons.forEach((button) => button.addEventListener('click', (e) => {
+            e.preventDefault();
+            open();
+        }));
         closeButtons.forEach((button) => button.addEventListener('click', close));
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && drawer.classList.contains('is-open')) close();
         });
+
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const cart = getCart();
+                if(cart.length === 0) return alert('Your cart is empty');
+                
+                window.location.href = '/checkout';
+            });
+        }
+        
+        window.openCartDrawer = open;
     };
+
 
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();

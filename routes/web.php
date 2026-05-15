@@ -29,6 +29,14 @@ Route::get('/support', function () {
     return view('support');
 })->name('support');
 
+Route::get('/checkout', function () {
+    return view('checkout');
+})->name('checkout');
+
+Route::get('/checkout/success', function () {
+    return view('checkout-success');
+})->name('checkout.success');
+
 // ─── Admin auth ──────────────────────────────────────────────────
 Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');

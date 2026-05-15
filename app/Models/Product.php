@@ -17,5 +17,6 @@ class Product extends Model
 
     protected $casts = [
         'hidden' => 'boolean',
+        'category' => 'array',
     ];
 }
