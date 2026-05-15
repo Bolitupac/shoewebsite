@@ -293,13 +293,15 @@ textarea {
 }
 
 .cart-drawer-close {
-    position: absolute;
+    position: sticky;
     top: 18px;
-    right: 18px;
+    left: calc(100% - 24px);
     border: 0;
     background: transparent;
     font-size: 24px;
     cursor: pointer;
+    z-index: 10;
+    margin-bottom: -24px;
 }
 
 .cart-drawer-header {
@@ -2100,6 +2102,7 @@ textarea {
         border: none;
         background: rgba(17, 17, 17, 0.25);
         padding: 0;
+        transition: all 0.3s ease;
     }
 
     .arrivals-dot.is-active {
@@ -2125,10 +2128,21 @@ textarea {
     }
 
     .filter-panel {
-        grid-template-columns: 1fr;
-        max-height: none;
-        overflow: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2000;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
         padding: 0;
+        border: none;
+        transform: translateY(100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease, visibility 0.4s;
     }
 
     .filter-toggle {
@@ -2144,17 +2158,9 @@ textarea {
     }
 
     .filter-panel.is-open {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 2000;
-        background: #fff;
-        display: flex;
-        flex-direction: column;
-        padding: 0;
-        border: none;
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
     }
     
     .filter-panel.is-open .filter-header {
@@ -2243,6 +2249,14 @@ textarea {
 
     .product-modal-copy {
         overflow: visible;
+    }
+
+    .product-modal-close {
+        position: sticky;
+        top: 12px;
+        left: calc(100% - 48px);
+        margin-bottom: -48px; /* Offset its height so it doesn't push down the image */
+        z-index: 20;
     }
 
     .newsletter-form {
@@ -2342,12 +2356,25 @@ textarea {
         order: 4;
         flex-direction: column;
         align-items: center;
-        padding: 24px 0 0;
         gap: 20px;
+        padding: 0;
     }
     
     .top-header.is-menu-open .header-nav {
         display: flex !important;
+        padding: 24px 0 12px;
+        animation: navSlideDown 0.3s ease-out forwards;
+    }
+
+    @keyframes navSlideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     .top-header.is-menu-open {

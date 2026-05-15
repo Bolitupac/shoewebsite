@@ -34,7 +34,7 @@
         .checkout-form-section {
             background: #fff;
             padding: 2.5rem;
-            border-radius: 8px;
+            border-radius: 0;
             border: 1px solid #eee;
         }
         .checkout-form-section h2 {
@@ -76,7 +76,7 @@
         .checkout-summary-section {
             background: #fafaf9;
             padding: 2.5rem;
-            border-radius: 8px;
+            border-radius: 0;
             border: 1px solid #eee;
             position: sticky;
             top: 100px;
@@ -102,7 +102,7 @@
             width: 70px;
             height: 70px;
             object-fit: cover;
-            border-radius: 6px;
+            border-radius: 0;
             border: 1px solid #eee;
         }
         .summary-item-details {
@@ -147,15 +147,36 @@
             background: #111;
             color: #fff;
             border: none;
-            border-radius: 4px;
+            border-radius: 0;
             font-size: 1rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             cursor: pointer;
-            margin-top: 2rem;
+            margin-top: 1rem;
             transition: all 0.2s;
             position: relative;
+        }
+        .whatsapp-btn {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            color: #111;
+            border: 1px solid #111;
+            border-radius: 0;
+            font-size: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.2s;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .whatsapp-btn:hover {
+            background: #f9f9f9;
         }
         .pay-btn:hover {
             background: #333;
@@ -265,7 +286,10 @@
                         </div>
                     </div>
                     
-                    <button type="submit" class="pay-btn" id="pay-action-btn">Pay Now</button>
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                        <button type="submit" class="pay-btn" id="pay-action-btn" style="margin-top: 0; flex: 1;">Pay Now</button>
+                        <a href="#" class="whatsapp-btn" id="whatsapp-checkout-btn" style="margin-top: 0; flex: 1;">Checkout with WhatsApp</a>
+                    </div>
                 </form>
             </div>
             
@@ -294,6 +318,7 @@
     </main>
 
     @include('partials.footer')
+    <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
 
     <script>
         const getCart = () => JSON.parse(localStorage.getItem('nelson_cart') || '[]');
@@ -317,7 +342,6 @@
                 
                 return `
                     <div class="summary-item">
-                        <img src="${item.image}" alt="${item.name}">
                         <div class="summary-item-details">
                             <div class="summary-item-name">${item.name}</div>
                             <div class="summary-item-meta">Size: ${item.size} &nbsp;|&nbsp; Qty: ${item.quantity}</div>
@@ -339,6 +363,17 @@
                     localStorage.removeItem('nelson_cart'); // clear cart
                     window.location.href = '/checkout/success';
                 }, 2000);
+            });
+
+            document.getElementById('whatsapp-checkout-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                let text = 'Hello, I would like to order the following items from my cart:\n\n';
+                cart.forEach(item => {
+                    text += `- ${item.name} (Size: ${item.size}, Qty: ${item.quantity}) - ${item.price} each\n`;
+                });
+                text += `\nTotal: ${formatPrice(subtotal)}`;
+                
+                window.open('https://wa.me/2340000000000?text=' + encodeURIComponent(text), '_blank');
             });
         });
     </script>

@@ -564,6 +564,7 @@
     const formatPrice = (priceNum) => '₦' + priceNum.toLocaleString('en-NG', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
     const initCartDrawer = () => {
+        let editingIndex = null;
         const drawer = document.querySelector('[data-cart-drawer]');
         if (!drawer) return;
 
@@ -590,7 +591,7 @@
                 subtotal += itemTotal;
                 
                 return `
-                    <tr class="cart-row" data-cart-row>
+                    <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''}" data-cart-row>
                         <td>
                             <div class="cart-item-product">
                                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
@@ -603,7 +604,7 @@
                         <td>
                             <div class="cart-price-cell">
                                 <span class="cart-price-value">${item.price}</span>
-                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle aria-expanded="false">Edit</button>
+                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle data-edit-index="${index}" aria-expanded="${index === editingIndex ? 'true' : 'false'}">${index === editingIndex ? 'Done' : 'Edit'}</button>
                             </div>
                         </td>
                         <td class="cart-col-qty">
@@ -617,7 +618,7 @@
                             <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}">Remove</button>
                         </td>
                     </tr>
-                    <tr class="cart-row-mobile-details" data-cart-row-details aria-hidden="true">
+                    <tr class="cart-row-mobile-details ${index === editingIndex ? 'is-open' : ''}" data-cart-row-details aria-hidden="${index === editingIndex ? 'false' : 'true'}">
                         <td colspan="2">
                             <div class="cart-row-mobile-details-inner">
                                 <div class="cart-row-mobile-stats">
@@ -652,16 +653,27 @@
         const bindCartEvents = () => {
             drawer.querySelectorAll('[data-cart-edit-toggle]').forEach((button) => {
                 button.addEventListener('click', () => {
-                    const row = button.closest('[data-cart-row]');
-                    if (!row) return;
-                    const isEditing = row.classList.toggle('is-editing');
-                    const detailsRow = row.nextElementSibling;
-                    if (detailsRow?.hasAttribute('data-cart-row-details')) {
-                        detailsRow.classList.toggle('is-open', isEditing);
-                        detailsRow.setAttribute('aria-hidden', isEditing ? 'false' : 'true');
+                    const idx = Number(button.getAttribute('data-edit-index'));
+                    if (editingIndex === idx) {
+                        const row = button.closest('[data-cart-row]');
+                        const detailsRow = row.nextElementSibling;
+                        const qtyEl = detailsRow.querySelector('[data-cart-qty-value]');
+                        const sizeEl = detailsRow.querySelector('[data-update-size]');
+                        
+                        const cart = getCart();
+                        if (cart[idx]) {
+                            cart[idx].quantity = Number(qtyEl.textContent);
+                            cart[idx].size = sizeEl.value;
+                            saveCart(cart);
+                            if (window.updateCartBadge) window.updateCartBadge();
+                            window.showToast('Cart updated');
+                        }
+                        
+                        editingIndex = null;
+                    } else {
+                        editingIndex = idx;
                     }
-                    button.textContent = isEditing ? 'Cancel' : 'Edit';
-                    button.setAttribute('aria-expanded', isEditing ? 'true' : 'false');
+                    renderCart();
                 });
             });
 
@@ -675,27 +687,25 @@
 
             drawer.querySelectorAll('[data-cart-qty-minus]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const idx = e.target.getAttribute('data-index');
-                    const cart = getCart();
-                    if(cart[idx].quantity > 1) {
-                        cart[idx].quantity--; saveCart(cart); renderCart(); if (window.updateCartBadge) window.updateCartBadge(); window.showToast('Cart updated');
+                    const valEl = btn.nextElementSibling;
+                    let qty = Number(valEl.textContent);
+                    if (qty > 1) {
+                        valEl.textContent = qty - 1;
                     }
                 });
             });
 
             drawer.querySelectorAll('[data-cart-qty-plus]').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const idx = e.target.getAttribute('data-index');
-                    const cart = getCart();
-                    cart[idx].quantity++; saveCart(cart); renderCart(); if (window.updateCartBadge) window.updateCartBadge(); window.showToast('Cart updated');
+                    const valEl = btn.previousElementSibling;
+                    let qty = Number(valEl.textContent);
+                    valEl.textContent = qty + 1;
                 });
             });
 
             drawer.querySelectorAll('[data-update-size]').forEach(sel => {
                 sel.addEventListener('change', (e) => {
-                    const idx = e.target.getAttribute('data-update-size');
-                    const cart = getCart();
-                    cart[idx].size = e.target.value; saveCart(cart); renderCart(); window.showToast('Size updated');
+                    // Size is now saved when 'Done' is clicked
                 });
             });
         };
@@ -779,7 +789,7 @@
 
     window.updateCartBadge = () => {
         const cart = getCart();
-        const count = cart.reduce((acc, item) => acc + item.quantity, 0);
+        const count = cart.reduce((acc, item) => acc + Number(item.quantity), 0);
         document.querySelectorAll('[data-cart-badge]').forEach(badge => {
             badge.textContent = count;
             badge.style.display = count > 0 ? 'inline-flex' : 'none';
