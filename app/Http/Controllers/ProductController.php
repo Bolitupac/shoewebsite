@@ -23,7 +23,7 @@ class ProductController extends Controller
             'price'       => 'required|string|max:255',
             'category'    => 'required|string|max:255',
             'section'     => 'required|string|max:255',
-            'image'       => 'required|string|max:255',
+            'image'       => 'required|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
@@ -40,6 +40,10 @@ class ProductController extends Controller
             $validated['id'] = $base . '-' . $count++;
         }
 
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadToSupabase($request->file('image'));
+        }
+
         Product::create($validated);
 
         return redirect()->route('admin.products')->with('success', 'Product added.');
@@ -52,7 +56,7 @@ class ProductController extends Controller
             'price'       => 'required|string|max:255',
             'category'    => 'required|string|max:255',
             'section'     => 'required|string|max:255',
-            'image'       => 'required|string|max:255',
+            'image'       => 'nullable|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
@@ -60,6 +64,12 @@ class ProductController extends Controller
         ]);
 
         $validated['hidden'] = $request->boolean('hidden');
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadToSupabase($request->file('image'));
+        } else {
+            unset($validated['image']);
+        }
 
         $product->update($validated);
 
@@ -70,5 +80,27 @@ class ProductController extends Controller
     {
         $product->delete();
         return redirect()->route('admin.products')->with('success', 'Product deleted.');
+    }
+
+    private function uploadToSupabase($file)
+    {
+        $url = env('NEXT_PUBLIC_SUPABASE_URL');
+        $key = env('NEXT_PUBLIC_SUPABASE_KEY');
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $filePath = $file->getPathname();
+        
+        $response = \Illuminate\Support\Facades\Http::withToken($key)
+            ->withHeaders([
+                'apikey' => $key,
+                'Content-Type' => $file->getMimeType(),
+            ])
+            ->withBody(file_get_contents($filePath), $file->getMimeType())
+            ->post("{$url}/storage/v1/object/products/{$fileName}");
+            
+        if ($response->successful()) {
+            return "{$url}/storage/v1/object/public/products/{$fileName}";
+        }
+        
+        throw new \Exception('Failed to upload image: ' . $response->body());
     }
 }

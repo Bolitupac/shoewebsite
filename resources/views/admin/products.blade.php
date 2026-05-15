@@ -68,7 +68,7 @@
 
                             {{-- Edit row (hidden by default) --}}
                             <td class="edit-mode" colspan="8" style="display:none; padding: 1rem;">
-                                <form method="POST" action="{{ route('admin.products.update', $product->id) }}" class="inline-edit-form">
+                                <form method="POST" action="{{ route('admin.products.update', $product->id) }}" class="inline-edit-form" enctype="multipart/form-data">
                                     @csrf @method('PATCH')
                                     <div class="edit-grid">
                                         <div class="field-group">
@@ -96,8 +96,9 @@
                                             </select>
                                         </div>
                                         <div class="field-group">
-                                            <label>Image path</label>
-                                            <input type="text" name="image" value="{{ $product->image }}" required>
+                                            <label>Image upload (leave empty to keep current)</label>
+                                            <input type="file" name="image" accept="image/*">
+                                            <small style="display:block;margin-top:0.25rem;color:#666">Current: {{ basename($product->image) }}</small>
                                         </div>
                                         <div class="field-group">
                                             <label>Colour</label>
@@ -134,7 +135,7 @@
             {{-- Add Product Form --}}
             <div class="admin-section" id="add-form">
                 <h2 class="admin-section-title">Add Product</h2>
-                <form method="POST" action="{{ route('admin.products.store') }}" class="add-form">
+                <form method="POST" action="{{ route('admin.products.store') }}" class="add-form" enctype="multipart/form-data">
                     @csrf
                     <div class="edit-grid">
                         <div class="field-group">
@@ -164,8 +165,8 @@
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="add-image">Image path</label>
-                            <input type="text" id="add-image" name="image" value="{{ old('image') }}" placeholder="images/my-shoe.jpg" required>
+                            <label for="add-image">Product Image</label>
+                            <input type="file" id="add-image" name="image" accept="image/*" required>
                             @error('image') <span class="field-error">{{ $message }}</span> @enderror
                         </div>
                         <div class="field-group">
