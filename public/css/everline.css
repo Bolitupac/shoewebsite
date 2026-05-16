@@ -143,6 +143,11 @@ textarea {
     box-shadow: none;
 }
 
+.top-header.is-transparent:hover {
+    background: #fff;
+    border-bottom-color: var(--line);
+}
+
 .top-header.is-promo-hidden {
     top: 0;
 }
@@ -1975,6 +1980,14 @@ textarea {
         overflow: visible;
     }
 
+    .cart-mobile-edit-btn {
+        display: none;
+    }
+
+    .cart-mobile-qty-display {
+        display: none !important;
+    }
+
     .product-grid,
     .movement-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2002,6 +2015,10 @@ textarea {
 
     .cart-mobile-edit-btn {
         display: inline-flex;
+    }
+
+    .cart-mobile-qty-display {
+        display: inline !important;
     }
 
     .cart-row.is-editing td.cart-col-qty,
@@ -2391,30 +2408,23 @@ textarea {
     }
 
     .header-nav {
-        display: none !important;
+        display: flex !important;
         width: 100%;
         order: 4;
         flex-direction: column;
         align-items: center;
         gap: 20px;
         padding: 0;
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.4s ease;
     }
     
     .top-header.is-menu-open .header-nav {
-        display: flex !important;
+        max-height: 500px;
+        opacity: 1;
         padding: 24px 0 12px;
-        animation: navSlideDown 0.3s ease-out forwards;
-    }
-
-    @keyframes navSlideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-10px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
     }
 
     .top-header.is-menu-open {

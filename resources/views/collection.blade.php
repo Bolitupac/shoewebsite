@@ -147,7 +147,10 @@
                                         data-colour="{{ $product['colour'] }}"
                                         data-description="{{ $product['description'] }}"
                                         data-whatsapp-number="{{ $whatsappNumber }}"
-                                        data-sold-out="{{ !empty($product['sold_out']) ? 'true' : 'false' }}">
+                                        data-sold-out="{{ !empty($product['sold_out']) ? 'true' : 'false' }}"
+                                        data-construction-type="{{ $product['construction_type'] ?? '' }}"
+                                        data-fitting-type="{{ $product['fitting_type'] ?? 'All fitting types' }}"
+                                        data-sole-type="{{ $product['sole_type'] ?? '' }}">
                                         <div class="card-media">
                                             @if(!empty($product['sold_out']))
                                                 <span class="card-badge sold-out">Sold Out</span>

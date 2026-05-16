@@ -163,8 +163,20 @@
                             <input type="file" id="form-image" name="image" accept="image/*">
                         </div>
                         <div class="field-group">
-                            <label for="form-colour">Colour</label>
+                            <label for="form-colour">Colour (Material / Finish)</label>
                             <input type="text" id="form-colour" name="colour" required>
+                        </div>
+                        <div class="field-group">
+                            <label for="form-construction-type">Construction Type</label>
+                            <input type="text" id="form-construction-type" name="construction_type" placeholder="e.g. Lockstitch">
+                        </div>
+                        <div class="field-group">
+                            <label for="form-fitting-type">Fitting Type</label>
+                            <input type="text" id="form-fitting-type" name="fitting_type" placeholder="e.g. G" value="All fitting types">
+                        </div>
+                        <div class="field-group">
+                            <label for="form-sole-type">Sole Type</label>
+                            <input type="text" id="form-sole-type" name="sole_type" placeholder="e.g. Leather">
                         </div>
                         <div class="field-group">
                             <label for="form-badge">Badge</label>
@@ -228,6 +240,9 @@
             document.getElementById('shoe-type-group').style.display = 'block';
             document.getElementById('form-limited-edition-count').value = "";
             document.getElementById('form-sold-out').checked = false;
+            document.getElementById('form-construction-type').value = '';
+            document.getElementById('form-fitting-type').value = 'All fitting types';
+            document.getElementById('form-sole-type').value = '';
 
             imageHelp.textContent = '(required)';
             imageInput.required = true;
@@ -258,8 +273,11 @@
             document.getElementById('form-category-shoe-type').value = cats[2] || "";
             document.getElementById('shoe-type-group').style.display = document.getElementById('form-category-item').value === 'Shoes' ? 'block' : 'none';
             
-            document.getElementById('form-limited-edition-count').value = product.limited_edition_count || "";
+            document.getElementById('form-limited-edition-count').value = product.limited_edition_count || '';
             document.getElementById('form-sold-out').checked = product.sold_out ? true : false;
+            document.getElementById('form-construction-type').value = product.construction_type || '';
+            document.getElementById('form-fitting-type').value = product.fitting_type || 'All fitting types';
+            document.getElementById('form-sole-type').value = product.sole_type || '';
 
             imageHelp.textContent = '(optional, leave empty to keep current)';
             imageInput.required = false;

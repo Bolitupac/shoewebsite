@@ -22,7 +22,7 @@
                 </tbody>
             </table>
         </div>
-        <p class="cart-note">You are shopping in UK sizing. For conversion information, please see our <a href="#" data-size-guide>Size Guide</a>.</p>
+        <p class="cart-note">You are shopping in EU sizing. For conversion information, please see our <a href="#" data-size-guide>Size Guide</a>.</p>
         <div class="cart-summary">
             <div class="cart-summary-row"><span>Subtotal</span><strong id="cart-subtotal">₦0.00</strong></div>
             <p>Tax included and shipping calculated at checkout</p>

@@ -221,8 +221,18 @@
     </style>
 </head>
 <body>
-    @include('partials.header')
+    <div class="promo-bar">
+        <span class="promo-desktop-only">Secure Checkout Environment</span>
+        <span class="promo-desktop-only">Nelson Shoes</span>
+        <span class="promo-mobile-only">Secure Checkout</span>
+    </div>
 
+    <header class="top-header" style="justify-content: space-between;">
+        <a href="javascript:history.back()" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.9rem; text-decoration: none;">&larr; Back</a>
+        <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
+        <a href="{{ route('home') }}" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.9rem; text-decoration: none;">Homepage</a>
+    </header>
+    
     <main class="checkout-page">
         <div class="checkout-header">
             <h1>Secure Checkout</h1>

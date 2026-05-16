@@ -335,7 +335,10 @@
                 description: card.dataset.description,
                 whatsappNumber: card.dataset.whatsappNumber || whatsappNumber,
                 soldOut: card.dataset.soldOut === 'true',
-                limitedEdition: card.classList.contains('card-one-of-one')
+                limitedEdition: card.classList.contains('card-one-of-one'),
+                constructionType: card.dataset.constructionType || 'Lockstitch',
+                fittingType: card.dataset.fittingType || 'All fitting types',
+                soleType: card.dataset.soleType || 'Leather'
             };
 
             modalImage.src = image.src;
@@ -344,8 +347,19 @@
             modalPrice.textContent = activeProduct.price;
             modalDescription.textContent = activeProduct.description;
             modalColour.textContent = activeProduct.colour;
-            modalSize.value = '40';
-            modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
+            const isShoe = activeProduct.category && activeProduct.category.includes('Shoes');
+            const sizeLabel = productModal.querySelector('label[for="modal-size"]');
+            
+            if (isShoe) {
+                modalSize.style.display = '';
+                if (sizeLabel) sizeLabel.style.display = '';
+                modalSize.value = '40';
+                modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
+            } else {
+                modalSize.style.display = 'none';
+                if (sizeLabel) sizeLabel.style.display = 'none';
+                modalOrder.href = buildWhatsAppLink(activeProduct, 'N/A');
+            }
 
             const addToCartBtn = productModal.querySelector('[data-modal-add-cart]');
             if (addToCartBtn) {
@@ -363,11 +377,11 @@
             }
 
             modalInfo.innerHTML = `
-                <li>Construction Type: Lockstitch</li>
-                <li>Fitting Type: G</li>
+                <li>Construction Type: ${activeProduct.constructionType}</li>
+                <li>Fitting Type: ${activeProduct.fittingType}</li>
                 <li>Material / Finish: ${activeProduct.colour}</li>
                 <li>Product Type: ${activeProduct.category}</li>
-                <li>Sole Type: Leather</li>
+                <li>Sole Type: ${activeProduct.soleType}</li>
             `;
 
             renderRecommendations(card);
@@ -396,8 +410,9 @@
                         name: activeProduct.name,
                         price: activeProduct.price,
                         image: activeProduct.imageSrc || modalImage.src,
-                        size: size,
+                        size: isShoe ? size : 'N/A',
                         quantity: 1,
+                        category: activeProduct.category,
                         limitedEdition: activeProduct.limitedEdition
                     });
                 }
@@ -671,6 +686,7 @@
             itemsContainer.innerHTML = cart.map((item, index) => {
                 const itemTotal = parsePrice(item.price) * item.quantity;
                 subtotal += itemTotal;
+                const isShoe = item.category && item.category.includes('Shoes');
                 
                 return `
                     <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''} ${item.limitedEdition ? 'cart-row-one-of-one' : ''}" data-cart-row>
@@ -678,9 +694,10 @@
                             <div class="cart-item-product">
                                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                                 <div>
-                                    <p class="cart-item-name">${item.name}</p>
+                                    <p class="cart-item-name">${item.name} <span class="cart-mobile-qty-display" style="display:none;">(x${item.quantity})</span></p>
+                                    ${isShoe ? `
                                     <div class="cart-item-sub cart-desktop-size">
-                                        Shoe Size (UK): 
+                                        Shoe Size (EU): 
                                         ${index === editingIndex ? `
                                             <div class="cart-qty-stepper" style="display:inline-flex; align-items:center; gap:5px; margin-left:5px;">
                                                 <button type="button" class="cart-qty-btn" data-desktop-size-minus data-index="${index}" style="width:20px;height:20px;font-size:12px;">-</button>
@@ -689,9 +706,9 @@
                                             </div>
                                         ` : `<span>${item.size}</span>`}
                                     </div>
+                                    ` : ''}
                                 </div>
                             </div>
-                            <p class="cart-item-sub cart-mobile-size-text">Shoe Size (UK): ${item.size}</p>
                         </td>
                         <td>
                             <div class="cart-price-cell">

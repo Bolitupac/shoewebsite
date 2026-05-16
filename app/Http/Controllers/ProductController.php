@@ -31,6 +31,9 @@ class ProductController extends Controller
             'hidden'      => 'nullable|boolean',
             'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
+            'construction_type' => 'nullable|string|max:255',
+            'fitting_type' => 'nullable|string|max:255',
+            'sole_type' => 'nullable|string|max:255',
         ]);
 
         $validated['category'] = [$validated['category_target'], $validated['category_item']];
@@ -79,6 +82,9 @@ class ProductController extends Controller
             'hidden'      => 'nullable|boolean',
             'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
+            'construction_type' => 'nullable|string|max:255',
+            'fitting_type' => 'nullable|string|max:255',
+            'sole_type' => 'nullable|string|max:255',
         ]);
 
         $validated['category'] = [$validated['category_target'], $validated['category_item']];

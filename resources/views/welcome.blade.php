@@ -87,7 +87,7 @@
                     </div>
                     <div class="drop-belt" data-arrivals-belt>
                         @foreach ($latestProducts as $product)
-                            <article class="card {{ in_array('one-of-one', (array)$product['category']) ? 'card-one-of-one' : '' }}">
+                            <article class="card {{ !empty($product['limited_edition']) ? 'card-one-of-one' : '' }}">
                                 <div class="card-media">
                                     @if(!empty($product['sold_out']))
                                         <span class="card-badge sold-out">Sold Out</span>
