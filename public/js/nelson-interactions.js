@@ -144,12 +144,51 @@
                 const section = button.closest('.catalog-section');
                 if (!section) return;
 
+                const grid = section.querySelector('.product-grid');
                 const hiddenCards = section.querySelectorAll('.card-hidden, .card-hidden-mobile');
                 const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
-                hiddenCards.forEach((card) => {
-                    card.style.display = isExpanded ? 'none' : 'block';
-                });
+                if (isExpanded) {
+                    const currentHeight = grid.scrollHeight + 'px';
+                    grid.style.height = currentHeight;
+                    void grid.offsetHeight; // reflow
+                    
+                    hiddenCards.forEach(card => {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                    });
+                    
+                    grid.style.height = grid.dataset.collapsedHeight || '0px';
+                    
+                    setTimeout(() => {
+                        hiddenCards.forEach(card => {
+                            card.style.display = 'none';
+                        });
+                        grid.style.height = '';
+                    }, 400);
+                } else {
+                    grid.dataset.collapsedHeight = grid.offsetHeight + 'px';
+                    grid.style.height = grid.dataset.collapsedHeight;
+                    
+                    hiddenCards.forEach(card => {
+                        card.style.display = 'block';
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                    });
+                    
+                    const targetHeight = grid.scrollHeight + 'px';
+                    void grid.offsetHeight; // reflow
+                    
+                    grid.style.height = targetHeight;
+                    hiddenCards.forEach(card => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    });
+                    
+                    setTimeout(() => {
+                        grid.style.height = '';
+                    }, 400);
+                }
 
                 button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
                 button.textContent = isExpanded ? 'See more' : 'See less';
@@ -294,7 +333,9 @@
                 category: card.dataset.category,
                 colour: card.dataset.colour,
                 description: card.dataset.description,
-                whatsappNumber: card.dataset.whatsappNumber || whatsappNumber
+                whatsappNumber: card.dataset.whatsappNumber || whatsappNumber,
+                soldOut: card.dataset.soldOut === 'true',
+                limitedEdition: card.classList.contains('card-one-of-one')
             };
 
             modalImage.src = image.src;
@@ -305,6 +346,22 @@
             modalColour.textContent = activeProduct.colour;
             modalSize.value = '40';
             modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
+
+            const addToCartBtn = productModal.querySelector('[data-modal-add-cart]');
+            if (addToCartBtn) {
+                if (activeProduct.soldOut) {
+                    addToCartBtn.textContent = 'Sold Out';
+                    addToCartBtn.disabled = true;
+                    addToCartBtn.style.opacity = '0.5';
+                    addToCartBtn.style.cursor = 'not-allowed';
+                } else {
+                    addToCartBtn.textContent = 'Add to Cart';
+                    addToCartBtn.disabled = false;
+                    addToCartBtn.style.opacity = '1';
+                    addToCartBtn.style.cursor = 'pointer';
+                }
+            }
+
             modalInfo.innerHTML = `
                 <li>Construction Type: Lockstitch</li>
                 <li>Fitting Type: G</li>
@@ -340,7 +397,8 @@
                         price: activeProduct.price,
                         image: activeProduct.imageSrc || modalImage.src,
                         size: size,
-                        quantity: 1
+                        quantity: 1,
+                        limitedEdition: activeProduct.limitedEdition
                     });
                 }
                 saveCart(cart);
@@ -615,31 +673,56 @@
                 subtotal += itemTotal;
                 
                 return `
-                    <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''}" data-cart-row>
+                    <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''} ${item.limitedEdition ? 'cart-row-one-of-one' : ''}" data-cart-row>
                         <td>
                             <div class="cart-item-product">
                                 <img src="${item.image}" alt="${item.name}" class="cart-item-image">
                                 <div>
                                     <p class="cart-item-name">${item.name}</p>
+                                    <div class="cart-item-sub cart-desktop-size">
+                                        Shoe Size (UK): 
+                                        ${index === editingIndex ? `
+                                            <div class="cart-qty-stepper" style="display:inline-flex; align-items:center; gap:5px; margin-left:5px;">
+                                                <button type="button" class="cart-qty-btn" data-desktop-size-minus data-index="${index}" style="width:20px;height:20px;font-size:12px;">-</button>
+                                                <strong data-desktop-size-value>${item.size}</strong>
+                                                <button type="button" class="cart-qty-btn" data-desktop-size-plus data-index="${index}" style="width:20px;height:20px;font-size:12px;">+</button>
+                                            </div>
+                                        ` : `<span>${item.size}</span>`}
+                                    </div>
                                 </div>
                             </div>
-                            <p class="cart-item-sub">Shoe Size (UK): ${item.size}</p>
+                            <p class="cart-item-sub cart-mobile-size-text">Shoe Size (UK): ${item.size}</p>
                         </td>
                         <td>
                             <div class="cart-price-cell">
                                 <span class="cart-price-value">${item.price}</span>
-                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle data-edit-index="${index}" aria-expanded="${index === editingIndex ? 'true' : 'false'}">${index === editingIndex ? 'Done' : 'Edit'}</button>
+                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle data-edit-index="${index}">${index === editingIndex ? 'Done' : 'Edit'}</button>
                             </div>
                         </td>
                         <td class="cart-col-qty">
-                            <div class="cart-qty">
-                                <span>Quantity</span>
-                                <strong>${item.quantity}</strong>
-                            </div>
+                            ${index === editingIndex ? `
+                                <div class="cart-mobile-qty-stepper" data-cart-qty-stepper>
+                                    <button type="button" class="cart-qty-btn" data-cart-qty-minus data-index="${index}">-</button>
+                                    <strong data-cart-qty-value>${item.quantity}</strong>
+                                    <button type="button" class="cart-qty-btn" data-cart-qty-plus data-index="${index}">+</button>
+                                </div>
+                            ` : `
+                                <div class="cart-qty">
+                                    <span>Quantity</span>
+                                    <strong>${item.quantity}</strong>
+                                </div>
+                            `}
                         </td>
                         <td class="cart-col-total">${formatPrice(itemTotal)}</td>
                         <td class="cart-col-action">
-                            <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}">Remove</button>
+                            ${index === editingIndex ? `
+                                <div style="display:flex; flex-direction:column; gap:5px;">
+                                    <button type="button" class="btn btn-dark cart-edit-done-btn" data-cart-edit-toggle data-edit-index="${index}" style="padding: 4px 8px; font-size: 11px;">Done</button>
+                                    <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}" style="padding: 4px 8px; font-size: 11px;">Remove</button>
+                                </div>
+                            ` : `
+                                <button type="button" class="btn btn-outline cart-desktop-edit-btn" data-cart-edit-toggle data-edit-index="${index}" style="padding: 4px 12px; font-size: 11px;">Edit</button>
+                            `}
                         </td>
                     </tr>
                     <tr class="cart-row-mobile-details ${index === editingIndex ? 'is-open' : ''}" data-cart-row-details aria-hidden="${index === editingIndex ? 'false' : 'true'}">
@@ -686,8 +769,15 @@
                         
                         const cart = getCart();
                         if (cart[idx]) {
-                            cart[idx].quantity = Number(qtyEl.textContent);
-                            cart[idx].size = sizeEl.value;
+                            const desktopSizeEl = row.querySelector('[data-desktop-size-value]');
+                            const desktopQtyEl = row.querySelector('.cart-col-qty [data-cart-qty-value]');
+                            
+                            if (desktopSizeEl) cart[idx].size = desktopSizeEl.textContent;
+                            else if (sizeEl) cart[idx].size = sizeEl.value;
+
+                            if (desktopQtyEl) cart[idx].quantity = Number(desktopQtyEl.textContent);
+                            else if (qtyEl) cart[idx].quantity = Number(qtyEl.textContent);
+
                             saveCart(cart);
                             if (window.updateCartBadge) window.updateCartBadge();
                             window.showToast('Cart updated');
@@ -724,6 +814,28 @@
                     const valEl = btn.previousElementSibling;
                     let qty = Number(valEl.textContent);
                     valEl.textContent = qty + 1;
+                });
+            });
+
+            drawer.querySelectorAll('[data-desktop-size-minus]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const valEl = btn.nextElementSibling;
+                    let size = Number(valEl.textContent);
+                    if (size > 6 && size <= 20) { // UK sizes usually 6-14, but existing is 40-50 EU. Let's handle both.
+                        valEl.textContent = size - 1;
+                    } else if (size > 40) {
+                        valEl.textContent = size - 1;
+                    }
+                });
+            });
+
+            drawer.querySelectorAll('[data-desktop-size-plus]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const valEl = btn.previousElementSibling;
+                    let size = Number(valEl.textContent);
+                    if (size < 14 || (size >= 40 && size < 50)) {
+                        valEl.textContent = size + 1;
+                    }
                 });
             });
 

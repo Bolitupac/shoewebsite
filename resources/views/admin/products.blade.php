@@ -41,6 +41,19 @@
                 </div>
             @endif
 
+            <style>
+                .admin-row-one-of-one {
+                    background: linear-gradient(135deg, #111 0%, #222 100%) !important;
+                    color: #d4af37 !important;
+                }
+                .admin-row-one-of-one td {
+                    border-bottom-color: #333 !important;
+                    color: inherit;
+                }
+                .admin-row-one-of-one .admin-table-img {
+                    border-color: #d4af37;
+                }
+            </style>
             {{-- Products Table --}}
             <div class="table-wrap">
                 <table class="admin-table products-table">
@@ -63,7 +76,7 @@
                             // Decode categories since it is cast to array
                             $catStr = is_array($product->category) ? implode(', ', array_map('ucfirst', $product->category)) : ucfirst($product->category);
                         @endphp
-                        <tr id="row-{{ $product->id }}">
+                        <tr id="row-{{ $product->id }}" class="{{ !empty($product->limited_edition) ? 'admin-row-one-of-one' : '' }}">
                             <td>
                                 @if($product->image)
                                     <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset($product->image) }}" alt="image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">

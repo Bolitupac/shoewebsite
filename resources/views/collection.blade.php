@@ -146,7 +146,8 @@
                                         data-category="{{ implode(', ', (array)$product['category']) }}"
                                         data-colour="{{ $product['colour'] }}"
                                         data-description="{{ $product['description'] }}"
-                                        data-whatsapp-number="{{ $whatsappNumber }}">
+                                        data-whatsapp-number="{{ $whatsappNumber }}"
+                                        data-sold-out="{{ !empty($product['sold_out']) ? 'true' : 'false' }}">
                                         <div class="card-media">
                                             @if(!empty($product['sold_out']))
                                                 <span class="card-badge sold-out">Sold Out</span>
