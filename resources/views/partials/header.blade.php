@@ -29,6 +29,20 @@
         <a href="{{ route('collection') }}#accessories">Accessories</a>
         <a href="#" data-open-size-guide>Size Guide</a>
     </nav>
+
+    <!-- Unified mobile navigation menu -->
+    <nav class="mobile-nav" aria-label="Mobile menu">
+        <a class="{{ request()->routeIs('home') ? 'is-active' : '' }}" href="{{ route('home') }}">Home</a>
+        <a href="{{ route('home') }}#mens">Men</a>
+        <a href="{{ route('home') }}#womens">Women</a>
+        <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>
+        <a href="{{ route('collection') }}#accessories">Accessories</a>
+        <a class="{{ request()->routeIs('academy') ? 'is-active' : '' }}" href="{{ route('academy') }}">Academy</a>
+        <a class="{{ request()->routeIs('about') ? 'is-active' : '' }}" href="{{ route('about') }}">About</a>
+        <a class="{{ request()->routeIs('support') ? 'is-active' : '' }}" href="{{ route('support') }}">Support</a>
+        <a href="#" data-open-size-guide>Size Guide</a>
+    </nav>
+
     <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
     <nav class="header-nav header-nav-right" aria-label="Primary right">
         <a class="{{ request()->routeIs('collection') ? 'is-active' : '' }}" href="{{ route('collection') }}">Collection</a>

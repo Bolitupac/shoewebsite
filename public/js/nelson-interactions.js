@@ -473,7 +473,7 @@
         });
 
         // Close mobile menu when a nav link is clicked
-        header.querySelectorAll('.header-nav a').forEach(link => {
+        header.querySelectorAll('.header-nav a, .mobile-nav a').forEach(link => {
             link.addEventListener('click', () => {
                 header.classList.remove('is-menu-open');
                 toggleBtn.setAttribute('aria-expanded', 'false');
