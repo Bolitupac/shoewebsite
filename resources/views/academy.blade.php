@@ -23,7 +23,7 @@
                     <span class="eyebrow">Nelson Shoes Academy</span>
                     <h1>Masterclass in bespoke shoemaking.</h1>
                     <p>Train under a workshop philosophy built on leather anatomy, structural integrity, and the art of patina.</p>
-                    <a class="btn btn-dark" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Enroll Now</a>
+                    <a class="btn btn-dark" href="https://wa.me/2347037371590?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Enroll Now</a>
                 </div>
             </section>
 
@@ -60,7 +60,7 @@
                 <span class="section-label">Enrollment</span>
                 <h2>Begin your workshop journey.</h2>
                 <p>Ask about schedules, class size, materials, and entry requirements directly with the academy.</p>
-                <a class="btn btn-dark" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20enroll%20in%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Speak to the academy</a>
+                <a class="btn btn-dark" href="https://wa.me/2347037371590?text=Hello%2C%20I%20want%20to%20enroll%20in%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Speak to the academy</a>
             </section>
 
             <section class="section academy-form-section" aria-labelledby="academy-form-title">

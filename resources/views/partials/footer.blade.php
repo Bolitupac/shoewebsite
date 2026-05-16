@@ -1,4 +1,4 @@
-@php($whatsappNumber = $whatsappNumber ?? '2340000000000')
+@php($whatsappNumber = $whatsappNumber ?? '2347037371590')
 <footer class="footer">
 <div class="footer-columns heritage-footer">
 <div><h4>Shop</h4><a href="{{ route('collection') }}">Collection</a><a href="{{ route('collection') }}#one-of-one">One-of-One</a><a href="{{ route('collection') }}#custom-order">Custom Order</a><a href="{{ route('collection') }}#accessories">Accessories</a></div>

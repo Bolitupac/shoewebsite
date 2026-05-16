@@ -14,7 +14,7 @@
 
 <body>
     @php
-        $whatsappNumber = '2340000000000';
+        $whatsappNumber = '2347037371590';
     @endphp
 
     <div class="site-wrap">

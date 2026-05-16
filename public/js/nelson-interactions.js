@@ -1,5 +1,5 @@
 (function () {
-    const whatsappNumber = '2340000000000';
+    const whatsappNumber = '2347037371590';
 
     const initHeroRotator = () => {
         const hero = document.querySelector('[data-hero-rotator]');
@@ -400,7 +400,9 @@
             newBtn.addEventListener('click', () => {
                 if (!activeProduct) return;
                 const cart = getCart();
-                const size = modalSize.value;
+                // Determine isShoe from activeProduct at click-time (not from outer scope)
+                const productIsShoe = activeProduct.category && activeProduct.category.includes('Shoes');
+                const size = productIsShoe ? modalSize.value : 'N/A';
                 const existingIdx = cart.findIndex(i => i.id === activeProduct.id && i.size === size);
                 if (existingIdx > -1) {
                     cart[existingIdx].quantity++;
@@ -410,14 +412,15 @@
                         name: activeProduct.name,
                         price: activeProduct.price,
                         image: activeProduct.imageSrc || modalImage.src,
-                        size: isShoe ? size : 'N/A',
+                        size: size,
                         quantity: 1,
                         category: activeProduct.category,
                         limitedEdition: activeProduct.limitedEdition
                     });
                 }
                 saveCart(cart);
-                window.showToast('Added to cart'); if (window.updateCartBadge) window.updateCartBadge();
+                window.showToast('Added to cart');
+                if (window.updateCartBadge) window.updateCartBadge();
             });
         }
 
@@ -492,7 +495,19 @@
             if (isOpen) {
                 header.classList.remove('is-transparent');
                 promoBar?.classList.remove('is-hidden-on-scroll');
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
             }
+        });
+
+        // Close mobile menu when a nav link is clicked
+        header.querySelectorAll('.header-nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                header.classList.remove('is-menu-open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = '';
+            });
         });
     };
 

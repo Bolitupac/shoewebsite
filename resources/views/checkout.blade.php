@@ -383,7 +383,7 @@
                 });
                 text += `\nTotal: ${formatPrice(subtotal)}`;
                 
-                window.open('https://wa.me/2340000000000?text=' + encodeURIComponent(text), '_blank');
+                window.open('https://wa.me/2347037371590?text=' + encodeURIComponent(text), '_blank');
             });
         });
     </script>

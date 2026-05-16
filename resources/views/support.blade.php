@@ -54,7 +54,7 @@
                         </label>
                         <div class="form-actions form-span-2">
                             <button class="btn btn-dark" type="submit">Send message</button>
-                            <a class="btn btn-outline" href="https://wa.me/2340000000000?text=Hello%2C%20I%20need%20support%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp demo</a>
+                            <a class="btn btn-outline" href="https://wa.me/2347037371590?text=Hello%2C%20I%20need%20support%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp demo</a>
                         </div>
                     </form>
 
@@ -63,7 +63,7 @@
                         <h2>Message Nelson Shoes.</h2>
                         <p>Use the demo links below for WhatsApp and social inquiries. Replace the handles when the client confirms final accounts.</p>
                         <div class="social-list">
-                            <a href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20speak%20with%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp: +234 000 000 0000</a>
+                            <a href="https://wa.me/2347037371590?text=Hello%2C%20I%20want%20to%20speak%20with%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp: +234 703 737 1590</a>
                             <a href="https://www.instagram.com/nelsonshoes" target="_blank" rel="noreferrer">Instagram: @nelsonshoes</a>
                             <a href="https://www.tiktok.com/@nelsonshoes" target="_blank" rel="noreferrer">TikTok: @nelsonshoes</a>
                             <a href="https://x.com/nelsonshoes" target="_blank" rel="noreferrer">X: @nelsonshoes</a>

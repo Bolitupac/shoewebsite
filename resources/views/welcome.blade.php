@@ -132,7 +132,7 @@
                         <p>Train under a workshop philosophy built on leather anatomy, structural integrity, and the art of patina. Limited spaces, serious instruction.</p>
                         <div class="section-actions">
                             <a class="btn btn-dark" href="{{ route('academy') }}">View the masterclass</a>
-                            <a class="btn btn-outline" href="https://wa.me/2340000000000?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Ask on WhatsApp</a>
+                            <a class="btn btn-outline" href="https://wa.me/2347037371590?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Nelson%20Shoes%20Academy." target="_blank" rel="noreferrer">Ask on WhatsApp</a>
                         </div>
                     </div>
                     <div class="academy-promo-image">
