@@ -88,11 +88,16 @@
                     <div class="drop-belt" data-arrivals-belt>
                         @foreach ($latestProducts as $product)
                             <article class="card {{ in_array('one-of-one', (array)$product['category']) ? 'card-one-of-one' : '' }}">
-                                <div class="card-media"><img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async"></div>
+                                <div class="card-media">
+                                    @if(!empty($product['sold_out']))
+                                        <span class="card-badge sold-out">Sold Out</span>
+                                    @endif
+                                    <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
+                                </div>
                                 <div class="card-copy">
                                     <span class="card-flag">{{ $product['badge'] ?? 'New' }}</span>
                                     <h3>{{ $product['name'] }}</h3>
-                                    <p>{{ $product['price'] }}</p>
+                                    <p>₦{{ number_format((float)$product['price'], 0) }}</p>
                                     <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>
                                 </div>
                             </article>

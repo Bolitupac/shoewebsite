@@ -113,7 +113,7 @@
                     </section>
 
                     @foreach (['one-of-one' => 'Rare Pairs.', 'men' => 'Men.', 'women' => 'Women.', 'newly-made' => 'Fresh Drop.', 'accessories' => 'Wallets & Belts.'] as $section => $title)
-                        <section id="{{ $section }}" class="catalog-section" data-initial-visible="{{ $section === 'one-of-one' ? 2 : 4 }}">
+                        <section id="{{ $section }}" class="catalog-section" data-initial-visible="6">
                             <div class="section-intro">
                                 <div>
                                     <span class="section-label">{{ str_replace('-', ' ', $section) }}</span>
@@ -130,12 +130,15 @@
                                         data-product-card
                                         data-id="{{ $product['id'] }}"
                                         data-name="{{ $product['name'] }}"
-                                        data-price="{{ $product['price'] }}"
+                                        data-price="₦{{ number_format((float)$product['price'], 0) }}"
                                         data-category="{{ implode(', ', (array)$product['category']) }}"
                                         data-colour="{{ $product['colour'] }}"
                                         data-description="{{ $product['description'] }}"
                                         data-whatsapp-number="{{ $whatsappNumber }}">
                                         <div class="card-media">
+                                            @if(!empty($product['sold_out']))
+                                                <span class="card-badge sold-out">Sold Out</span>
+                                            @endif
                                             <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                         </div>
                                         <div class="card-copy">
@@ -143,14 +146,17 @@
                                                 <span class="card-flag">One of One</span>
                                             @endif
                                             <h2>{{ $product['name'] }}</h2>
+                                            @if (!empty($product['limited_edition']) && !empty($product['limited_edition_count']))
+                                                <span class="limited-edition-text" style="font-size: 11px; color: var(--accent); font-weight: bold; text-transform: uppercase;">Limited Edition: {{ $product['limited_edition_count'] }}</span>
+                                            @endif
                                             <div class="row">
-                                                <span>{{ $product['price'] }}</span>
+                                                <span>₦{{ number_format((float)$product['price'], 0) }}</span>
                                             </div>
                                         </div>
                                     </article>
                                 @endforeach
                             </div>
-                            @if (collect($products)->where('section', $section)->where('hidden', true)->isNotEmpty())
+                            @if (collect($products)->where('section', $section)->count() > 6 || collect($products)->where('section', $section)->where('hidden', true)->isNotEmpty())
                                 <div class="see-more-wrap">
                                     <button class="btn btn-outline see-more" type="button" data-see-more aria-expanded="false">See more</button>
                                 </div>

@@ -73,7 +73,19 @@
         const closeButtons = document.querySelectorAll('[data-filter-close]');
         const header = document.querySelector('.top-header');
         const promoBar = document.querySelector('.promo-bar');
+        const applyBtn = document.querySelector('.filter-footer [data-filter-close]');
         if (!filterPanel || !filterToggle) return;
+
+        const params = new URLSearchParams(window.location.search);
+        const tags = params.get('tags');
+        if (tags) {
+            const tagsArray = tags.split(',');
+            filterPanel.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                if (tagsArray.includes(cb.value)) {
+                    cb.checked = true;
+                }
+            });
+        }
 
         const setHeaderOverlayHidden = (isHidden) => {
             header?.classList.toggle('is-temporarily-hidden', isHidden);
@@ -104,7 +116,23 @@
             }
         });
 
-        closeButtons.forEach(btn => btn.addEventListener('click', closeFilter));
+        if (applyBtn) {
+            applyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const checked = Array.from(filterPanel.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+                if (checked.length > 0) {
+                    window.location.href = '/collection?tags=' + encodeURIComponent(checked.join(','));
+                } else {
+                    window.location.href = '/collection';
+                }
+            });
+        }
+
+        closeButtons.forEach(btn => {
+            if (btn !== applyBtn) {
+                btn.addEventListener('click', closeFilter);
+            }
+        });
     };
 
     const initSeeMore = () => {

@@ -12,11 +12,14 @@ class Product extends Model
 
     protected $fillable = [
         'id', 'name', 'price', 'category', 'section', 
-        'image', 'description', 'colour', 'badge', 'hidden'
+        'image', 'description', 'colour', 'badge', 'hidden',
+        'limited_edition', 'limited_edition_count', 'sold_out'
     ];
 
     protected $casts = [
         'hidden' => 'boolean',
         'category' => 'array',
+        'limited_edition' => 'boolean',
+        'sold_out' => 'boolean',
     ];
 }

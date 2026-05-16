@@ -21,18 +21,28 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'price'       => 'required|string|max:255',
-            'category'    => 'required|array',
-            'category.*'  => 'required|string|max:255',
+            'category_target' => 'required|string|max:255',
+            'category_item'   => 'required|string|max:255',
             'section'     => 'required|string|max:255',
             'image'       => 'required|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
+            'limited_edition' => 'nullable|boolean',
+            'limited_edition_count' => 'nullable|string|max:255',
+            'sold_out'    => 'nullable|boolean',
         ]);
+
+        $validated['category'] = [$validated['category_target'], $validated['category_item']];
+        unset($validated['category_target'], $validated['category_item']);
+
+        $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
 
         $validated['id'] = Str::slug($validated['name']);
         $validated['hidden'] = $request->boolean('hidden');
+        $validated['limited_edition'] = $request->boolean('limited_edition');
+        $validated['sold_out'] = $request->boolean('sold_out');
 
         // Ensure unique ID
         $base = $validated['id'];
@@ -55,17 +65,27 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:255',
             'price'       => 'required|string|max:255',
-            'category'    => 'required|array',
-            'category.*'  => 'required|string|max:255',
+            'category_target' => 'required|string|max:255',
+            'category_item'   => 'required|string|max:255',
             'section'     => 'required|string|max:255',
             'image'       => 'nullable|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
+            'limited_edition' => 'nullable|boolean',
+            'limited_edition_count' => 'nullable|string|max:255',
+            'sold_out'    => 'nullable|boolean',
         ]);
 
+        $validated['category'] = [$validated['category_target'], $validated['category_item']];
+        unset($validated['category_target'], $validated['category_item']);
+
+        $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
+
         $validated['hidden'] = $request->boolean('hidden');
+        $validated['limited_edition'] = $request->boolean('limited_edition');
+        $validated['sold_out'] = $request->boolean('sold_out');
 
         if ($request->hasFile('image')) {
             $validated['image'] = $this->uploadToSupabase($request->file('image'));

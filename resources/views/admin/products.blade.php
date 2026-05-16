@@ -113,14 +113,27 @@
                         </div>
                         <div class="field-group">
                             <label for="form-price">Price</label>
-                            <input type="text" id="form-price" name="price" placeholder="N1,000,000" required>
+                            <input type="number" id="form-price" name="price" placeholder="150000" required>
                         </div>
                         <div class="field-group">
-                            <label for="form-category">Category (Hold Ctrl/Cmd to select multiple)</label>
-                            <select id="form-category" name="category[]" multiple required style="height: 100px;">
-                                @foreach(['oxford','derby','loafer','one-of-one','belt','wallet', 'accessories'] as $cat)
-                                    <option value="{{ $cat }}">{{ ucfirst($cat) }}</option>
-                                @endforeach
+                            <label for="form-category-target">Target</label>
+                            <select id="form-category-target" name="category_target" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="field-group">
+                            <label for="form-category-item">Item Type</label>
+                            <select id="form-category-item" name="category_item" required>
+                                <option value="Shoes">Shoes</option>
+                                <option value="Belts">Belts</option>
+                                <option value="Polish">Polish</option>
+                                <option value="Shoehorns">Shoehorns</option>
+                                <option value="Wallets">Wallets</option>
+                                <option value="Oxford">Oxford</option>
+                                <option value="Derby">Derby</option>
+                                <option value="Loafer">Loafer</option>
                             </select>
                         </div>
                         <div class="field-group">
@@ -141,7 +154,13 @@
                         </div>
                         <div class="field-group">
                             <label for="form-badge">Badge</label>
-                            <input type="text" id="form-badge" name="badge" placeholder="e.g. Fresh Drop">
+                            <select id="form-badge" name="badge">
+                                <option value="">None</option>
+                                <option value="Fresh Drop">Fresh Drop</option>
+                                <option value="New Arrival">New Arrival</option>
+                                <option value="Best Seller">Best Seller</option>
+                                <option value="Restocked">Restocked</option>
+                            </select>
                         </div>
                         <div class="field-group">
                             <label for="form-hidden">Hidden</label>
@@ -149,6 +168,15 @@
                                 <option value="0">No</option>
                                 <option value="1">Yes</option>
                             </select>
+                        </div>
+                        <div class="field-group">
+                            <label for="form-limited-edition">Limited Edition</label>
+                            <input type="checkbox" id="form-limited-edition" name="limited_edition" value="1" onchange="document.getElementById('form-limited-edition-count').style.display = this.checked ? 'block' : 'none'">
+                            <input type="text" id="form-limited-edition-count" name="limited_edition_count" placeholder="e.g. 1 of 5" style="display:none; margin-top: 5px;">
+                        </div>
+                        <div class="field-group">
+                            <label for="form-sold-out">Sold Out</label>
+                            <input type="checkbox" id="form-sold-out" name="sold_out" value="1">
                         </div>
                         <div class="field-group full-width">
                             <label for="form-description">Description</label>
@@ -181,8 +209,12 @@
             formMethod.value = "POST";
             form.reset();
             
-            // clear multi-select
-            Array.from(document.getElementById('form-category').options).forEach(opt => opt.selected = false);
+            document.getElementById('form-category-target').value = "Male";
+            document.getElementById('form-category-item').value = "Shoes";
+            document.getElementById('form-limited-edition').checked = false;
+            document.getElementById('form-limited-edition-count').value = "";
+            document.getElementById('form-limited-edition-count').style.display = 'none';
+            document.getElementById('form-sold-out').checked = false;
 
             imageHelp.textContent = '(required)';
             imageInput.required = true;
@@ -208,11 +240,14 @@
             document.getElementById('form-hidden').value = product.hidden ? '1' : '0';
             document.getElementById('form-description').value = product.description;
 
-            // set multi-select
             const cats = Array.isArray(product.category) ? product.category : [product.category];
-            Array.from(document.getElementById('form-category').options).forEach(opt => {
-                opt.selected = cats.includes(opt.value);
-            });
+            document.getElementById('form-category-target').value = cats[0] || "Male";
+            document.getElementById('form-category-item').value = cats[1] || "Shoes";
+            
+            document.getElementById('form-limited-edition').checked = product.limited_edition ? true : false;
+            document.getElementById('form-limited-edition-count').value = product.limited_edition_count || "";
+            document.getElementById('form-limited-edition-count').style.display = product.limited_edition ? 'block' : 'none';
+            document.getElementById('form-sold-out').checked = product.sold_out ? true : false;
 
             imageHelp.textContent = '(optional, leave empty to keep current)';
             imageInput.required = false;

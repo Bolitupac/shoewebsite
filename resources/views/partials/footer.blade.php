@@ -3,7 +3,7 @@
 <div class="footer-columns heritage-footer">
 <div><h4>Shop</h4><a href="{{ route('collection') }}">Collection</a><a href="{{ route('collection') }}#one-of-one">One-of-One</a><a href="{{ route('collection') }}#custom-order">Custom Order</a><a href="{{ route('collection') }}#accessories">Accessories</a></div>
 <div><h4>Academy</h4><a href="{{ route('academy') }}">Masterclass</a><a href="{{ route('academy') }}#programs">Curriculum</a><a href="https://wa.me/{{ $whatsappNumber }}?text=Hello%2C%20I%20want%20to%20inquire%20about%20the%20Academy." target="_blank" rel="noreferrer">Enroll</a></div>
-<div><h4>About</h4><a href="{{ route('about') }}">86-Hour Philosophy</a><a href="{{ route('about') }}#process">Process</a><a href="{{ route('about') }}#heritage">Heritage</a></div>
+<div><h4>About</h4><a href="{{ route('about') }}">86-Hour Philosophy</a><a href="{{ route('about') }}#process">Process</a><a href="{{ route('about') }}#heritage">Heritage</a><a href="#">Developer</a></div>
 <div><h4>Support</h4><a href="{{ route('support') }}">Shipping</a><a href="{{ route('support') }}">Returns</a><a href="#" data-open-size-guide>Size Guide</a><a href="https://wa.me/{{ $whatsappNumber }}?text=Hello%2C%20I%20want%20to%20shop%20from%20Nelson%20Shoes." target="_blank" rel="noreferrer">WhatsApp</a></div>
 </div>
 <div class="footer-social">
@@ -20,5 +20,5 @@
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
 </a>
 </div>
-<div class="footer-bottom">Copyright 2026 Nelson Shoes. All Rights Reserved.</div>
+<div class="footer-bottom">This is a demo website created for presentation purposes and is not intended for real commerce. Copyright 2026 Nelson Shoes.</div>
 </footer>

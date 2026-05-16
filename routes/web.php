@@ -13,7 +13,23 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/collection', function () {
-    $products = Product::all()->toArray();
+    $query = Product::query();
+
+    if (request()->has('tags')) {
+        $tags = explode(',', request('tags'));
+        $query->where(function ($q) use ($tags) {
+            foreach ($tags as $tag) {
+                // Check in category array
+                $q->orWhereJsonContains('category', $tag)
+                  // Check in colour
+                  ->orWhere('colour', 'ilike', '%' . $tag . '%')
+                  // Check in section
+                  ->orWhere('section', 'ilike', '%' . $tag . '%');
+            }
+        });
+    }
+
+    $products = $query->get()->toArray();
     return view('collection', compact('products'));
 })->name('collection');
 
