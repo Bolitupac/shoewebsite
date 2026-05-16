@@ -841,6 +841,7 @@ textarea {
 }
 
 .card-media {
+    position: relative;
     height: 360px;
     background: #f6f4f1;
     overflow: hidden;
@@ -1136,6 +1137,18 @@ textarea {
     padding: 34px;
     border: 1px solid var(--line);
     background: linear-gradient(135deg, #f7f3ed 0%, #efe5d8 100%);
+    transition: opacity 0.35s ease, transform 0.35s ease, padding 0.35s ease, height 0.35s ease;
+    overflow: hidden;
+}
+
+.custom-order-banner.closing {
+    opacity: 0;
+    transform: translateY(-15px);
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 0;
+    margin-bottom: 0;
+    border-color: transparent;
 }
 
 .custom-order-close {

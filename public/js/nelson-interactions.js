@@ -161,8 +161,6 @@
         const sections = Array.from(document.querySelectorAll('.catalog-section'));
         if (!sections.length) return;
 
-        const isMobile = () => window.innerWidth <= 760;
-
         const ensureSeeMore = (section) => {
             let wrap = section.querySelector('.see-more-wrap');
             let button = section.querySelector('[data-see-more]');
@@ -187,40 +185,38 @@
         };
 
         const applyState = () => {
-            const mobile = isMobile();
+            const width = window.innerWidth;
+            let visibleLimit = 6;
+            if (width <= 760) visibleLimit = 2;
+            else if (width <= 991) visibleLimit = 4;
 
             sections.forEach((section) => {
                 const cards = Array.from(section.querySelectorAll('[data-product-card]'));
                 if (!cards.length) return;
-                const initialVisible = Number(section.dataset.initialVisible || 4);
 
                 cards.forEach((card, index) => {
-                    card.classList.toggle('card-hidden-mobile', mobile && index >= initialVisible);
-                    if (!mobile) {
+                    if (index >= visibleLimit) {
+                        card.classList.add('card-hidden-mobile');
+                        card.style.display = 'none';
+                    } else {
+                        card.classList.remove('card-hidden-mobile');
+                        card.classList.remove('card-hidden');
                         card.style.display = '';
                     }
                 });
 
-                const hasExtraCards = cards.length > initialVisible;
-                const hasServerHiddenCards = section.querySelectorAll('.card-hidden').length > 0;
-                const shouldHaveButton = hasExtraCards || hasServerHiddenCards;
+                const hasExtraCards = cards.length > visibleLimit;
+                const wrap = section.querySelector('.see-more-wrap');
 
-                if (!shouldHaveButton) return;
-
-                const { wrap, button } = ensureSeeMore(section);
-
-                if (mobile) {
-                    wrap.style.display = '';
-                    button.setAttribute('aria-expanded', 'false');
-                    button.textContent = 'See more';
-                } else {
-                    wrap.style.display = '';
-                    section.querySelectorAll('.card-hidden').forEach((card) => {
-                        card.style.display = 'none';
-                    });
-                    button.setAttribute('aria-expanded', 'false');
-                    button.textContent = 'See more';
+                if (!hasExtraCards) {
+                    if (wrap) wrap.style.display = 'none';
+                    return;
                 }
+
+                const { wrap: newWrap, button } = ensureSeeMore(section);
+                newWrap.style.display = '';
+                button.setAttribute('aria-expanded', 'false');
+                button.textContent = 'See more';
             });
 
             initSeeMore();

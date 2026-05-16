@@ -102,8 +102,8 @@
                 </aside>
 
                 <div class="collection-content">
-                    <section id="custom-order" class="custom-order">
-                        <button class="custom-order-close" type="button" data-custom-order-close aria-label="Close custom order">X</button>
+                    <section id="custom-order" class="custom-order custom-order-banner">
+                        <button class="custom-order-close" type="button" aria-label="Close custom order" onclick="this.closest('.custom-order-banner').classList.add('closing'); setTimeout(() => this.closest('.custom-order-banner').remove(), 350)">X</button>
                         <span class="eyebrow">Custom Order</span>
                         <h2>Build a pair around your event, stance, and size.</h2>
                         <p>Send your preferred leather, color direction, occasion, and sizing notes. The workshop will guide the next step on WhatsApp.</p>
@@ -112,21 +112,33 @@
                         </div>
                     </section>
 
-                    @foreach (['one-of-one' => 'Rare Pairs.', 'men' => 'Men.', 'women' => 'Women.', 'newly-made' => 'Fresh Drop.', 'accessories' => 'Wallets & Belts.'] as $section => $title)
-                        <section id="{{ $section }}" class="catalog-section" data-initial-visible="6">
+                    @php
+                        $sectionsMap = [
+                            'one-of-one' => ['title' => 'Rare Pairs.', 'filter' => function($p) { return !empty($p['limited_edition']); }],
+                            'men' => ['title' => 'Men.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Male', (array)$p['category']); }],
+                            'women' => ['title' => 'Women.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Female', (array)$p['category']); }],
+                            'newly-made' => ['title' => 'Fresh Drop.', 'filter' => function($p) { return empty($p['limited_edition']) && $p['badge'] === 'Fresh Drop'; }],
+                            'accessories' => ['title' => 'Wallets & Belts.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Accessories', (array)$p['category']); }]
+                        ];
+                    @endphp
+                    @foreach ($sectionsMap as $sectionKey => $sectionData)
+                        @php
+                            $sectionProducts = collect($products)->filter($sectionData['filter'])->values();
+                            if ($sectionProducts->isEmpty()) continue;
+                        @endphp
+                        <section id="{{ $sectionKey }}" class="catalog-section" data-initial-visible="6">
                             <div class="section-intro">
                                 <div>
-                                    <span class="section-label">{{ str_replace('-', ' ', $section) }}</span>
-                                    <h2>{{ $title }}</h2>
+                                    <span class="section-label">{{ str_replace('-', ' ', $sectionKey) }}</span>
+                                    <h2>{{ $sectionData['title'] }}</h2>
                                 </div>
                             </div>
                             <div class="product-grid" data-section-grid>
-                                @foreach ($products as $product)
-                                    @continue($product['section'] !== $section)
+                                @foreach ($sectionProducts as $product)
                                     @php
                                         $orderText = rawurlencode('Hello, I am interested in the ' . $product['name'] . ' in size 6.');
                                     @endphp
-                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ in_array('one-of-one', (array)$product['category']) ? 'card-one-of-one' : '' }}"
+                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ !empty($product['limited_edition']) ? 'card-one-of-one' : '' }}"
                                         data-product-card
                                         data-id="{{ $product['id'] }}"
                                         data-name="{{ $product['name'] }}"
@@ -142,13 +154,14 @@
                                             <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                         </div>
                                         <div class="card-copy">
-                                            @if (in_array('one-of-one', (array)$product['category']))
-                                                <span class="card-flag">One of One</span>
+                                            @if (!empty($product['limited_edition']) && !empty($product['limited_edition_count']))
+                                                @if ($product['limited_edition_count'] == 1)
+                                                    <span class="card-flag">One of One</span>
+                                                @else
+                                                    <span class="card-flag">Limited to {{ $product['limited_edition_count'] }} Pairs</span>
+                                                @endif
                                             @endif
                                             <h2>{{ $product['name'] }}</h2>
-                                            @if (!empty($product['limited_edition']) && !empty($product['limited_edition_count']))
-                                                <span class="limited-edition-text" style="font-size: 11px; color: var(--accent); font-weight: bold; text-transform: uppercase;">Limited Edition: {{ $product['limited_edition_count'] }}</span>
-                                            @endif
                                             <div class="row">
                                                 <span>₦{{ number_format((float)$product['price'], 0) }}</span>
                                             </div>
@@ -156,7 +169,7 @@
                                     </article>
                                 @endforeach
                             </div>
-                            @if (collect($products)->where('section', $section)->count() > 6 || collect($products)->where('section', $section)->where('hidden', true)->isNotEmpty())
+                            @if ($sectionProducts->count() > 6 || $sectionProducts->where('hidden', true)->isNotEmpty())
                                 <div class="see-more-wrap">
                                     <button class="btn btn-outline see-more" type="button" data-see-more aria-expanded="false">See more</button>
                                 </div>

@@ -125,23 +125,24 @@
                         </div>
                         <div class="field-group">
                             <label for="form-category-item">Item Type</label>
-                            <select id="form-category-item" name="category_item" required>
+                            <select id="form-category-item" name="category_item" required onchange="document.getElementById('shoe-type-group').style.display = this.value === 'Shoes' ? 'block' : 'none'">
                                 <option value="Shoes">Shoes</option>
                                 <option value="Belts">Belts</option>
-                                <option value="Polish">Polish</option>
-                                <option value="Shoehorns">Shoehorns</option>
                                 <option value="Wallets">Wallets</option>
+                                <option value="Accessories">Accessories</option>
+                            </select>
+                        </div>
+                        <div class="field-group" id="shoe-type-group" style="display: block;">
+                            <label for="form-category-shoe-type">Shoe Type</label>
+                            <select id="form-category-shoe-type" name="category_shoe_type">
+                                <option value="">Select Shoe Type (Optional)</option>
                                 <option value="Oxford">Oxford</option>
                                 <option value="Derby">Derby</option>
                                 <option value="Loafer">Loafer</option>
-                            </select>
-                        </div>
-                        <div class="field-group">
-                            <label for="form-section">Section</label>
-                            <select id="form-section" name="section" required>
-                                @foreach(['men','women','newly-made','accessories','one-of-one'] as $sec)
-                                    <option value="{{ $sec }}">{{ ucwords(str_replace('-',' ',$sec)) }}</option>
-                                @endforeach
+                                <option value="Boot">Boot</option>
+                                <option value="Monk Strap">Monk Strap</option>
+                                <option value="Chelsea Boot">Chelsea Boot</option>
+                                <option value="Chukka Boot">Chukka Boot</option>
                             </select>
                         </div>
                         <div class="field-group">
@@ -170,9 +171,8 @@
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="form-limited-edition">Limited Edition</label>
-                            <input type="checkbox" id="form-limited-edition" name="limited_edition" value="1" onchange="document.getElementById('form-limited-edition-count').style.display = this.checked ? 'block' : 'none'">
-                            <input type="text" id="form-limited-edition-count" name="limited_edition_count" placeholder="e.g. 1 of 5" style="display:none; margin-top: 5px;">
+                            <label for="form-limited-edition-count">Number of items to be made (Leave empty if not limited)</label>
+                            <input type="number" id="form-limited-edition-count" name="limited_edition_count" placeholder="e.g. 1 for One-of-One" min="1">
                         </div>
                         <div class="field-group">
                             <label for="form-sold-out">Sold Out</label>
@@ -211,9 +211,9 @@
             
             document.getElementById('form-category-target').value = "Male";
             document.getElementById('form-category-item').value = "Shoes";
-            document.getElementById('form-limited-edition').checked = false;
+            document.getElementById('form-category-shoe-type').value = "";
+            document.getElementById('shoe-type-group').style.display = 'block';
             document.getElementById('form-limited-edition-count').value = "";
-            document.getElementById('form-limited-edition-count').style.display = 'none';
             document.getElementById('form-sold-out').checked = false;
 
             imageHelp.textContent = '(required)';
@@ -234,7 +234,6 @@
 
             document.getElementById('form-name').value = product.name;
             document.getElementById('form-price').value = product.price;
-            document.getElementById('form-section').value = product.section;
             document.getElementById('form-colour').value = product.colour;
             document.getElementById('form-badge').value = product.badge || '';
             document.getElementById('form-hidden').value = product.hidden ? '1' : '0';
@@ -243,10 +242,10 @@
             const cats = Array.isArray(product.category) ? product.category : [product.category];
             document.getElementById('form-category-target').value = cats[0] || "Male";
             document.getElementById('form-category-item').value = cats[1] || "Shoes";
+            document.getElementById('form-category-shoe-type').value = cats[2] || "";
+            document.getElementById('shoe-type-group').style.display = document.getElementById('form-category-item').value === 'Shoes' ? 'block' : 'none';
             
-            document.getElementById('form-limited-edition').checked = product.limited_edition ? true : false;
             document.getElementById('form-limited-edition-count').value = product.limited_edition_count || "";
-            document.getElementById('form-limited-edition-count').style.display = product.limited_edition ? 'block' : 'none';
             document.getElementById('form-sold-out').checked = product.sold_out ? true : false;
 
             imageHelp.textContent = '(optional, leave empty to keep current)';

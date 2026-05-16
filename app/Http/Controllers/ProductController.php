@@ -23,25 +23,29 @@ class ProductController extends Controller
             'price'       => 'required|string|max:255',
             'category_target' => 'required|string|max:255',
             'category_item'   => 'required|string|max:255',
-            'section'     => 'required|string|max:255',
+            'category_shoe_type' => 'nullable|string|max:255',
             'image'       => 'required|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
-            'limited_edition' => 'nullable|boolean',
-            'limited_edition_count' => 'nullable|string|max:255',
+            'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
         ]);
 
         $validated['category'] = [$validated['category_target'], $validated['category_item']];
-        unset($validated['category_target'], $validated['category_item']);
+        if (!empty($validated['category_shoe_type'])) {
+            $validated['category'][] = $validated['category_shoe_type'];
+        }
+        unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
+
+        $validated['section'] = 'general';
 
         $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
 
         $validated['id'] = Str::slug($validated['name']);
         $validated['hidden'] = $request->boolean('hidden');
-        $validated['limited_edition'] = $request->boolean('limited_edition');
+        $validated['limited_edition'] = !empty($validated['limited_edition_count']);
         $validated['sold_out'] = $request->boolean('sold_out');
 
         // Ensure unique ID
@@ -67,24 +71,28 @@ class ProductController extends Controller
             'price'       => 'required|string|max:255',
             'category_target' => 'required|string|max:255',
             'category_item'   => 'required|string|max:255',
-            'section'     => 'required|string|max:255',
+            'category_shoe_type' => 'nullable|string|max:255',
             'image'       => 'nullable|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
             'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
-            'limited_edition' => 'nullable|boolean',
-            'limited_edition_count' => 'nullable|string|max:255',
+            'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
         ]);
 
         $validated['category'] = [$validated['category_target'], $validated['category_item']];
-        unset($validated['category_target'], $validated['category_item']);
+        if (!empty($validated['category_shoe_type'])) {
+            $validated['category'][] = $validated['category_shoe_type'];
+        }
+        unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
+
+        $validated['section'] = 'general';
 
         $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
 
         $validated['hidden'] = $request->boolean('hidden');
-        $validated['limited_edition'] = $request->boolean('limited_edition');
+        $validated['limited_edition'] = !empty($validated['limited_edition_count']);
         $validated['sold_out'] = $request->boolean('sold_out');
 
         if ($request->hasFile('image')) {
