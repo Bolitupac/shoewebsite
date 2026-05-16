@@ -144,50 +144,21 @@
                 const section = button.closest('.catalog-section');
                 if (!section) return;
 
-                const grid = section.querySelector('.product-grid');
                 const hiddenCards = section.querySelectorAll('.card-hidden, .card-hidden-mobile');
                 const isExpanded = button.getAttribute('aria-expanded') === 'true';
 
                 if (isExpanded) {
-                    const currentHeight = grid.scrollHeight + 'px';
-                    grid.style.height = currentHeight;
-                    void grid.offsetHeight; // reflow
-                    
                     hiddenCards.forEach(card => {
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
+                        card.style.display = 'none';
+                        card.style.opacity = '1';
+                        card.style.transform = 'none';
                     });
-                    
-                    grid.style.height = grid.dataset.collapsedHeight || '0px';
-                    
-                    setTimeout(() => {
-                        hiddenCards.forEach(card => {
-                            card.style.display = 'none';
-                        });
-                        grid.style.height = '';
-                    }, 400);
                 } else {
-                    grid.dataset.collapsedHeight = grid.offsetHeight + 'px';
-                    grid.style.height = grid.dataset.collapsedHeight;
-                    
                     hiddenCards.forEach(card => {
                         card.style.display = 'block';
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateY(20px)';
-                    });
-                    
-                    const targetHeight = grid.scrollHeight + 'px';
-                    void grid.offsetHeight; // reflow
-                    
-                    grid.style.height = targetHeight;
-                    hiddenCards.forEach(card => {
                         card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
+                        card.style.transform = 'none';
                     });
-                    
-                    setTimeout(() => {
-                        grid.style.height = '';
-                    }, 400);
                 }
 
                 button.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
