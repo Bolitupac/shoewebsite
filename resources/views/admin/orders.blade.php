@@ -60,20 +60,20 @@
                     <tbody>
                         @forelse ($orders as $order)
                         <tr>
-                            <td>{{ $order->order_number ?? ('#' . $order->id) }}</td>
-                            <td>{{ $order->first_name }} {{ $order->last_name }}</td>
-                            <td>{{ $order->email }}</td>
-                            <td>{{ collect($order->items)->sum('quantity') }}</td>
-                            <td>₦{{ number_format((float) $order->total, 2) }}</td>
-                            <td><span class="order-status-badge">{{ ucfirst($order->status) }}</span></td>
-                            <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
-                            <td>
+                            <td data-label="Order">{{ $order->order_number ?? ('#' . $order->id) }}</td>
+                            <td data-label="Customer">{{ $order->first_name }} {{ $order->last_name }}</td>
+                            <td data-label="Email">{{ $order->email }}</td>
+                            <td data-label="Items">{{ collect($order->items)->sum('quantity') }}</td>
+                            <td data-label="Total">₦{{ number_format((float) $order->total, 2) }}</td>
+                            <td data-label="Status"><span class="order-status-badge">{{ ucfirst($order->status) }}</span></td>
+                            <td data-label="Created">{{ $order->created_at->format('M d, Y H:i') }}</td>
+                            <td data-label="Action" class="actions-cell">
                                 <button class="tbl-btn edit-btn" type="button" data-open-order data-order='@json($order)'>View</button>
                             </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8">No orders yet.</td>
+                            <td colspan="8" data-label="Orders">No orders yet.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -146,15 +146,15 @@
 
             orderItemsTable.innerHTML = (order.items || []).map((item) => `
                 <tr>
-                    <td>${item.image ? `<img src="${item.image}" alt="${item.name}" class="admin-table-img">` : '<span class="order-empty-image">No image</span>'}</td>
-                    <td>${item.name || 'Unnamed item'}</td>
-                    <td>${item.size || 'N/A'}</td>
-                    <td>${item.quantity || 1}</td>
-                    <td>${item.price || 'N/A'}</td>
-                    <td>${item.colour || 'N/A'}</td>
-                    <td>${item.constructionType || 'N/A'}</td>
-                    <td>${item.fittingType || 'N/A'}</td>
-                    <td>${item.soleType || 'N/A'}</td>
+                    <td data-label="Image">${item.image ? `<img src="${item.image}" alt="${item.name}" class="admin-table-img">` : '<span class="order-empty-image">No image</span>'}</td>
+                    <td data-label="Item">${item.name || 'Unnamed item'}</td>
+                    <td data-label="Size">${item.size || 'N/A'}</td>
+                    <td data-label="Qty">${item.quantity || 1}</td>
+                    <td data-label="Price">${item.price || 'N/A'}</td>
+                    <td data-label="Colour">${item.colour || 'N/A'}</td>
+                    <td data-label="Construction">${item.constructionType || 'N/A'}</td>
+                    <td data-label="Fitting">${item.fittingType || 'N/A'}</td>
+                    <td data-label="Sole">${item.soleType || 'N/A'}</td>
                 </tr>
             `).join('');
 

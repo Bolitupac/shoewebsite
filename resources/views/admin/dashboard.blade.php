@@ -30,14 +30,14 @@
             </div>
 
             <div class="stat-grid">
-                <div class="stat-card">
+                <a class="stat-card dashboard-link-card" href="{{ route('admin.products') }}">
                     <span class="stat-label">Total Products</span>
                     <span class="stat-value">{{ $totalProducts }}</span>
-                </div>
-                <div class="stat-card">
+                </a>
+                <a class="stat-card dashboard-link-card" href="{{ route('admin.orders') }}">
                     <span class="stat-label">Total Orders</span>
                     <span class="stat-value">{{ $totalOrders }}</span>
-                </div>
+                </a>
                 <div class="stat-card">
                     <span class="stat-label">Hidden (Draft)</span>
                     <span class="stat-value">{{ $hiddenCount }}</span>
@@ -60,8 +60,8 @@
                     <tbody>
                         @foreach ($sections as $section => $count)
                         <tr>
-                            <td>{{ ucwords(str_replace('-', ' ', $section)) }}</td>
-                            <td>{{ $count }}</td>
+                            <td data-label="Section">{{ ucwords(str_replace('-', ' ', $section)) }}</td>
+                            <td data-label="Count">{{ $count }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -82,10 +82,12 @@
                     <tbody>
                         @foreach ($recentProducts as $product)
                         <tr>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ ucwords(str_replace('-', ' ', $product->section)) }}</td>
-                            <td>{{ $product->price }}</td>
-                            <td>{{ $product->hidden ? 'Yes' : 'No' }}</td>
+                            <td data-label="Name">
+                                <a class="dashboard-product-link" href="{{ route('admin.products', ['product' => $product->id, 'open' => $product->id]) }}">{{ $product->name }}</a>
+                            </td>
+                            <td data-label="Section">{{ ucwords(str_replace('-', ' ', $product->section)) }}</td>
+                            <td data-label="Price">{{ $product->price }}</td>
+                            <td data-label="Hidden">{{ $product->hidden ? 'Yes' : 'No' }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -109,17 +111,17 @@
                     <tbody>
                         @forelse ($recentOrders as $order)
                         <tr>
-                            <td>#{{ $order->id }}</td>
-                            <td>{{ $order->first_name }} {{ $order->last_name }}</td>
-                            <td>{{ $order->email }}</td>
-                            <td>{{ collect($order->items)->sum('quantity') }}</td>
-                            <td>₦{{ number_format((float) $order->total, 2) }}</td>
-                            <td>{{ ucfirst($order->status) }}</td>
-                            <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
+                            <td data-label="Order">#{{ $order->id }}</td>
+                            <td data-label="Customer">{{ $order->first_name }} {{ $order->last_name }}</td>
+                            <td data-label="Email">{{ $order->email }}</td>
+                            <td data-label="Items">{{ collect($order->items)->sum('quantity') }}</td>
+                            <td data-label="Total">₦{{ number_format((float) $order->total, 2) }}</td>
+                            <td data-label="Status">{{ ucfirst($order->status) }}</td>
+                            <td data-label="Created">{{ $order->created_at->format('M d, Y H:i') }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7">No orders yet.</td>
+                            <td colspan="7" data-label="Orders">No orders yet.</td>
                         </tr>
                         @endforelse
                     </tbody>

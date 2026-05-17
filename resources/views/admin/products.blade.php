@@ -78,19 +78,19 @@
                             $catStr = is_array($product->category) ? implode(', ', array_map('ucfirst', $product->category)) : ucfirst($product->category);
                         @endphp
                         <tr id="row-{{ $product->id }}" class="{{ !empty($product->limited_edition) ? 'admin-row-one-of-one' : '' }}">
-                            <td>
+                            <td data-label="Image">
                                 @if($product->image)
-                                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset($product->image) }}" alt="image" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                    <img src="{{ Str::startsWith($product->image, 'http') ? $product->image : asset($product->image) }}" alt="image" style="width: 50px; height: 50px; object-fit: cover;">
                                 @endif
                             </td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->price }}</td>
-                            <td>{{ $catStr }}</td>
-                            <td>{{ $product->section }}</td>
-                            <td>{{ $product->colour }}</td>
-                            <td>{{ $product->badge ?? '—' }}</td>
-                            <td>{{ $product->hidden ? 'Yes' : 'No' }}</td>
-                            <td class="actions-cell">
+                            <td data-label="Name">{{ $product->name }}</td>
+                            <td data-label="Price">{{ $product->price }}</td>
+                            <td data-label="Categories">{{ $catStr }}</td>
+                            <td data-label="Section">{{ $product->section }}</td>
+                            <td data-label="Colour">{{ $product->colour }}</td>
+                            <td data-label="Badge">{{ $product->badge ?? '—' }}</td>
+                            <td data-label="Hidden">{{ $product->hidden ? 'Yes' : 'No' }}</td>
+                            <td class="actions-cell" data-label="Actions">
                                 <button class="tbl-btn edit-btn" type="button" onclick="openEditModal({{ json_encode($product) }})">Edit</button>
                                 <form method="POST" action="{{ route('admin.products.destroy', $product->id) }}" style="display:inline" onsubmit="return confirm('Delete {{ addslashes($product->name) }}?')">
                                     @csrf @method('DELETE')
@@ -228,6 +228,8 @@
         const previewContainer = document.getElementById('modalImagePreview');
         const previewImg = document.getElementById('previewImg');
         const submitBtn = document.getElementById('submitBtn');
+        const params = new URLSearchParams(window.location.search);
+        const requestedProductId = params.get('open');
 
         function openAddModal() {
             modalTitle.textContent = 'Add Product';
@@ -298,6 +300,30 @@
             document.body.style.overflow = 'hidden';
         }
 
+        function openRequestedProductFromQuery() {
+            if (!requestedProductId) {
+                return;
+            }
+
+            const product = @json($products->keyBy('id'));
+            const selectedProduct = product[requestedProductId];
+
+            if (!selectedProduct) {
+                return;
+            }
+
+            openEditModal(selectedProduct);
+
+            const row = document.getElementById(`row-${requestedProductId}`);
+            if (row) {
+                row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            const cleanUrl = new URL(window.location.href);
+            cleanUrl.searchParams.delete('open');
+            window.history.replaceState({}, '', cleanUrl.toString());
+        }
+
         function closeModal() {
             modal.classList.remove('is-visible');
             setTimeout(() => {
@@ -312,6 +338,8 @@
                 closeModal();
             }
         });
+
+        openRequestedProductFromQuery();
     </script>
 </body>
 </html>
