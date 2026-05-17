@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Checkout | Nelson Shoes</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=oswald:400,500,600,700|manrope:400,500,600,700" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/everline.css') }}">
@@ -228,9 +229,9 @@
     </div>
 
     <header class="top-header" style="justify-content: space-between;">
-        <a href="javascript:history.back()" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.9rem; text-decoration: none;">&larr; Back</a>
+        <a href="javascript:history.back()" class="btn" style="padding: 4px 8px; font-size: 10px; text-decoration: none; border: none; min-height: auto;">&larr; Back</a>
         <a class="brand brand-centered" href="{{ route('home') }}">Nelson Shoes</a>
-        <a href="{{ route('home') }}" class="btn btn-outline" style="padding: 6px 12px; font-size: 0.9rem; text-decoration: none;">Homepage</a>
+        <a href="{{ route('home') }}" class="btn" style="padding: 4px 8px; font-size: 10px; text-decoration: none; border: none; min-height: auto;">Homepage</a>
     </header>
     
     <main class="checkout-page">
@@ -246,7 +247,7 @@
                     <div class="form-grid full" style="margin-bottom: 2rem;">
                         <div class="input-group">
                             <label>Email Address</label>
-                            <input type="email" required placeholder="you@example.com">
+                            <input type="email" name="email" required placeholder="you@example.com">
                         </div>
                     </div>
                     
@@ -254,27 +255,27 @@
                     <div class="form-grid" style="margin-bottom: 1.5rem;">
                         <div class="input-group">
                             <label>First Name</label>
-                            <input type="text" required>
+                            <input type="text" name="first_name" required>
                         </div>
                         <div class="input-group">
                             <label>Last Name</label>
-                            <input type="text" required>
+                            <input type="text" name="last_name" required>
                         </div>
                     </div>
                     <div class="form-grid full" style="margin-bottom: 1.5rem;">
                         <div class="input-group">
                             <label>Address Line 1</label>
-                            <input type="text" required>
+                            <input type="text" name="address_line_1" required>
                         </div>
                     </div>
                     <div class="form-grid" style="margin-bottom: 2rem;">
                         <div class="input-group">
                             <label>City</label>
-                            <input type="text" required>
+                            <input type="text" name="city" required>
                         </div>
                         <div class="input-group">
                             <label>State / Province</label>
-                            <input type="text" required>
+                            <input type="text" name="state" required>
                         </div>
                     </div>
                     
@@ -364,15 +365,45 @@
             document.getElementById('checkout-subtotal').textContent = formatPrice(subtotal);
             document.getElementById('checkout-total').textContent = formatPrice(subtotal);
             
-            document.getElementById('checkout-form').addEventListener('submit', (e) => {
+            document.getElementById('checkout-form').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const btn = document.getElementById('pay-action-btn');
                 btn.classList.add('loading');
-                
-                setTimeout(() => {
+
+                const form = e.currentTarget;
+                const formData = new FormData(form);
+                const payload = {
+                    email: formData.get('email'),
+                    first_name: formData.get('first_name'),
+                    last_name: formData.get('last_name'),
+                    address_line_1: formData.get('address_line_1'),
+                    city: formData.get('city'),
+                    state: formData.get('state'),
+                    items: cart,
+                    total: subtotal,
+                };
+
+                try {
+                    const response = await fetch("{{ route('checkout.order') }}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name=\"csrf-token\"]').content,
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Unable to save order');
+                    }
+
                     localStorage.removeItem('nelson_cart'); // clear cart
                     window.location.href = '/checkout/success';
-                }, 2000);
+                } catch (error) {
+                    btn.classList.remove('loading');
+                    alert('We could not save your order. Please try again.');
+                }
             });
 
             document.getElementById('whatsapp-checkout-btn').addEventListener('click', (e) => {

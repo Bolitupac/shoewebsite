@@ -386,7 +386,11 @@
                         size: size,
                         quantity: 1,
                         category: activeProduct.category,
-                        limitedEdition: activeProduct.limitedEdition
+                        limitedEdition: activeProduct.limitedEdition,
+                        colour: activeProduct.colour,
+                        constructionType: activeProduct.constructionType,
+                        fittingType: activeProduct.fittingType,
+                        soleType: activeProduct.soleType
                     });
                 }
                 saveCart(cart);

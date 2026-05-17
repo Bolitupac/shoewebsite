@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -38,12 +39,24 @@ class AdminController extends Controller
     public function dashboard()
     {
         $totalProducts = Product::count();
+        $totalOrders = Order::count();
         $sections = Product::selectRaw('section, count(*) as count')
             ->groupBy('section')
             ->pluck('count', 'section');
         $hiddenCount = Product::where('hidden', true)->count();
         $recentProducts = Product::latest()->take(5)->get();
+        $recentOrders = Order::latest()->take(10)->get();
 
-        return view('admin.dashboard', compact('totalProducts', 'sections', 'hiddenCount', 'recentProducts'));
+        return view('admin.dashboard', compact('totalProducts', 'totalOrders', 'sections', 'hiddenCount', 'recentProducts', 'recentOrders'));
+    }
+
+    public function orders()
+    {
+        $orders = Order::latest()->get();
+        $totalOrders = $orders->count();
+        $pendingOrders = $orders->where('status', 'pending')->count();
+        $totalRevenue = $orders->sum('total');
+
+        return view('admin.orders', compact('orders', 'totalOrders', 'pendingOrders', 'totalRevenue'));
     }
 }

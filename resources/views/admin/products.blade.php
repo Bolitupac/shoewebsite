@@ -14,6 +14,7 @@
             <span class="admin-nav-brand">Nelson <strong>Admin</strong></span>
             <div class="admin-nav-links">
                 <a href="{{ route('admin.dashboard') }}" class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ route('admin.orders') }}" class="nav-link {{ request()->routeIs('admin.orders') ? 'active' : '' }}">Orders</a>
                 <a href="{{ route('admin.products') }}" class="nav-link {{ request()->routeIs('admin.products') ? 'active' : '' }}">Products</a>
             </div>
             <form method="POST" action="{{ route('admin.logout') }}" style="margin:0">

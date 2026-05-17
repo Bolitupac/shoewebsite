@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Order;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 
@@ -29,8 +31,32 @@ Route::get('/collection', function () {
         });
     }
 
-    $products = $query->get()->toArray();
-    return view('collection', compact('products'));
+    $products = $query->get();
+
+    $makeSection = function (string $key, string $label, string $title, callable $filter) use ($products) {
+        $items = $products->filter($filter)->values();
+
+        return [
+            'key' => $key,
+            'label' => $label,
+            'title' => $title,
+            'products' => $items,
+        ];
+    };
+
+    $sections = collect([
+        $makeSection('one-of-one', 'limited edition', 'Rare Pairs.', fn ($product) => !empty($product->limited_edition)),
+        $makeSection('newly-made', 'fresh drop', 'Fresh Drop.', fn ($product) => empty($product->limited_edition) && $product->badge === 'Fresh Drop'),
+        $makeSection('best-sellers', 'badge edit', 'Best Sellers.', fn ($product) => $product->badge === 'Best Seller'),
+        $makeSection('oxfords', 'shoe type', 'Oxford Rotation.', fn ($product) => in_array('Oxford', (array) $product->category, true)),
+        $makeSection('loafers', 'shoe type', 'Loafer Lineup.', fn ($product) => in_array('Loafer', (array) $product->category, true) || in_array('Penny Loafer', (array) $product->category, true)),
+        $makeSection('accessories', 'add-ons', 'Wallets & Belts.', fn ($product) => in_array('Accessories', (array) $product->category, true) || in_array('Wallets', (array) $product->category, true) || in_array('Belts', (array) $product->category, true)),
+    ])->filter(fn ($section) => $section['products']->isNotEmpty())->values();
+
+    return view('collection', [
+        'products' => $products->toArray(),
+        'sections' => $sections,
+    ]);
 })->name('collection');
 
 Route::get('/about', function () {
@@ -49,6 +75,40 @@ Route::get('/checkout', function () {
     return view('checkout');
 })->name('checkout');
 
+Route::post('/checkout/order', function (Request $request) {
+    $validated = $request->validate([
+        'email' => ['required', 'email'],
+        'first_name' => ['required', 'string', 'max:255'],
+        'last_name' => ['required', 'string', 'max:255'],
+        'address_line_1' => ['required', 'string', 'max:255'],
+        'city' => ['required', 'string', 'max:255'],
+        'state' => ['required', 'string', 'max:255'],
+        'items' => ['required', 'array', 'min:1'],
+        'items.*.name' => ['required', 'string'],
+        'items.*.price' => ['required', 'string'],
+        'items.*.size' => ['required'],
+        'items.*.quantity' => ['required', 'integer', 'min:1'],
+        'total' => ['required', 'numeric', 'min:0'],
+    ]);
+
+    $order = Order::create([
+        'email' => $validated['email'],
+        'first_name' => $validated['first_name'],
+        'last_name' => $validated['last_name'],
+        'address_line_1' => $validated['address_line_1'],
+        'city' => $validated['city'],
+        'state' => $validated['state'],
+        'items' => $validated['items'],
+        'total' => $validated['total'],
+        'status' => 'pending',
+    ]);
+
+    return response()->json([
+        'success' => true,
+        'order_id' => $order->id,
+    ]);
+})->name('checkout.order');
+
 Route::get('/checkout/success', function () {
     return view('checkout-success');
 })->name('checkout.success');
@@ -61,6 +121,7 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 // ─── Admin protected routes ──────────────────────────────────────
 Route::middleware(\App\Http\Middleware\AdminAuth::class)->prefix('admin')->group(function () {
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
     Route::get('/products', [ProductController::class, 'index'])->name('admin.products');
     Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
     Route::patch('/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');

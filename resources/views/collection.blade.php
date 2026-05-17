@@ -112,25 +112,13 @@
                         </div>
                     </section>
 
-                    @php
-                        $sectionsMap = [
-                            'one-of-one' => ['title' => 'Rare Pairs.', 'filter' => function($p) { return !empty($p['limited_edition']); }],
-                            'men' => ['title' => 'Men.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Male', (array)$p['category']); }],
-                            'women' => ['title' => 'Women.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Female', (array)$p['category']); }],
-                            'newly-made' => ['title' => 'Fresh Drop.', 'filter' => function($p) { return empty($p['limited_edition']) && $p['badge'] === 'Fresh Drop'; }],
-                            'accessories' => ['title' => 'Wallets & Belts.', 'filter' => function($p) { return empty($p['limited_edition']) && in_array('Accessories', (array)$p['category']); }]
-                        ];
-                    @endphp
-                    @foreach ($sectionsMap as $sectionKey => $sectionData)
-                        @php
-                            $sectionProducts = collect($products)->filter($sectionData['filter'])->values();
-                            if ($sectionProducts->isEmpty()) continue;
-                        @endphp
-                        <section id="{{ $sectionKey }}" class="catalog-section" data-initial-visible="6">
+                    @foreach ($sections as $section)
+                        @php $sectionProducts = $section['products']; @endphp
+                        <section id="{{ $section['key'] }}" class="catalog-section" data-initial-visible="6">
                             <div class="section-intro">
                                 <div>
-                                    <span class="section-label">{{ str_replace('-', ' ', $sectionKey) }}</span>
-                                    <h2>{{ $sectionData['title'] }}</h2>
+                                    <span class="section-label">{{ $section['label'] }}</span>
+                                    <h2>{{ $section['title'] }}</h2>
                                 </div>
                             </div>
                             <div class="product-grid" data-section-grid>
