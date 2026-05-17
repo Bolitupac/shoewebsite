@@ -912,17 +912,16 @@
         const open = () => {
             overlay.hidden = false;
             overlay.setAttribute('aria-hidden', 'false');
-            trigger.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = 'hidden';
         };
 
         const close = () => {
             overlay.hidden = true;
             overlay.setAttribute('aria-hidden', 'true');
-            trigger.classList.add('is-dismissed');
             document.body.style.overflow = '';
         };
 
+        open();
         trigger.addEventListener('click', open);
         closeButton.addEventListener('click', close);
         overlay.addEventListener('click', (event) => {

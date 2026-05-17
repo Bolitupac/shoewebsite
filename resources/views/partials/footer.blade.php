@@ -28,8 +28,9 @@
         <rect x="29.5" y="18" width="5" height="18" rx="2.5" fill="#7f1111"></rect>
         <circle cx="32" cy="43" r="3.4" fill="#7f1111"></circle>
     </svg>
+    <span>Disclaimer</span>
 </button>
-<div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay hidden aria-hidden="true">
+<div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay aria-hidden="false">
     <div class="demo-disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="demo-disclaimer-title">
         <button type="button" class="demo-disclaimer-close" data-demo-disclaimer-close aria-label="Close demo disclaimer">&times;</button>
         <div class="demo-disclaimer-eyebrow">Important</div>
@@ -37,5 +38,6 @@
         <p>This website is a presentation and portfolio demo.</p>
         <p>No real ecommerce, payment processing, shipping, or commercial order fulfillment is taking place on this site.</p>
         <p>This project is not affiliated with Nelson Shoes.</p>
+        <p><a href="https://bolitupac.github.io/My-Websit/" target="_blank" rel="noreferrer">Developer website ↗</a></p>
     </div>
 </div>
