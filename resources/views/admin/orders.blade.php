@@ -60,7 +60,7 @@
                     <tbody>
                         @forelse ($orders as $order)
                         <tr>
-                            <td>#{{ $order->id }}</td>
+                            <td>{{ $order->order_number ?? ('#' . $order->id) }}</td>
                             <td>{{ $order->first_name }} {{ $order->last_name }}</td>
                             <td>{{ $order->email }}</td>
                             <td>{{ collect($order->items)->sum('quantity') }}</td>
@@ -138,11 +138,11 @@
         const currency = (value) => `₦${Number(value).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
         const openOrderModal = (order) => {
-            orderModalTitle.textContent = `Order #${order.id}`;
+            orderModalTitle.textContent = `Order ${order.order_number || ('#' + order.id)}`;
             orderCustomer.textContent = `${order.first_name} ${order.last_name}`;
             orderEmail.textContent = order.email;
             orderAddress.textContent = `${order.address_line_1}, ${order.city}, ${order.state}`;
-            orderMeta.textContent = `${order.status} · ${currency(order.total)} · ${new Date(order.created_at).toLocaleString()}`;
+            orderMeta.textContent = `${order.order_number || ('#' + order.id)} · ${order.status} · ${currency(order.total)} · ${new Date(order.created_at).toLocaleString()}`;
 
             orderItemsTable.innerHTML = (order.items || []).map((item) => `
                 <tr>

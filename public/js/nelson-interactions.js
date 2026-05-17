@@ -903,6 +903,34 @@
         window.openCartDrawer = open;
     };
 
+    const initDemoDisclaimer = () => {
+        const trigger = document.querySelector('[data-demo-disclaimer-trigger]');
+        const overlay = document.querySelector('[data-demo-disclaimer-overlay]');
+        const closeButton = document.querySelector('[data-demo-disclaimer-close]');
+        if (!trigger || !overlay || !closeButton) return;
+
+        const open = () => {
+            overlay.hidden = false;
+            overlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const close = () => {
+            overlay.hidden = true;
+            overlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        };
+
+        trigger.addEventListener('click', open);
+        closeButton.addEventListener('click', close);
+        overlay.addEventListener('click', (event) => {
+            if (event.target === overlay) close();
+        });
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && overlay.hidden === false) close();
+        });
+    };
+
 
     
     window.showToast = (message) => {
@@ -952,6 +980,7 @@
         initCustomOrderDismiss();
         initSizeGuideModal();
         initCartDrawer();
+        initDemoDisclaimer();
         if (window.updateCartBadge) window.updateCartBadge();
     });
 })();

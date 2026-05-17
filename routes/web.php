@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\Order;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ProductController;
 
 // ─── Public routes ───────────────────────────────────────────────
@@ -75,43 +74,8 @@ Route::get('/checkout', function () {
     return view('checkout');
 })->name('checkout');
 
-Route::post('/checkout/order', function (Request $request) {
-    $validated = $request->validate([
-        'email' => ['required', 'email'],
-        'first_name' => ['required', 'string', 'max:255'],
-        'last_name' => ['required', 'string', 'max:255'],
-        'address_line_1' => ['required', 'string', 'max:255'],
-        'city' => ['required', 'string', 'max:255'],
-        'state' => ['required', 'string', 'max:255'],
-        'items' => ['required', 'array', 'min:1'],
-        'items.*.name' => ['required', 'string'],
-        'items.*.price' => ['required', 'string'],
-        'items.*.size' => ['required'],
-        'items.*.quantity' => ['required', 'integer', 'min:1'],
-        'total' => ['required', 'numeric', 'min:0'],
-    ]);
-
-    $order = Order::create([
-        'email' => $validated['email'],
-        'first_name' => $validated['first_name'],
-        'last_name' => $validated['last_name'],
-        'address_line_1' => $validated['address_line_1'],
-        'city' => $validated['city'],
-        'state' => $validated['state'],
-        'items' => $validated['items'],
-        'total' => $validated['total'],
-        'status' => 'pending',
-    ]);
-
-    return response()->json([
-        'success' => true,
-        'order_id' => $order->id,
-    ]);
-})->name('checkout.order');
-
-Route::get('/checkout/success', function () {
-    return view('checkout-success');
-})->name('checkout.success');
+Route::post('/checkout/order', [CheckoutController::class, 'store'])->name('checkout.order');
+Route::get('/checkout/success/{order:order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 // ─── Admin auth ──────────────────────────────────────────────────
 Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');

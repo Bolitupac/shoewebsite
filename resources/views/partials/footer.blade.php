@@ -22,3 +22,16 @@
 </div>
 <div class="footer-bottom">This is a demo website created for presentation purposes and is not intended for real commerce. &copy; bolitupac</div>
 </footer>
+<button type="button" class="demo-corner-trigger" data-demo-disclaimer-trigger aria-label="Open demo disclaimer">
+    <span>Demo</span>
+</button>
+<div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay hidden aria-hidden="true">
+    <div class="demo-disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="demo-disclaimer-title">
+        <button type="button" class="demo-disclaimer-close" data-demo-disclaimer-close aria-label="Close demo disclaimer">&times;</button>
+        <div class="demo-disclaimer-eyebrow">Important</div>
+        <h3 id="demo-disclaimer-title">Demo Website Only</h3>
+        <p>This website is a presentation and portfolio demo for Nelson Shoes.</p>
+        <p>No real ecommerce, payment processing, shipping, or commercial order fulfillment is taking place on this site.</p>
+        <p>Use it for demonstration purposes only.</p>
+    </div>
+</div>

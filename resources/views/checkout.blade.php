@@ -398,8 +398,10 @@
                         throw new Error('Unable to save order');
                     }
 
+                    const result = await response.json();
+
                     localStorage.removeItem('nelson_cart'); // clear cart
-                    window.location.href = '/checkout/success';
+                    window.location.href = result.redirect_url;
                 } catch (error) {
                     btn.classList.remove('loading');
                     alert('We could not save your order. Please try again.');
