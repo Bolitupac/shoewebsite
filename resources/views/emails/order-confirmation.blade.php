@@ -86,14 +86,14 @@
                             <div style="font-size:12px; letter-spacing:0.24em; text-transform:uppercase; margin-bottom:10px;">Nelson Shoes</div>
                             <div style="font-size:13px; line-height:1.8; color:#c5b79d;">Crafted luxury footwear and leather essentials.</div>
                             <div style="font-size:12px; line-height:1.8; color:#9f937e; margin-top:14px;">
-                                <a href="{{ route('home') }}" style="color:#e4d6ba; text-decoration:none;">Website</a>
+                                <a href="https://nsshoewebsite.onrender.com" style="color:#e4d6ba; text-decoration:none;">Website</a>
                                 &nbsp;|&nbsp;
                                 <a href="{{ route('collection') }}" style="color:#e4d6ba; text-decoration:none;">Collection</a>
                                 &nbsp;|&nbsp;
                                 <a href="{{ route('support') }}" style="color:#e4d6ba; text-decoration:none;">Support</a>
                             </div>
-                            <div style="margin-top:18px; padding:14px 16px; border:1px solid #d13d2f; background:#3a1411; color:#ffd7d1; font-size:13px; line-height:1.7; text-transform:uppercase; letter-spacing:0.08em;">
-                                Demo disclaimer: this website and its emails are part of a demonstration project only. No real commerce, payment processing, or production order fulfillment is taking place.
+                            <div style="margin-top:16px; color:#ffb9ad; font-size:11px; line-height:1.5; font-weight:bold; text-transform:uppercase; letter-spacing:0.06em;">
+                                Demo only. Not real commerce and not affiliated with Nelson Shoes.
                             </div>
                             <div style="font-size:11px; color:#8e846f; margin-top:14px;">© 2026 bolitupac. All rights reserved.</div>
                         </td>

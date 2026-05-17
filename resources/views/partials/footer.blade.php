@@ -22,16 +22,20 @@
 </div>
 <div class="footer-bottom">This is a demo website created for presentation purposes and is not intended for real commerce. &copy; bolitupac</div>
 </footer>
-<button type="button" class="demo-corner-trigger" data-demo-disclaimer-trigger aria-label="Open demo disclaimer">
-    <span>Demo</span>
+<button type="button" class="demo-warning-trigger" data-demo-disclaimer-trigger aria-label="Open demo disclaimer">
+    <svg viewBox="0 0 64 56" aria-hidden="true">
+        <path d="M32 4L60 52H4L32 4Z" fill="#f6c343" stroke="#a51818" stroke-width="4" stroke-linejoin="round"></path>
+        <rect x="29.5" y="18" width="5" height="18" rx="2.5" fill="#7f1111"></rect>
+        <circle cx="32" cy="43" r="3.4" fill="#7f1111"></circle>
+    </svg>
 </button>
 <div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay hidden aria-hidden="true">
     <div class="demo-disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="demo-disclaimer-title">
         <button type="button" class="demo-disclaimer-close" data-demo-disclaimer-close aria-label="Close demo disclaimer">&times;</button>
         <div class="demo-disclaimer-eyebrow">Important</div>
         <h3 id="demo-disclaimer-title">Demo Website Only</h3>
-        <p>This website is a presentation and portfolio demo for Nelson Shoes.</p>
+        <p>This website is a presentation and portfolio demo.</p>
         <p>No real ecommerce, payment processing, shipping, or commercial order fulfillment is taking place on this site.</p>
-        <p>Use it for demonstration purposes only.</p>
+        <p>This project is not affiliated with Nelson Shoes.</p>
     </div>
 </div>
