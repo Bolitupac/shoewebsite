@@ -908,17 +908,31 @@
         const overlay = document.querySelector('[data-demo-disclaimer-overlay]');
         const closeButton = document.querySelector('[data-demo-disclaimer-close]');
         if (!trigger || !overlay || !closeButton) return;
+        let closeTimeoutId = null;
 
         const open = () => {
+            if (closeTimeoutId) {
+                window.clearTimeout(closeTimeoutId);
+                closeTimeoutId = null;
+            }
             overlay.hidden = false;
             overlay.setAttribute('aria-hidden', 'false');
+            overlay.classList.remove('is-closing');
+            requestAnimationFrame(() => {
+                overlay.classList.add('is-open');
+            });
             document.body.style.overflow = 'hidden';
         };
 
         const close = () => {
-            overlay.hidden = true;
+            overlay.classList.remove('is-open');
+            overlay.classList.add('is-closing');
             overlay.setAttribute('aria-hidden', 'true');
             document.body.style.overflow = '';
+            closeTimeoutId = window.setTimeout(() => {
+                overlay.hidden = true;
+                overlay.classList.remove('is-closing');
+            }, 320);
         };
 
         open();
