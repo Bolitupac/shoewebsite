@@ -42,4 +42,9 @@ return [
         'owner_email' => env('BREVO_OWNER_EMAIL'),
     ],
 
+    'supabase' => [
+        'url' => env('NEXT_PUBLIC_SUPABASE_URL'),
+        'key' => env('NEXT_PUBLIC_SUPABASE_KEY'),
+    ],
+
 ];

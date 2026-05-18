@@ -126,8 +126,8 @@ class ProductController extends Controller
 
     private function uploadToSupabase($file)
     {
-        $url = env('NEXT_PUBLIC_SUPABASE_URL');
-        $key = env('NEXT_PUBLIC_SUPABASE_KEY');
+        $url = config('services.supabase.url');
+        $key = config('services.supabase.key');
         $fileName = time() . '_' . $file->getClientOriginalName();
         $filePath = $file->getPathname();
         

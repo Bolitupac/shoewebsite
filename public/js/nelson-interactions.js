@@ -324,8 +324,9 @@
             if (isShoe) {
                 modalSize.style.display = '';
                 if (sizeLabel) sizeLabel.style.display = '';
-                modalSize.value = '40';
-                modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
+                const defaultSize = localStorage.getItem('nelson_last_selected_shoe_size') || '40';
+                modalSize.value = defaultSize;
+                modalOrder.href = buildWhatsAppLink(activeProduct, defaultSize);
             } else {
                 modalSize.style.display = 'none';
                 if (sizeLabel) sizeLabel.style.display = 'none';
@@ -424,6 +425,7 @@
         });
 
         modalSize.addEventListener('change', () => {
+            localStorage.setItem('nelson_last_selected_shoe_size', modalSize.value);
             if (activeProduct) {
                 modalOrder.href = buildWhatsAppLink(activeProduct, modalSize.value);
             }
