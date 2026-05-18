@@ -12,7 +12,7 @@ class Product extends Model
 
     protected $fillable = [
         'id', 'name', 'price', 'category', 'section', 
-        'image', 'description', 'colour', 'badge', 'hidden',
+        'image', 'description', 'colour', 'hidden',
         'limited_edition', 'limited_edition_count', 'sold_out',
         'construction_type', 'fitting_type', 'sole_type'
     ];

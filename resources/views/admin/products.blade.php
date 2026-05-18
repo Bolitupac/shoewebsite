@@ -7,6 +7,22 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=manrope:400,500,600,700" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <style>
+        .button-spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: spinner-rotate 0.8s linear infinite;
+            vertical-align: middle;
+        }
+        @keyframes spinner-rotate {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-layout">
@@ -66,7 +82,6 @@
                             <th>Categories</th>
                             <th>Section</th>
                             <th>Colour</th>
-                            <th>Badge</th>
                             <th>Hidden</th>
                             <th>Actions</th>
                         </tr>
@@ -88,7 +103,6 @@
                             <td data-label="Categories">{{ $catStr }}</td>
                             <td data-label="Section">{{ $product->section }}</td>
                             <td data-label="Colour">{{ $product->colour }}</td>
-                            <td data-label="Badge">{{ $product->badge ?? '—' }}</td>
                             <td data-label="Hidden">{{ $product->hidden ? 'Yes' : 'No' }}</td>
                             <td class="actions-cell" data-label="Actions">
                                 <button class="tbl-btn edit-btn" type="button" onclick="openEditModal({{ json_encode($product) }})">Edit</button>
@@ -130,19 +144,20 @@
                             <input type="number" id="form-price" name="price" placeholder="150000" required>
                         </div>
                         <div class="field-group">
-                            <label for="form-category-target">Target</label>
+                            <label for="form-category-target">Gender</label>
                             <select id="form-category-target" name="category_target" required>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Accessories">Accessories</option>
+                                <option value="Men">Men</option>
+                                <option value="Women">Women</option>
+                                <option value="All">All</option>
                             </select>
                         </div>
                         <div class="field-group">
                             <label for="form-category-item">Item Type</label>
                             <select id="form-category-item" name="category_item" required onchange="document.getElementById('shoe-type-group').style.display = this.value === 'Shoes' ? 'block' : 'none'">
                                 <option value="Shoes">Shoes</option>
-                                <option value="Belts">Belts</option>
+                                <option value="Bags">Bags</option>
                                 <option value="Wallets">Wallets</option>
+                                <option value="Belts">Belts</option>
                                 <option value="Accessories">Accessories</option>
                             </select>
                         </div>
@@ -152,11 +167,17 @@
                                 <option value="">Select Shoe Type (Optional)</option>
                                 <option value="Oxford">Oxford</option>
                                 <option value="Derby">Derby</option>
+                                <option value="Brogue">Brogue</option>
                                 <option value="Loafer">Loafer</option>
-                                <option value="Boot">Boot</option>
+                                <option value="Penny Loafer">Penny Loafer</option>
+                                <option value="Tassel Loafer">Tassel Loafer</option>
+                                <option value="Fringed Loafer">Fringed Loafer</option>
                                 <option value="Monk Strap">Monk Strap</option>
                                 <option value="Chelsea Boot">Chelsea Boot</option>
                                 <option value="Chukka Boot">Chukka Boot</option>
+                                <option value="Country Boot">Country Boot</option>
+                                <option value="Sneaker">Sneaker</option>
+                                <option value="Trainer">Trainer</option>
                             </select>
                         </div>
                         <div class="field-group">
@@ -178,16 +199,6 @@
                         <div class="field-group">
                             <label for="form-sole-type">Sole Type</label>
                             <input type="text" id="form-sole-type" name="sole_type" placeholder="e.g. Leather">
-                        </div>
-                        <div class="field-group">
-                            <label for="form-badge">Badge</label>
-                            <select id="form-badge" name="badge">
-                                <option value="">None</option>
-                                <option value="Fresh Drop">Fresh Drop</option>
-                                <option value="New Arrival">New Arrival</option>
-                                <option value="Best Seller">Best Seller</option>
-                                <option value="Restocked">Restocked</option>
-                            </select>
                         </div>
                         <div class="field-group">
                             <label for="form-hidden">Hidden</label>
@@ -228,6 +239,7 @@
         const previewContainer = document.getElementById('modalImagePreview');
         const previewImg = document.getElementById('previewImg');
         const submitBtn = document.getElementById('submitBtn');
+        submitBtn.dataset.originalText = submitBtn.textContent;
         const params = new URLSearchParams(window.location.search);
         const requestedProductId = params.get('open');
 
@@ -237,7 +249,7 @@
             formMethod.value = "POST";
             form.reset();
             
-            document.getElementById('form-category-target').value = "Male";
+            document.getElementById('form-category-target').value = "Men";
             document.getElementById('form-category-item').value = "Shoes";
             document.getElementById('form-category-shoe-type').value = "";
             document.getElementById('shoe-type-group').style.display = 'block';
@@ -266,12 +278,11 @@
             document.getElementById('form-name').value = product.name;
             document.getElementById('form-price').value = product.price;
             document.getElementById('form-colour').value = product.colour;
-            document.getElementById('form-badge').value = product.badge || '';
             document.getElementById('form-hidden').value = product.hidden ? '1' : '0';
             document.getElementById('form-description').value = product.description;
 
             const cats = Array.isArray(product.category) ? product.category : [product.category];
-            document.getElementById('form-category-target').value = cats[0] || "Male";
+            document.getElementById('form-category-target').value = cats[0] || "Men";
             document.getElementById('form-category-item').value = cats[1] || "Shoes";
             document.getElementById('form-category-shoe-type').value = cats[2] || "";
             document.getElementById('shoe-type-group').style.display = document.getElementById('form-category-item').value === 'Shoes' ? 'block' : 'none';
@@ -331,6 +342,72 @@
                 document.body.style.overflow = '';
             }, 300);
         }
+
+        function setSubmitLoading(isLoading) {
+            if (!submitBtn) return;
+            submitBtn.disabled = isLoading;
+            submitBtn.innerHTML = isLoading ? '<span class="button-spinner"></span> Saving...' : submitBtn.dataset.originalText || submitBtn.textContent;
+        }
+
+        function createAdminToast(message) {
+            let container = document.getElementById('admin-toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'admin-toast-container';
+                container.style.cssText = 'position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = 'background: #111; color: #fff; padding: 12px 20px; border-radius: 8px; box-shadow: 0 8px 20px rgba(0,0,0,.25); font-size: 14px; opacity: 0; transform: translateY(16px); transition: all .25s ease; max-width: 320px;';
+            container.appendChild(toast);
+            requestAnimationFrame(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateY(0)';
+            });
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(16px)';
+                setTimeout(() => toast.remove(), 250);
+            }, 3200);
+        }
+
+        async function handleAdminFormSubmit(event) {
+            event.preventDefault();
+            setSubmitLoading(true);
+            const data = new FormData(form);
+            if (formMethod.value && formMethod.value !== 'POST') {
+                data.set('_method', formMethod.value);
+            }
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                    },
+                    body: data,
+                });
+
+                if (!response.ok) {
+                    const payload = await response.json().catch(() => null);
+                    const message = payload?.message || 'Failed to save product. Please try again.';
+                    createAdminToast(message);
+                    return;
+                }
+
+                const payload = await response.json();
+                createAdminToast(payload.message || 'Product saved.');
+            } catch (error) {
+                createAdminToast('Unable to save product right now.');
+            } finally {
+                setSubmitLoading(false);
+            }
+        }
+
+        form.addEventListener('submit', handleAdminFormSubmit);
 
         // Close when clicking outside modal content
         modal.addEventListener('click', (e) => {

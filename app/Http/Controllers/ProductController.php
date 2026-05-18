@@ -27,7 +27,6 @@ class ProductController extends Controller
             'image'       => 'required|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
-            'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
             'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
@@ -62,7 +61,11 @@ class ProductController extends Controller
             $validated['image'] = $this->uploadToSupabase($request->file('image'));
         }
 
-        Product::create($validated);
+        $product = Product::create($validated);
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Product added.', 'product' => $product], 200);
+        }
 
         return redirect()->route('admin.products')->with('success', 'Product added.');
     }
@@ -78,7 +81,6 @@ class ProductController extends Controller
             'image'       => 'nullable|image|max:5120',
             'description' => 'required|string',
             'colour'      => 'required|string|max:255',
-            'badge'       => 'nullable|string|max:255',
             'hidden'      => 'nullable|boolean',
             'limited_edition_count' => 'nullable|numeric|min:1',
             'sold_out'    => 'nullable|boolean',
@@ -108,6 +110,10 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
+
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => 'Product updated.', 'product' => $product], 200);
+        }
 
         return redirect()->route('admin.products')->with('success', 'Product updated.');
     }

@@ -43,16 +43,26 @@
                             <div class="filter-group">
                                 <h4>Product</h4>
                                 <label><input type="checkbox" data-filter-product value="Shoes"> Shoes</label>
+                                <label><input type="checkbox" data-filter-product value="Bags"> Bags</label>
                                 <label><input type="checkbox" data-filter-product value="Wallets"> Wallets</label>
                                 <label><input type="checkbox" data-filter-product value="Belts"> Belts</label>
+                                <label><input type="checkbox" data-filter-product value="Accessories"> Accessories</label>
                             </div>
                             <div class="filter-group">
                                 <h4>Shoe Type</h4>
+                                <label><input type="checkbox" data-filter-shoe-type value="Oxford"> Oxford</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Brogue"> Brogue</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Derby"> Derby</label>
                                 <label><input type="checkbox" data-filter-shoe-type value="Loafer"> Loafer</label>
                                 <label><input type="checkbox" data-filter-shoe-type value="Penny Loafer"> Penny Loafer</label>
-                                <label><input type="checkbox" data-filter-shoe-type value="Oxford"> Oxford</label>
-                                <label><input type="checkbox" data-filter-shoe-type value="Derby"> Derby</label>
-                                <label><input type="checkbox" data-filter-shoe-type value="One-of-One"> One-of-One</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Tassel Loafer"> Tassel Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Fringed Loafer"> Fringed Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Monk Strap"> Monk Strap</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Chelsea Boot"> Chelsea Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Chukka Boot"> Chukka Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Country Boot"> Country Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Sneaker"> Sneaker</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Trainer"> Trainer</label>
                             </div>
                             <div class="filter-group">
                                 <h4>Colour</h4>
@@ -79,6 +89,7 @@
                                 <h4>Gender</h4>
                                 <label><input type="checkbox" data-filter-gender value="Men"> Men</label>
                                 <label><input type="checkbox" data-filter-gender value="Women"> Women</label>
+                                <label><input type="checkbox" data-filter-gender value="All"> All</label>
                             </div>
                             <div class="filter-group">
                                 <h4>Last Shape</h4>
@@ -146,12 +157,22 @@
                                             <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                         </div>
                                         <div class="card-copy">
-                                            @if (!empty($product['limited_edition']) && !empty($product['limited_edition_count']))
-                                                @if ($product['limited_edition_count'] == 1)
-                                                    <span class="card-flag">One of One</span>
-                                                @else
-                                                    <span class="card-flag">Limited to {{ $product['limited_edition_count'] }} Pairs</span>
-                                                @endif
+                                            @php
+                                                $cardFlag = null;
+                                                if (!empty($product['limited_edition'])) {
+                                                    if (!empty($product['limited_edition_count']) && $product['limited_edition_count'] == 1) {
+                                                        $cardFlag = 'One of One';
+                                                    } elseif (!empty($product['limited_edition_count'])) {
+                                                        $cardFlag = 'Limited to ' . $product['limited_edition_count'] . ' Pairs';
+                                                    } else {
+                                                        $cardFlag = 'Limited Edition';
+                                                    }
+                                                } elseif (!empty($product['created_at']) && \Illuminate\Support\Carbon::parse($product['created_at'])->gt(\Illuminate\Support\Carbon::now()->subDays(21))) {
+                                                    $cardFlag = 'Fresh Drop';
+                                                }
+                                            @endphp
+                                            @if ($cardFlag)
+                                                <span class="card-flag">{{ $cardFlag }}</span>
                                             @endif
                                             <h2>{{ $product['name'] }}</h2>
                                             <div class="row">

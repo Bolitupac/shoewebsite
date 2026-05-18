@@ -95,7 +95,21 @@
                                     <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                 </div>
                                 <div class="card-copy">
-                                    <span class="card-flag">{{ $product['badge'] ?? 'New' }}</span>
+                                    @php
+                                        $cardFlag = null;
+                                        if (!empty($product['limited_edition'])) {
+                                            if (!empty($product['limited_edition_count']) && $product['limited_edition_count'] == 1) {
+                                                $cardFlag = 'One of One';
+                                            } elseif (!empty($product['limited_edition_count'])) {
+                                                $cardFlag = 'Limited to ' . $product['limited_edition_count'] . ' Pairs';
+                                            } else {
+                                                $cardFlag = 'Limited Edition';
+                                            }
+                                        } elseif (!empty($product['created_at']) && \Illuminate\Support\Carbon::parse($product['created_at'])->gt(\Illuminate\Support\Carbon::now()->subDays(21))) {
+                                            $cardFlag = 'Fresh Drop';
+                                        }
+                                    @endphp
+                                    <span class="card-flag">{{ $cardFlag ?? 'New' }}</span>
                                     <h3>{{ $product['name'] }}</h3>
                                     <p>₦{{ number_format((float)$product['price'], 0) }}</p>
                                     <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>

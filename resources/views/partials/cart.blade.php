@@ -4,7 +4,6 @@
         <button class="cart-drawer-close" type="button" data-close-cart aria-label="Close shopping basket">X</button>
         <div class="cart-drawer-header">
             <h2 id="cart-drawer-title">Luxury Cart</h2>
-            <a href="{{ route('collection') }}">Continue shopping</a>
         </div>
         <div class="cart-drawer-table-wrap">
             <table class="cart-table">
