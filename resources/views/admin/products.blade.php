@@ -148,12 +148,13 @@
                             <select id="form-category-target" name="category_target" required>
                                 <option value="Men">Men</option>
                                 <option value="Women">Women</option>
-                                <option value="All">All</option>
+                                <option value="All" selected>All</option>
                             </select>
                         </div>
                         <div class="field-group">
                             <label for="form-category-item">Item Type</label>
                             <select id="form-category-item" name="category_item" required onchange="document.getElementById('shoe-type-group').style.display = this.value === 'Shoes' ? 'block' : 'none'">
+                                <option value="" disabled selected>Select Item Type</option>
                                 <option value="Shoes">Shoes</option>
                                 <option value="Bags">Bags</option>
                                 <option value="Wallets">Wallets</option>
@@ -194,7 +195,13 @@
                         </div>
                         <div class="field-group">
                             <label for="form-fitting-type">Fitting Type</label>
-                            <input type="text" id="form-fitting-type" name="fitting_type" placeholder="e.g. G" value="All fitting types">
+                            <select id="form-fitting-type" name="fitting_type" required>
+                                <option value="All fittings" selected>All fittings</option>
+                                <option value="E">E</option>
+                                <option value="F">F</option>
+                                <option value="G">G</option>
+                                <option value="H">H</option>
+                            </select>
                         </div>
                         <div class="field-group">
                             <label for="form-sole-type">Sole Type</label>
@@ -249,14 +256,14 @@
             formMethod.value = "POST";
             form.reset();
             
-            document.getElementById('form-category-target').value = "Men";
-            document.getElementById('form-category-item').value = "Shoes";
+            document.getElementById('form-category-target').value = "All";
+            document.getElementById('form-category-item').value = "";
             document.getElementById('form-category-shoe-type').value = "";
-            document.getElementById('shoe-type-group').style.display = 'block';
+            document.getElementById('shoe-type-group').style.display = 'none';
             document.getElementById('form-limited-edition-count').value = "";
             document.getElementById('form-sold-out').checked = false;
             document.getElementById('form-construction-type').value = '';
-            document.getElementById('form-fitting-type').value = 'All fitting types';
+            document.getElementById('form-fitting-type').value = 'All fittings';
             document.getElementById('form-sole-type').value = '';
 
             imageHelp.textContent = '(required)';
@@ -290,7 +297,11 @@
             document.getElementById('form-limited-edition-count').value = product.limited_edition_count || '';
             document.getElementById('form-sold-out').checked = product.sold_out ? true : false;
             document.getElementById('form-construction-type').value = product.construction_type || '';
-            document.getElementById('form-fitting-type').value = product.fitting_type || 'All fitting types';
+            let fType = product.fitting_type || 'All fittings';
+            if (fType === 'All fitting types') {
+                fType = 'All fittings';
+            }
+            document.getElementById('form-fitting-type').value = fType;
             document.getElementById('form-sole-type').value = product.sole_type || '';
 
             imageHelp.textContent = '(optional, leave empty to keep current)';

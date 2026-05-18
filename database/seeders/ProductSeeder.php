@@ -24,7 +24,6 @@ class ProductSeeder extends Seeder
                 'image'       => $product['image'],
                 'description' => $product['description'],
                 'colour'      => $product['colour'],
-                'badge'       => $product['badge'] ?? null,
                 'hidden'      => $product['hidden'] ?? false,
             ]);
         }
