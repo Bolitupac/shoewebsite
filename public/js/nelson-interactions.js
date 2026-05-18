@@ -909,6 +909,14 @@
         const closeButton = document.querySelector('[data-demo-disclaimer-close]');
         if (!trigger || !overlay || !closeButton) return;
         let closeTimeoutId = null;
+        const disclaimerStorageKey = 'demoDisclaimerShown';
+        let hasSeenDisclaimer = false;
+
+        try {
+            hasSeenDisclaimer = window.localStorage.getItem(disclaimerStorageKey) === 'true';
+        } catch (error) {
+            hasSeenDisclaimer = false;
+        }
 
         const open = () => {
             if (closeTimeoutId) {
@@ -935,7 +943,6 @@
             }, 320);
         };
 
-        open();
         trigger.addEventListener('click', open);
         closeButton.addEventListener('click', close);
         overlay.addEventListener('click', (event) => {
@@ -944,6 +951,15 @@
         document.addEventListener('keydown', (event) => {
             if (event.key === 'Escape' && overlay.hidden === false) close();
         });
+
+        if (!hasSeenDisclaimer) {
+            open();
+            try {
+                window.localStorage.setItem(disclaimerStorageKey, 'true');
+            } catch (error) {
+                // ignore storage failures
+            }
+        }
     };
 
 

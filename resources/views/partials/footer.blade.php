@@ -30,13 +30,13 @@
     </svg>
     <span>Disclaimer</span>
 </button>
-<div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay aria-hidden="false">
+<div class="demo-disclaimer-overlay" data-demo-disclaimer-overlay aria-hidden="true" hidden>
     <div class="demo-disclaimer-card" role="dialog" aria-modal="true" aria-labelledby="demo-disclaimer-title">
         <button type="button" class="demo-disclaimer-close" data-demo-disclaimer-close aria-label="Close demo disclaimer">&times;</button>
         <div class="demo-disclaimer-eyebrow">Important</div>
         <h3 id="demo-disclaimer-title">Demo Website Only</h3>
-        <p>This website is a presentation and portfolio demo.</p>
-        <p>No real ecommerce, payment processing, shipping, or commercial order fulfillment is taking place on this site.</p>
+        <p>This is just a live demo and not for actual commerce.</p>
+        <p>All card payments here are demo, all stuff is demo, and there is no real shipping or fulfillment.</p>
         <p>This project is not affiliated with Nelson Shoes.</p>
         <p><a href="https://bolitupac.github.io/My-Websit/" target="_blank" rel="noreferrer">Developer website ↗</a></p>
     </div>
