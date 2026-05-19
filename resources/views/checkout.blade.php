@@ -350,12 +350,13 @@
             itemsContainer.innerHTML = cart.map(item => {
                 const itemTotal = parsePrice(item.price) * item.quantity;
                 subtotal += itemTotal;
+                const sizeDisplay = (item.size && item.size !== 'N/A') ? `Size: ${item.size} &nbsp;|&nbsp; ` : '';
                 
                 return `
                     <div class="summary-item">
                         <div class="summary-item-details">
                             <div class="summary-item-name">${item.name}</div>
-                            <div class="summary-item-meta">Size: ${item.size} &nbsp;|&nbsp; Qty: ${item.quantity}</div>
+                            <div class="summary-item-meta">${sizeDisplay}Qty: ${item.quantity}</div>
                         </div>
                         <div class="summary-item-price">${formatPrice(itemTotal)}</div>
                     </div>
@@ -412,7 +413,8 @@
                 e.preventDefault();
                 let text = 'Hello, I would like to order the following items from my cart:\n\n';
                 cart.forEach(item => {
-                    text += `- ${item.name} (Size: ${item.size}, Qty: ${item.quantity}) - ${item.price} each\n`;
+                    const sizeText = (item.size && item.size !== 'N/A') ? `Size: ${item.size}, ` : '';
+                    text += `- ${item.name} (${sizeText}Qty: ${item.quantity}) - ${item.price} each\n`;
                 });
                 text += `\nTotal: ${formatPrice(subtotal)}`;
                 

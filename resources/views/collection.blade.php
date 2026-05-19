@@ -143,6 +143,7 @@
                                         data-name="{{ $product['name'] }}"
                                         data-price="₦{{ number_format((float)$product['price'], 0) }}"
                                         data-category="{{ implode(', ', (array)$product['category']) }}"
+                                        data-item-type="{{ $product['category'][1] ?? '' }}"
                                         data-colour="{{ $product['colour'] }}"
                                         data-description="{{ $product['description'] }}"
                                         data-whatsapp-number="{{ $whatsappNumber }}"
@@ -216,7 +217,7 @@
                         <p class="meta-label">Colour</p>
                         <p class="meta-value" data-modal-colour></p>
                     </div>
-                    <div class="product-meta">
+                    <div class="product-meta" data-modal-size-container>
                         <p class="meta-label">Shoe Size (UK)</p>
                         <div class="size-row">
                             <select aria-label="Shoe Size UK" data-modal-size>

@@ -302,6 +302,7 @@
                 name: card.dataset.name,
                 price: card.dataset.price,
                 category: card.dataset.category,
+                itemType: card.dataset.itemType,
                 colour: card.dataset.colour,
                 description: card.dataset.description,
                 whatsappNumber: card.dataset.whatsappNumber || whatsappNumber,
@@ -318,18 +319,16 @@
             modalPrice.textContent = activeProduct.price;
             modalDescription.textContent = activeProduct.description;
             modalColour.textContent = activeProduct.colour;
-            const isShoe = activeProduct.category && activeProduct.category.includes('Shoes');
-            const sizeLabel = productModal.querySelector('label[for="modal-size"]');
+            const productIsShoe = activeProduct.itemType === 'Shoes';
+            const sizeContainer = productModal.querySelector('[data-modal-size-container]');
             
-            if (isShoe) {
-                modalSize.style.display = '';
-                if (sizeLabel) sizeLabel.style.display = '';
+            if (productIsShoe) {
+                if (sizeContainer) sizeContainer.style.display = '';
                 const defaultSize = localStorage.getItem('nelson_last_selected_shoe_size') || '40';
                 modalSize.value = defaultSize;
                 modalOrder.href = buildWhatsAppLink(activeProduct, defaultSize);
             } else {
-                modalSize.style.display = 'none';
-                if (sizeLabel) sizeLabel.style.display = 'none';
+                if (sizeContainer) sizeContainer.style.display = 'none';
                 modalOrder.href = buildWhatsAppLink(activeProduct, 'N/A');
             }
 
@@ -373,7 +372,7 @@
                 if (!activeProduct) return;
                 const cart = getCart();
                 // Determine isShoe from activeProduct at click-time (not from outer scope)
-                const productIsShoe = activeProduct.category && activeProduct.category.includes('Shoes');
+                const productIsShoe = activeProduct.itemType === 'Shoes';
                 const size = productIsShoe ? modalSize.value : 'N/A';
                 const existingIdx = cart.findIndex(i => i.id === activeProduct.id && i.size === size);
                 if (existingIdx > -1) {
@@ -387,6 +386,7 @@
                         size: size,
                         quantity: 1,
                         category: activeProduct.category,
+                        itemType: activeProduct.itemType,
                         limitedEdition: activeProduct.limitedEdition,
                         colour: activeProduct.colour,
                         constructionType: activeProduct.constructionType,
@@ -678,7 +678,7 @@
             itemsContainer.innerHTML = cart.map((item, index) => {
                 const itemTotal = parsePrice(item.price) * item.quantity;
                 subtotal += itemTotal;
-                const isShoe = item.category && item.category.includes('Shoes');
+                const isShoe = item.itemType === 'Shoes' || (item.category && item.category.includes('Shoes') && !item.itemType);
                 
                 return `
                     <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''} ${item.limitedEdition ? 'cart-row-one-of-one' : ''}" data-cart-row>
@@ -746,12 +746,14 @@
                                             <button type="button" class="cart-qty-btn" data-cart-qty-plus data-index="${index}" aria-label="Increase quantity">+</button>
                                         </div>
                                     </div>
+                                    ${isShoe ? `
                                     <div class="cart-row-mobile-size">
                                         <label for="cart-mobile-size-${index}">Shoe Size</label>
                                         <select id="cart-mobile-size-${index}" data-update-size="${index}">
                                             ${[40,41,42,43,44,45,46,47,48,49,50].map(s => `<option value="${s}" ${s == item.size ? 'selected' : ''}>${s}</option>`).join('')}
                                         </select>
                                     </div>
+                                    ` : ''}
                                 </div>
                                 <div class="cart-row-mobile-actions">
                                     <button type="button" class="btn btn-outline cart-remove-btn" data-remove-index="${index}">Remove</button>
