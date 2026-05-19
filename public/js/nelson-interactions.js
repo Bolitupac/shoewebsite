@@ -352,7 +352,7 @@
                 <li>Fitting Type: ${activeProduct.fittingType}</li>
                 <li>Material / Finish: ${activeProduct.colour}</li>
                 <li>Product Type: ${activeProduct.category}</li>
-                <li>Sole Type: ${activeProduct.soleType}</li>
+                <li>Material Type: ${activeProduct.soleType}</li>
             `;
 
             renderRecommendations(card);

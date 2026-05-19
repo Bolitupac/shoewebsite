@@ -204,7 +204,7 @@
                             </select>
                         </div>
                         <div class="field-group">
-                            <label for="form-sole-type">Sole Type</label>
+                            <label for="form-sole-type">Material Type</label>
                             <input type="text" id="form-sole-type" name="sole_type" placeholder="e.g. Leather">
                         </div>
                         <div class="field-group">

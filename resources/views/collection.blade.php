@@ -102,7 +102,7 @@
                                 <label><input type="checkbox" data-filter-material value="Patina"> Patina</label>
                             </div>
                             <div class="filter-group">
-                                <h4>Sole Type</h4>
+                                <h4>Material Type</h4>
                                 <label><input type="checkbox" data-filter-sole value="Leather"> Leather</label>
                             </div>
                         </div>
