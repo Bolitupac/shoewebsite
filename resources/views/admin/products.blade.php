@@ -449,9 +449,7 @@
                 });
 
                 if (!response.ok) {
-                    const payload = await response.json().catch(() => null);
-                    const message = payload?.message || 'Failed to save product. Please try again.';
-                    createAdminToast(message);
+                    createAdminToast('Item failed to upload.');
                     return;
                 }
 
@@ -488,7 +486,7 @@
                     closeModal();
                 }
             } catch (error) {
-                createAdminToast('Unable to save product right now.');
+                createAdminToast('Item failed to upload.');
             } finally {
                 setSubmitLoading(false);
             }
