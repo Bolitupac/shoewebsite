@@ -401,6 +401,35 @@
             }, 3200);
         }
 
+        function renderRowHtml(product) {
+            const imgUrl = product.image ? (product.image.startsWith('http') ? product.image : `/${product.image}`) : '';
+            const categoryArr = Array.isArray(product.category) ? product.category : [product.category];
+            const catStr = categoryArr.map(c => c ? (c.charAt(0).toUpperCase() + c.slice(1)) : '').filter(Boolean).join(', ');
+            const price = product.price || '0';
+            const hiddenStr = product.hidden ? 'Yes' : 'No';
+            const jsonProduct = JSON.stringify(product).replace(/"/g, '&quot;');
+            
+            return `
+                <td data-label="Image">
+                    ${imgUrl ? `<img src="${imgUrl}" alt="image" style="width: 50px; height: 50px; object-fit: cover;">` : ''}
+                </td>
+                <td data-label="Name">${product.name}</td>
+                <td data-label="Price">${price}</td>
+                <td data-label="Categories">${catStr}</td>
+                <td data-label="Section">${product.section || 'general'}</td>
+                <td data-label="Colour">${product.colour || ''}</td>
+                <td data-label="Hidden">${hiddenStr}</td>
+                <td class="actions-cell" data-label="Actions">
+                    <button class="tbl-btn edit-btn" type="button" onclick="openEditModal(${jsonProduct})">Edit</button>
+                    <form method="POST" action="/admin/products/${product.id}" style="display:inline" onsubmit="return confirm('Delete ${product.name.replace(/'/g, "\\'")}?')">
+                        <input type="hidden" name="_token" value="${document.querySelector('input[name="_token"]').value}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button class="tbl-btn delete-btn" type="submit">Delete</button>
+                    </form>
+                </td>
+            `;
+        }
+
         async function handleAdminFormSubmit(event) {
             event.preventDefault();
             setSubmitLoading(true);
@@ -428,6 +457,36 @@
 
                 const payload = await response.json();
                 createAdminToast(payload.message || 'Product saved.');
+
+                if (payload.product) {
+                    const product = payload.product;
+                    const isEdit = formMethod.value === 'PATCH';
+                    
+                    if (isEdit) {
+                        const existingRow = document.getElementById(`row-${product.id}`);
+                        if (existingRow) {
+                            existingRow.className = product.limited_edition ? 'admin-row-one-of-one' : '';
+                            existingRow.innerHTML = renderRowHtml(product);
+                        }
+                    } else {
+                        const tbody = document.querySelector('.admin-table.products-table tbody');
+                        if (tbody) {
+                            const newRow = document.createElement('tr');
+                            newRow.id = `row-${product.id}`;
+                            newRow.className = product.limited_edition ? 'admin-row-one-of-one' : '';
+                            newRow.innerHTML = renderRowHtml(product);
+                            tbody.insertBefore(newRow, tbody.firstChild);
+                        }
+                        
+                        const countBadge = document.querySelector('.count-badge');
+                        if (countBadge) {
+                            const currentCount = parseInt(countBadge.textContent) || 0;
+                            countBadge.textContent = currentCount + 1;
+                        }
+                    }
+                    
+                    closeModal();
+                }
             } catch (error) {
                 createAdminToast('Unable to save product right now.');
             } finally {
