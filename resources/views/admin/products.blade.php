@@ -250,6 +250,23 @@
         const params = new URLSearchParams(window.location.search);
         const requestedProductId = params.get('open');
 
+        imageInput.addEventListener('change', () => {
+            const file = imageInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    previewImg.src = e.target.result;
+                    previewContainer.style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                if (formMethod.value !== 'PATCH') {
+                    previewContainer.style.display = 'none';
+                    previewImg.src = '';
+                }
+            }
+        });
+
         function openAddModal() {
             modalTitle.textContent = 'Add Product';
             form.action = "{{ route('admin.products.store') }}";
