@@ -35,39 +35,47 @@ class ProductController extends Controller
             'sole_type' => 'nullable|string|max:255',
         ]);
 
-        $validated['category'] = [$validated['category_target'], $validated['category_item']];
-        if (!empty($validated['category_shoe_type'])) {
-            $validated['category'][] = $validated['category_shoe_type'];
+        try {
+            $validated['category'] = [$validated['category_target'], $validated['category_item']];
+            if (!empty($validated['category_shoe_type'])) {
+                $validated['category'][] = $validated['category_shoe_type'];
+            }
+            unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
+
+            $validated['section'] = 'general';
+
+            $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
+
+            $validated['id'] = Str::slug($validated['name']);
+            $validated['hidden'] = $request->boolean('hidden');
+            $validated['limited_edition'] = !empty($validated['limited_edition_count']);
+            $validated['sold_out'] = $request->boolean('sold_out');
+
+            // Ensure unique ID
+            $base = $validated['id'];
+            $count = 1;
+            while (Product::where('id', $validated['id'])->exists()) {
+                $validated['id'] = $base . '-' . $count++;
+            }
+
+            if ($request->hasFile('image')) {
+                $validated['image'] = $this->uploadToSupabase($request->file('image'));
+            }
+
+            $product = Product::create($validated);
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => true, 'message' => 'Product added.', 'product' => $product], 200);
+            }
+
+            return redirect()->route('admin.products')->with('success', 'Product added.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Product store failed: ' . $e->getMessage());
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Item failed to upload.'], 500);
+            }
+            return back()->withErrors(['error' => 'Item failed to upload.'])->withInput();
         }
-        unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
-
-        $validated['section'] = 'general';
-
-        $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
-
-        $validated['id'] = Str::slug($validated['name']);
-        $validated['hidden'] = $request->boolean('hidden');
-        $validated['limited_edition'] = !empty($validated['limited_edition_count']);
-        $validated['sold_out'] = $request->boolean('sold_out');
-
-        // Ensure unique ID
-        $base = $validated['id'];
-        $count = 1;
-        while (Product::where('id', $validated['id'])->exists()) {
-            $validated['id'] = $base . '-' . $count++;
-        }
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $this->uploadToSupabase($request->file('image'));
-        }
-
-        $product = Product::create($validated);
-
-        if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'message' => 'Product added.', 'product' => $product], 200);
-        }
-
-        return redirect()->route('admin.products')->with('success', 'Product added.');
     }
 
     public function update(Request $request, Product $product)
@@ -89,33 +97,41 @@ class ProductController extends Controller
             'sole_type' => 'nullable|string|max:255',
         ]);
 
-        $validated['category'] = [$validated['category_target'], $validated['category_item']];
-        if (!empty($validated['category_shoe_type'])) {
-            $validated['category'][] = $validated['category_shoe_type'];
+        try {
+            $validated['category'] = [$validated['category_target'], $validated['category_item']];
+            if (!empty($validated['category_shoe_type'])) {
+                $validated['category'][] = $validated['category_shoe_type'];
+            }
+            unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
+
+            $validated['section'] = 'general';
+
+            $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
+
+            $validated['hidden'] = $request->boolean('hidden');
+            $validated['limited_edition'] = !empty($validated['limited_edition_count']);
+            $validated['sold_out'] = $request->boolean('sold_out');
+
+            if ($request->hasFile('image')) {
+                $validated['image'] = $this->uploadToSupabase($request->file('image'));
+            } else {
+                unset($validated['image']);
+            }
+
+            $product->update($validated);
+
+            if ($request->expectsJson()) {
+                return response()->json(['success' => true, 'message' => 'Product updated.', 'product' => $product], 200);
+            }
+
+            return redirect()->route('admin.products')->with('success', 'Product updated.');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Product update failed: ' . $e->getMessage());
+            if ($request->expectsJson()) {
+                return response()->json(['success' => false, 'message' => 'Item failed to upload.'], 500);
+            }
+            return back()->withErrors(['error' => 'Item failed to upload.'])->withInput();
         }
-        unset($validated['category_target'], $validated['category_item'], $validated['category_shoe_type']);
-
-        $validated['section'] = 'general';
-
-        $validated['price'] = preg_replace('/[^0-9.]/', '', $validated['price']);
-
-        $validated['hidden'] = $request->boolean('hidden');
-        $validated['limited_edition'] = !empty($validated['limited_edition_count']);
-        $validated['sold_out'] = $request->boolean('sold_out');
-
-        if ($request->hasFile('image')) {
-            $validated['image'] = $this->uploadToSupabase($request->file('image'));
-        } else {
-            unset($validated['image']);
-        }
-
-        $product->update($validated);
-
-        if ($request->expectsJson()) {
-            return response()->json(['success' => true, 'message' => 'Product updated.', 'product' => $product], 200);
-        }
-
-        return redirect()->route('admin.products')->with('success', 'Product updated.');
     }
 
     public function destroy(Product $product)
