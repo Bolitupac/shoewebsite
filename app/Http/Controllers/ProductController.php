@@ -131,18 +131,33 @@ class ProductController extends Controller
         $fileName = time() . '_' . $file->getClientOriginalName();
         $filePath = $file->getPathname();
         
-        $response = \Illuminate\Support\Facades\Http::withToken($key)
-            ->withHeaders([
-                'apikey' => $key,
-                'Content-Type' => $file->getMimeType(),
-            ])
-            ->withBody(file_get_contents($filePath), $file->getMimeType())
-            ->post("{$url}/storage/v1/object/products/{$fileName}");
-            
-        if ($response->successful()) {
-            return "{$url}/storage/v1/object/public/products/{$fileName}";
+        if ($url && $key) {
+            try {
+                $response = \Illuminate\Support\Facades\Http::timeout(3)
+                    ->withToken($key)
+                    ->withHeaders([
+                        'apikey' => $key,
+                        'Content-Type' => $file->getMimeType(),
+                    ])
+                    ->withBody(file_get_contents($filePath), $file->getMimeType())
+                    ->post("{$url}/storage/v1/object/products/{$fileName}");
+                    
+                if ($response->successful()) {
+                    return "{$url}/storage/v1/object/public/products/{$fileName}";
+                }
+                
+                \Illuminate\Support\Facades\Log::warning('Supabase upload unsuccessful, falling back to local: ' . $response->body());
+            } catch (\Exception $e) {
+                \Illuminate\Support\Facades\Log::warning('Supabase upload failed, falling back to local: ' . $e->getMessage());
+            }
         }
         
-        throw new \Exception('Failed to upload image: ' . $response->body());
+        // Local upload fallback
+        $destinationPath = public_path('uploads/products');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+        $file->move($destinationPath, $fileName);
+        return 'uploads/products/' . $fileName;
     }
 }
