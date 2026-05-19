@@ -436,6 +436,24 @@
                 closeProductModal();
             }
         });
+
+        // Auto-open product modal if "product" query parameter is present
+        const urlParams = new URLSearchParams(window.location.search);
+        const autoProductId = urlParams.get('product');
+        if (autoProductId) {
+            const targetCard = productCards.find(card => card.dataset.id === autoProductId);
+            if (targetCard) {
+                // If the card is hidden by class, click the "See more" button of that section
+                if (targetCard.classList.contains('card-hidden') || targetCard.classList.contains('card-hidden-mobile')) {
+                    const section = targetCard.closest('.catalog-section');
+                    const seeMoreBtn = section?.querySelector('[data-see-more]');
+                    if (seeMoreBtn && seeMoreBtn.getAttribute('aria-expanded') !== 'true') {
+                        seeMoreBtn.click();
+                    }
+                }
+                openProductModal(targetCard);
+            }
+        }
     };
 
     const initWhatsAppForms = () => {

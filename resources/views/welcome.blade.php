@@ -112,7 +112,7 @@
                                     <span class="card-flag">{{ $cardFlag ?? 'New' }}</span>
                                     <h3>{{ $product['name'] }}</h3>
                                     <p>₦{{ number_format((float)$product['price'], 0) }}</p>
-                                    <a class="card-action" href="{{ route('collection') }}#{{ $product['section'] }}">View pair</a>
+                                    <a class="card-action" href="{{ route('collection') }}?product={{ $product['id'] }}#{{ $product['section'] }}">View pair</a>
                                 </div>
                             </article>
                         @endforeach
