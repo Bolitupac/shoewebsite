@@ -724,7 +724,6 @@
                         <td>
                             <div class="cart-price-cell">
                                 <span class="cart-price-value">${item.price}</span>
-                                <button type="button" class="btn btn-outline cart-mobile-edit-btn" data-cart-edit-toggle data-edit-index="${index}">${index === editingIndex ? 'Done' : 'Edit'}</button>
                             </div>
                         </td>
                         <td class="cart-col-qty">
