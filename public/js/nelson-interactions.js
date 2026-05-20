@@ -120,10 +120,20 @@
             applyBtn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const checked = Array.from(filterPanel.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
-                if (checked.length > 0) {
-                    window.location.href = '/collection?tags=' + encodeURIComponent(checked.join(','));
+                if (window.location.pathname === '/search') {
+                    const params = new URLSearchParams(window.location.search);
+                    const q = params.get('q') || '';
+                    if (checked.length > 0) {
+                        window.location.href = '/search?q=' + encodeURIComponent(q) + '&tags=' + encodeURIComponent(checked.join(','));
+                    } else {
+                        window.location.href = '/search?q=' + encodeURIComponent(q);
+                    }
                 } else {
-                    window.location.href = '/collection';
+                    if (checked.length > 0) {
+                        window.location.href = '/collection?tags=' + encodeURIComponent(checked.join(','));
+                    } else {
+                        window.location.href = '/collection';
+                    }
                 }
             });
         }
@@ -1066,6 +1076,46 @@
         observer.observe(document.body, { childList: true, subtree: true });
     };
 
+    const initSearchOverlay = () => {
+        const searchOverlay = document.getElementById('searchOverlay');
+        const openSearchBtns = document.querySelectorAll('[data-open-search]');
+        const closeSearchBtn = document.getElementById('closeSearch');
+        const searchBackdrop = document.getElementById('searchBackdrop');
+        const searchInput = document.getElementById('searchInput');
+
+        if (!searchOverlay) return;
+
+        const openSearch = () => {
+            searchOverlay.classList.add('is-open');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                searchInput?.focus();
+            }, 100);
+        };
+
+        const closeSearch = () => {
+            searchOverlay.classList.remove('is-open');
+            document.body.style.overflow = '';
+        };
+
+        openSearchBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openSearch();
+            });
+        });
+
+        closeSearchBtn?.addEventListener('click', closeSearch);
+        searchBackdrop?.addEventListener('click', closeSearch);
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && searchOverlay.classList.contains('is-open')) {
+                closeSearch();
+            }
+        });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initHeaderScrollBehavior();
@@ -1081,6 +1131,7 @@
         initCartDrawer();
         initDemoDisclaimer();
         initSmoothImageFadeIn();
+        initSearchOverlay();
         if (window.updateCartBadge) window.updateCartBadge();
     });
 })();

@@ -84,6 +84,45 @@ Route::get('/checkout', function () {
 Route::post('/checkout/order', [CheckoutController::class, 'store'])->name('checkout.order');
 Route::get('/checkout/success/{order:order_number}', [CheckoutController::class, 'success'])->name('checkout.success');
 
+Route::get('/search', function () {
+    $q = request('q', '');
+    $productsQuery = Product::query();
+
+    if ($q !== '') {
+        $productsQuery->where(function ($query) use ($q) {
+            $query->where('name', 'ilike', '%' . $q . '%')
+                  ->orWhere('description', 'ilike', '%' . $q . '%')
+                  ->orWhere('colour', 'ilike', '%' . $q . '%')
+                  ->orWhere('section', 'ilike', '%' . $q . '%')
+                  ->orWhere('construction_type', 'ilike', '%' . $q . '%')
+                  ->orWhere('fitting_type', 'ilike', '%' . $q . '%')
+                  ->orWhere('sole_type', 'ilike', '%' . $q . '%')
+                  ->orWhereRaw('category::text ilike ?', ['%' . $q . '%']);
+        });
+    }
+
+    if (request()->has('tags')) {
+        $tags = explode(',', request('tags'));
+        $productsQuery->where(function ($query) use ($tags) {
+            foreach ($tags as $tag) {
+                $query->orWhereJsonContains('category', $tag)
+                      ->orWhere('colour', 'ilike', '%' . $tag . '%')
+                      ->orWhere('section', 'ilike', '%' . $tag . '%')
+                      ->orWhere('construction_type', 'ilike', '%' . $tag . '%')
+                      ->orWhere('fitting_type', 'ilike', '%' . $tag . '%')
+                      ->orWhere('sole_type', 'ilike', '%' . $tag . '%');
+            }
+        });
+    }
+
+    $products = $productsQuery->paginate(20)->withQueryString();
+
+    return view('search', [
+        'query' => $q,
+        'products' => $products,
+    ]);
+})->name('search');
+
 // ─── Admin auth ──────────────────────────────────────────────────
 Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.post');

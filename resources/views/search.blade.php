@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nelson Shoes | Search Results</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=oswald:400,500,600,700|manrope:400,500,600,700" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon-n.svg') }}">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('css/everline.css') }}">
+</head>
+
+<body>
+    @php
+        $whatsappNumber = '2347037371590';
+    @endphp
+
+    <div class="site-wrap">
+        @include('partials.header')
+
+        <main>
+            <section class="collection-hero">
+                <div>
+                    <span class="eyebrow">Search Results</span>
+                    <h1>Search</h1>
+                </div>
+            </section>
+
+            <section class="collection-shell">
+                <aside class="filter-sidebar" aria-label="Sort and filter">
+                    <button class="filter-toggle" type="button" data-filter-toggle aria-expanded="false">Sort &amp; Filter</button>
+                    <div class="filter-panel" data-filter-panel>
+                        <div class="filter-header">
+                            <h2>Filters</h2>
+                            <button class="icon-btn" type="button" data-filter-close aria-label="Close filters">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <div class="filter-body">
+                            <span class="section-label">Sort &amp; Filter</span>
+                            <div class="filter-group">
+                                <h4>Product</h4>
+                                <label><input type="checkbox" data-filter-product value="Shoes"> Shoes</label>
+                                <label><input type="checkbox" data-filter-product value="Bags"> Bags</label>
+                                <label><input type="checkbox" data-filter-product value="Wallets"> Wallets</label>
+                                <label><input type="checkbox" data-filter-product value="Belts"> Belts</label>
+                                <label><input type="checkbox" data-filter-product value="Accessories"> Accessories</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Shoe Type</h4>
+                                <label><input type="checkbox" data-filter-shoe-type value="Oxford"> Oxford</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Brogue"> Brogue</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Derby"> Derby</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Loafer"> Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Penny Loafer"> Penny Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Tassel Loafer"> Tassel Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Fringed Loafer"> Fringed Loafer</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Monk Strap"> Monk Strap</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Chelsea Boot"> Chelsea Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Chukka Boot"> Chukka Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Country Boot"> Country Boot</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Sneaker"> Sneaker</label>
+                                <label><input type="checkbox" data-filter-shoe-type value="Trainer"> Trainer</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Colour</h4>
+                                <label><input type="checkbox" data-filter-colour value="Beige"> Beige</label>
+                                <label><input type="checkbox" data-filter-colour value="Black"> Black</label>
+                                <label><input type="checkbox" data-filter-colour value="Brown"> Brown</label>
+                                <label><input type="checkbox" data-filter-colour value="Burgundy"> Burgundy</label>
+                                <label><input type="checkbox" data-filter-colour value="Cedar"> Cedar</label>
+                                <label><input type="checkbox" data-filter-colour value="Navy / Blue"> Navy / Blue</label>
+                                <label><input type="checkbox" data-filter-colour value="Rosewood"> Rosewood</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Construction Type</h4>
+                                <label><input type="checkbox" data-filter-construction value="Bologna"> Bologna</label>
+                                <label><input type="checkbox" data-filter-construction value="Cemented"> Cemented</label>
+                                <label><input type="checkbox" data-filter-construction value="Lockstitch"> Lockstitch</label>
+                                <label><input type="checkbox" data-filter-construction value="Moccasin"> Moccasin</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Fitting Type</h4>
+                                <label><input type="checkbox" data-filter-fitting value="G"> G</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Gender</h4>
+                                <label><input type="checkbox" data-filter-gender value="Men"> Men</label>
+                                <label><input type="checkbox" data-filter-gender value="Women"> Women</label>
+                                <label><input type="checkbox" data-filter-gender value="All"> All</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Last Shape</h4>
+                                <label><input type="checkbox" data-filter-last value="436"> 436</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Material / Finish</h4>
+                                <label><input type="checkbox" data-filter-material value="Calf"> Calf</label>
+                                <label><input type="checkbox" data-filter-material value="Suede"> Suede</label>
+                                <label><input type="checkbox" data-filter-material value="Patina"> Patina</label>
+                            </div>
+                            <div class="filter-group">
+                                <h4>Material Type</h4>
+                                <label><input type="checkbox" data-filter-sole value="Leather"> Leather</label>
+                            </div>
+                        </div>
+                        <div class="filter-footer">
+                            <button class="btn btn-dark w-100" style="width: 100%" type="button" data-filter-close>Apply Filters</button>
+                        </div>
+                    </div>
+                </aside>
+
+                <div class="collection-content">
+                    @if ($products->total() > 0)
+                        <div class="search-result-intro">
+                            <h1>Your search for "{{ $query }}" revealed the following:</h1>
+                        </div>
+                        <section class="catalog-section">
+                            <div class="product-grid" data-section-grid>
+                                @foreach ($products as $product)
+                                    <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ !empty($product['limited_edition']) ? 'card-one-of-one' : '' }}"
+                                        data-product-card
+                                        data-id="{{ $product['id'] }}"
+                                        data-image="{{ asset($product['image']) }}"
+                                        data-name="{{ $product['name'] }}"
+                                        data-price="₦{{ number_format((float)$product['price'], 0) }}"
+                                        data-category="{{ implode(', ', (array)$product['category']) }}"
+                                        data-item-type="{{ $product['category'][1] ?? '' }}"
+                                        data-colour="{{ $product['colour'] }}"
+                                        data-description="{{ $product['description'] }}"
+                                        data-whatsapp-number="{{ $whatsappNumber }}"
+                                        data-sold-out="{{ !empty($product['sold_out']) ? 'true' : 'false' }}"
+                                        data-construction-type="{{ $product['construction_type'] ?? '' }}"
+                                        data-fitting-type="{{ $product['fitting_type'] ?? 'All fitting types' }}"
+                                        data-sole-type="{{ $product['sole_type'] ?? '' }}">
+                                        
+                                        <div class="card-media">
+                                            <img class="img-lazy" src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="lazy" decoding="async">
+                                            <button class="card-btn-quick" type="button" data-open-modal>Quick view</button>
+                                        </div>
+                                        <div class="card-copy">
+                                            @php
+                                                $cardFlag = null;
+                                                if (!empty($product['sold_out'])) {
+                                                    $cardFlag = 'Sold Out';
+                                                } elseif (!empty($product['limited_edition'])) {
+                                                    if (!empty($product['limited_edition_count'])) {
+                                                        $cardFlag = 'One of ' . $product['limited_edition_count'];
+                                                    } else {
+                                                        $cardFlag = 'Limited Edition';
+                                                    }
+                                                } elseif (!empty($product['created_at']) && \Illuminate\Support\Carbon::parse($product['created_at'])->gt(\Illuminate\Support\Carbon::now()->subDays(21))) {
+                                                    $cardFlag = 'Fresh Drop';
+                                                }
+                                            @endphp
+                                            @if ($cardFlag)
+                                                <span class="card-flag">{{ $cardFlag }}</span>
+                                            @endif
+                                            <h2>{{ $product['name'] }}</h2>
+                                            <div class="row">
+                                                <span>₦{{ number_format((float)$product['price'], 0) }}</span>
+                                            </div>
+                                        </div>
+                                    </article>
+                                @endforeach
+                            </div>
+
+                            <div class="pagination-wrap">
+                                {{ $products->links('pagination::simple-bootstrap-4') }}
+                            </div>
+                        </section>
+                    @else
+                        <div class="no-results-container">
+                            <h2>Your search for "{{ $query }}" did not yield any results.</h2>
+                            <form action="{{ route('search') }}" method="GET" class="no-results-search-form">
+                                <input type="search" name="q" placeholder="Try searching for another style..." value="{{ $query }}" required>
+                                <button type="submit" class="no-results-search-submit" aria-label="Search">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                </button>
+                            </form>
+                        </div>
+                    @endif
+                </div>
+            </section>
+        </main>
+        @include('partials.footer')
+    </div>
+
+    @include('partials.cart')
+
+    <div class="product-modal" data-product-modal aria-hidden="true">
+        <button class="product-modal-backdrop" type="button" data-close-modal aria-label="Close product details"></button>
+        <div class="product-modal-panel" role="dialog" aria-modal="true" aria-labelledby="product-modal-title">
+            <button class="product-modal-close" type="button" data-close-modal aria-label="Close product details">X</button>
+            <div class="product-modal-media">
+                <img src="" alt="" data-modal-image>
+                <div class="product-modal-media-badge">Nelson Shoes Workshop</div>
+            </div>
+            <div class="product-modal-copy">
+                <div class="product-modal-header">
+                    <p class="product-modal-notice">Typically takes two weeks to make</p>
+                    <h2 id="product-modal-title" data-modal-title></h2>
+                    <div class="product-modal-price" data-modal-price></div>
+                </div>
+                <div class="product-modal-summary">
+                    <div class="product-meta">
+                        <p class="meta-label">Colour</p>
+                        <p class="meta-value" data-modal-colour></p>
+                    </div>
+                    <div class="product-meta" data-modal-size-container>
+                        <p class="meta-label">Shoe Size (UK)</p>
+                        <div class="size-row">
+                            <select aria-label="Shoe Size UK" data-modal-size>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                                <option value="45">45</option>
+                                <option value="46">46</option>
+                                <option value="47">47</option>
+                                <option value="48">48</option>
+                                <option value="49">49</option>
+                                <option value="50">50</option>
+                            </select>
+                            <a class="size-guide-link" href="#" data-size-guide>Size Guide</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-block">
+                    <h3>Product Description</h3>
+                    <p data-modal-description></p>
+                </div>
+                <div class="detail-block">
+                    <h3>Detailed Information</h3>
+                    <ul class="detail-list" data-modal-info></ul>
+                </div>
+                <div class="product-modal-actions" style="display: flex; gap: 1rem;">
+                    <button class="btn btn-dark" type="button" data-modal-add-cart style="flex: 1;">Add to Cart</button>
+                    <a class="btn btn-outline" href="#" target="_blank" rel="noreferrer" data-modal-order style="flex: 1; text-align: center;">Order via WhatsApp</a>
+                </div>
+                <div class="recommended-block">
+                    <h3>Recommended Items</h3>
+                    <div class="recommended-grid" data-recommended-grid></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="size-guide-modal" data-size-guide-modal aria-hidden="true">
+        <button class="size-guide-backdrop" type="button" data-close-size-guide aria-label="Close size guide"></button>
+        <div class="size-guide-panel" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
+            <button class="size-guide-close" type="button" data-close-size-guide aria-label="Close size guide">X</button>
+            <h2 id="size-guide-title">Size Guide</h2>
+            <p class="size-guide-copy">Nigerian made Men’s shoes (and boots) are generally made in fittings E, F, G and H and these can be classified simplistically as follows:</p>
+            <p class="size-guide-fit-codes">E = NARROW &nbsp; F = REGULAR &nbsp; G = WIDE &nbsp; H = EXTRA WIDE</p>
+            <p class="size-guide-copy">The bulk of our styles are made in F fitting, as statistics show that worldwide this is the most appropriate fitting for a majority of males, but we also offer a good selection of G fitting shoes.</p>
+            <table class="size-guide-table">
+                <thead><tr><th>UK</th><th>EU</th><th>US</th><th>CM</th><th>INCH</th></tr></thead>
+                <tbody>
+                    <tr><td>6</td><td>40</td><td>7</td><td>25.4</td><td>10</td></tr>
+                    <tr><td>6.5</td><td>41</td><td>7.5</td><td>25.8</td><td>10 1/8</td></tr>
+                    <tr><td>7</td><td>41 - 42</td><td>8</td><td>26</td><td>10 1/4</td></tr>
+                    <tr><td>7.5</td><td>42</td><td>8.5</td><td>26.7</td><td>10 1/2</td></tr>
+                    <tr><td>8</td><td>43</td><td>9</td><td>27.3</td><td>10 3/4</td></tr>
+                    <tr><td>8.5</td><td>43-44</td><td>9.5</td><td>27.7</td><td>10 7/8</td></tr>
+                    <tr><td>9</td><td>44</td><td>10</td><td>27.9</td><td>11</td></tr>
+                    <tr><td>9.5</td><td>44-45</td><td>10.5</td><td>28.6</td><td>11 1/4</td></tr>
+                    <tr><td>10</td><td>45</td><td>11</td><td>29.2</td><td>11 1/2</td></tr>
+                    <tr><td>10.5</td><td>45-46</td><td>11.5</td><td>29.5</td><td>11 5/8</td></tr>
+                    <tr><td>11</td><td>46</td><td>12</td><td>29.8</td><td>11 3/4</td></tr>
+                    <tr><td>12</td><td>48</td><td>13</td><td>30.5</td><td>12</td></tr>
+                    <tr><td>13</td><td>49</td><td>14</td><td>31.1</td><td>12 1/4</td></tr>
+                    <tr><td>14</td><td>50</td><td>15</td><td>31.7</td><td>12 1/2</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ asset('js/nelson-interactions.js') }}" defer></script>
+</body>
+
+</html>
