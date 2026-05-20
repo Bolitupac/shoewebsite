@@ -9,7 +9,7 @@ use App\Http\Controllers\ProductController;
 // ─── Public routes ───────────────────────────────────────────────
 Route::get('/', function () {
     $products = Product::all()->toArray();
-    $latestProducts = Product::orderByDesc('created_at')->take(4)->get()->toArray();
+    $latestProducts = Product::orderByDesc('created_at')->take(7)->get()->toArray();
     return view('welcome', compact('products', 'latestProducts'));
 })->name('home');
 
