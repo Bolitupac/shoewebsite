@@ -348,6 +348,19 @@
                 }
             }
 
+            if (activeProduct.soldOut) {
+                modalOrder.textContent = 'Sold Out';
+                modalOrder.removeAttribute('href');
+                modalOrder.style.opacity = '0.5';
+                modalOrder.style.cursor = 'not-allowed';
+                modalOrder.style.pointerEvents = 'none';
+            } else {
+                modalOrder.textContent = 'Order via WhatsApp';
+                modalOrder.style.opacity = '1';
+                modalOrder.style.cursor = 'pointer';
+                modalOrder.style.pointerEvents = '';
+            }
+
             modalInfo.innerHTML = `
                 <li>Construction Type: ${activeProduct.constructionType}</li>
                 <li>Fitting Type: ${activeProduct.fittingType}</li>
