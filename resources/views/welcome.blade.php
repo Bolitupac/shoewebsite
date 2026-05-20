@@ -63,11 +63,11 @@
 
             <section class="categories">
                 <a id="mens" class="category-card" href="{{ route('collection') }}#men">
-                    <img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Men's bespoke leather shoes" loading="lazy">
+                    <img class="img-lazy" src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Men's bespoke leather shoes" loading="lazy">
                     <span class="pill category-pill">Men's Shoes</span>
                 </a>
                 <a id="womens" class="category-card" href="{{ route('collection') }}#women">
-                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Women's handmade loafers" loading="lazy">
+                    <img class="img-lazy" src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Women's handmade loafers" loading="lazy">
                     <span class="pill category-pill">Women's Shoes</span>
                 </a>
             </section>
@@ -92,7 +92,7 @@
                                     @if(!empty($product['sold_out']))
                                         <span class="card-badge sold-out">Sold Out</span>
                                     @endif
-                                    <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
+                                    <img class="img-lazy" src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
                                 </div>
                                 <div class="card-copy">
                                     @php

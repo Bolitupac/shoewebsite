@@ -1020,6 +1020,39 @@
         });
     };
 
+    const initSmoothImageFadeIn = () => {
+        const handleImage = (img) => {
+            if (!img.classList.contains('img-lazy')) return;
+            if (img.complete) {
+                img.classList.add('img-loaded');
+            } else {
+                img.addEventListener('load', () => {
+                    img.classList.add('img-loaded');
+                });
+                img.addEventListener('error', () => {
+                    img.style.opacity = '1';
+                });
+            }
+        };
+
+        const images = document.querySelectorAll('img.img-lazy');
+        images.forEach(handleImage);
+
+        // mutation observer for dynamically added/injected elements (e.g. recommended grid)
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.tagName === 'IMG') {
+                        handleImage(node);
+                    } else if (node.querySelectorAll) {
+                        node.querySelectorAll('img').forEach(handleImage);
+                    }
+                });
+            });
+        });
+        observer.observe(document.body, { childList: true, subtree: true });
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
         initMobileMenu();
         initHeaderScrollBehavior();
@@ -1034,6 +1067,7 @@
         initSizeGuideModal();
         initCartDrawer();
         initDemoDisclaimer();
+        initSmoothImageFadeIn();
         if (window.updateCartBadge) window.updateCartBadge();
     });
 })();

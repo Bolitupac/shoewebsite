@@ -155,7 +155,7 @@
                                             @if(!empty($product['sold_out']))
                                                 <span class="card-badge sold-out">Sold Out</span>
                                             @endif
-                                            <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="{{ ($loop->parent->first && $index < 4) ? 'eager' : 'lazy' }}" decoding="async">
+                                            <img class="img-lazy" src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="{{ ($loop->parent->first && $index < 4) ? 'eager' : 'lazy' }}" decoding="async">
                                         </div>
                                         <div class="card-copy">
                                             @php
