@@ -31,7 +31,7 @@
                     </div>
                 </article>
                 <article class="hero-slide" data-hero-slide>
-                    <img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford leather shoe">
+                    <img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Odogwu Oxford leather shoe" loading="lazy">
                     <div class="hero-copy">
                         <span class="eyebrow">Hand-patina craft</span>
                         <h1>Odogwu Oxford</h1>
@@ -43,7 +43,7 @@
                     </div>
                 </article>
                 <article class="hero-slide" data-hero-slide>
-                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Brown suede loafer">
+                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Brown suede loafer" loading="lazy">
                     <div class="hero-copy">
                         <span class="eyebrow">Soft luxury</span>
                         <h1>Ikoyi Loafer</h1>
@@ -63,11 +63,11 @@
 
             <section class="categories">
                 <a id="mens" class="category-card" href="{{ route('collection') }}#men">
-                    <img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Men's bespoke leather shoes">
+                    <img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Men's bespoke leather shoes" loading="lazy">
                     <span class="pill category-pill">Men's Shoes</span>
                 </a>
                 <a id="womens" class="category-card" href="{{ route('collection') }}#women">
-                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Women's handmade loafers">
+                    <img src="{{ asset('images/brown_suede_lohfers.jpg') }}" alt="Women's handmade loafers" loading="lazy">
                     <span class="pill category-pill">Women's Shoes</span>
                 </a>
             </section>
@@ -129,7 +129,7 @@
                     <a class="btn btn-dark" href="{{ route('collection') }}#one-of-one">Explore rare pairs</a>
                 </div>
                 <div class="split-image">
-                    <img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="High shine black bespoke shoe">
+                    <img src="{{ asset('images/black-shiny-shoe.jpg') }}" alt="High shine black bespoke shoe" loading="lazy">
                 </div>
             </section>
 
@@ -150,7 +150,7 @@
                         </div>
                     </div>
                     <div class="academy-promo-image">
-                        <img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" alt="Nelson Shoes Academy workshop">
+                        <img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" alt="Nelson Shoes Academy workshop" loading="lazy">
                     </div>
                 </div>
             </section>
@@ -163,10 +163,10 @@
                     </div>
                 </div>
                 <div class="movement-grid">
-                    <article class="movement-card"><img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Brown derby editorial"></article>
-                    <article class="movement-card"><img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" alt="Shoemaking workshop"></article>
-                    <article class="movement-card"><img src="{{ asset('images/abbeylein-shoes-wooden_crocs_1920.jpg') }}" alt="Luxury shoe editorial"></article>
-                    <article class="movement-card"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Oxford leather shoe"></article>
+                    <article class="movement-card"><img src="{{ asset('images/brown-man-s-leather-derby-shoes.jpg') }}" alt="Brown derby editorial" loading="lazy"></article>
+                    <article class="movement-card"><img src="{{ asset('images/shoemaker-workshop-making-shoes academy.jpg') }}" alt="Shoemaking workshop" loading="lazy"></article>
+                    <article class="movement-card"><img src="{{ asset('images/abbeylein-shoes-wooden_crocs_1920.jpg') }}" alt="Luxury shoe editorial" loading="lazy"></article>
+                    <article class="movement-card"><img src="{{ asset('images/oxfor-leather-shoe.jpg') }}" alt="Oxford leather shoe" loading="lazy"></article>
                 </div>
             </section>
 

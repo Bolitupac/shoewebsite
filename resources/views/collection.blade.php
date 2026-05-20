@@ -133,7 +133,7 @@
                                 </div>
                             </div>
                             <div class="product-grid" data-section-grid>
-                                @foreach ($sectionProducts as $product)
+                                @foreach ($sectionProducts as $index => $product)
                                     @php
                                         $orderText = rawurlencode('Hello, I am interested in the ' . $product['name'] . ' in size 6.');
                                     @endphp
@@ -155,7 +155,7 @@
                                             @if(!empty($product['sold_out']))
                                                 <span class="card-badge sold-out">Sold Out</span>
                                             @endif
-                                            <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="eager" decoding="async">
+                                            <img src="{{ asset($product['image']) }}" alt="{{ $product['name'] }}" loading="{{ ($loop->parent->first && $index < 4) ? 'eager' : 'lazy' }}" decoding="async">
                                         </div>
                                         <div class="card-copy">
                                             @php

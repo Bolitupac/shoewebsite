@@ -145,35 +145,32 @@ class ProductController extends Controller
         $url = config('services.supabase.url');
         $key = config('services.supabase.key');
         $fileName = time() . '_' . $file->getClientOriginalName();
+        // Sanitize the filename to only contain safe alphanumeric, hyphen, and underscore characters
+        $fileName = preg_replace('/[^a-zA-Z0-9._-]/', '', $fileName);
         $filePath = $file->getPathname();
         
-        if ($url && $key) {
-            try {
-                $response = \Illuminate\Support\Facades\Http::timeout(3)
-                    ->withToken($key)
-                    ->withHeaders([
-                        'apikey' => $key,
-                        'Content-Type' => $file->getMimeType(),
-                    ])
-                    ->withBody(file_get_contents($filePath), $file->getMimeType())
-                    ->post("{$url}/storage/v1/object/products/{$fileName}");
-                    
-                if ($response->successful()) {
-                    return "{$url}/storage/v1/object/public/products/{$fileName}";
-                }
+        if (!$url || !$key) {
+            throw new \Exception('Supabase URL or Key not configured in environment.');
+        }
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::timeout(15)
+                ->withToken($key)
+                ->withHeaders([
+                    'apikey' => $key,
+                    'Content-Type' => $file->getMimeType(),
+                ])
+                ->withBody(file_get_contents($filePath), $file->getMimeType())
+                ->post("{$url}/storage/v1/object/products/{$fileName}");
                 
-                \Illuminate\Support\Facades\Log::warning('Supabase upload unsuccessful, falling back to local: ' . $response->body());
-            } catch (\Exception $e) {
-                \Illuminate\Support\Facades\Log::warning('Supabase upload failed, falling back to local: ' . $e->getMessage());
+            if ($response->successful()) {
+                return "{$url}/storage/v1/object/public/products/{$fileName}";
             }
+            
+            throw new \Exception('Supabase storage upload unsuccessful: ' . $response->body());
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Supabase upload failed: ' . $e->getMessage());
+            throw new \Exception('Failed to upload image to Supabase: ' . $e->getMessage());
         }
-        
-        // Local upload fallback
-        $destinationPath = public_path('uploads/products');
-        if (!file_exists($destinationPath)) {
-            mkdir($destinationPath, 0755, true);
-        }
-        $file->move($destinationPath, $fileName);
-        return 'uploads/products/' . $fileName;
     }
 }

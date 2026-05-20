@@ -430,12 +430,63 @@
             `;
         }
 
+        // Compress image using HTML5 Canvas client-side
+        async function compressImage(file, maxWidth = 1000, quality = 0.75) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+
+                        canvas.toBlob((blob) => {
+                            resolve(blob || file);
+                        }, 'image/webp', quality);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function handleAdminFormSubmit(event) {
             event.preventDefault();
             setSubmitLoading(true);
             const data = new FormData(form);
             if (formMethod.value && formMethod.value !== 'POST') {
                 data.set('_method', formMethod.value);
+            }
+
+            // Client-side image compression to WebP
+            const imageInputFile = imageInput.files[0];
+            if (imageInputFile) {
+                try {
+                    submitBtn.innerHTML = '<span class="button-spinner"></span> Compressing...';
+                    const compressedBlob = await compressImage(imageInputFile, 1000, 0.75);
+                    
+                    // Sanitize filename to only include alphanumeric, hyphen, and underscore
+                    let safeName = imageInputFile.name.substring(0, imageInputFile.name.lastIndexOf('.')) || imageInputFile.name;
+                    safeName = safeName.replace(/[^a-zA-Z0-9_-]/g, '');
+                    if (!safeName) safeName = 'image';
+                    const newFileName = `${safeName}.webp`;
+                    
+                    data.set('image', compressedBlob, newFileName);
+                } catch (compressErr) {
+                    console.error('Image compression failed, using original:', compressErr);
+                }
             }
 
             try {
