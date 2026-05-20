@@ -301,6 +301,7 @@
                 id: card.dataset.id,
                 name: card.dataset.name,
                 price: card.dataset.price,
+                imageSrc: card.dataset.image || (image ? image.src : null),
                 category: card.dataset.category,
                 itemType: card.dataset.itemType,
                 colour: card.dataset.colour,
@@ -702,7 +703,7 @@
                     <tr class="cart-row ${index === editingIndex ? 'is-editing' : ''} ${item.limitedEdition ? 'cart-row-one-of-one' : ''}" data-cart-row>
                         <td>
                             <div class="cart-item-product">
-                                <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                                <img src="${item.image}" alt="${item.name}" class="cart-item-image img-lazy" loading="lazy" decoding="async">
                                 <div>
                                     <p class="cart-item-name">${item.name} <span class="cart-mobile-qty-display" style="display:none;">(x${item.quantity})</span></p>
                                     ${isShoe ? `

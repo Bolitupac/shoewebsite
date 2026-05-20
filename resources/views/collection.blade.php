@@ -140,6 +140,7 @@
                                     <article class="product-card card {{ !empty($product['hidden']) ? 'card-hidden' : '' }} {{ !empty($product['limited_edition']) ? 'card-one-of-one' : '' }}"
                                         data-product-card
                                         data-id="{{ $product['id'] }}"
+                                        data-image="{{ asset($product['image']) }}"
                                         data-name="{{ $product['name'] }}"
                                         data-price="₦{{ number_format((float)$product['price'], 0) }}"
                                         data-category="{{ implode(', ', (array)$product['category']) }}"

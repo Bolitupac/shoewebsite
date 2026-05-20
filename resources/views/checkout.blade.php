@@ -354,6 +354,7 @@
                 
                 return `
                     <div class="summary-item">
+                        <img src="${item.image}" alt="${item.name}" class="img-lazy" loading="lazy" decoding="async">
                         <div class="summary-item-details">
                             <div class="summary-item-name">${item.name}</div>
                             <div class="summary-item-meta">${sizeDisplay}Qty: ${item.quantity}</div>
